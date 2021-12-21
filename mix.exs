@@ -53,6 +53,9 @@ defmodule TaiShangWorldGenerator.MixProject do
       # Ethereum
       {:ethereumex, "~> 0.7.0"},
       {:ex_abi, "~> 0.5.2"},
+
+      # crypto
+      {:binary, "~> 0.0.5"},
     ]
   end
 

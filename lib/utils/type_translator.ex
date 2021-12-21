@@ -1,5 +1,14 @@
 defmodule Utils.TypeTranslator do
 
+  def str_to_module(class, mod_name) do
+    "Elixir.TaiShangWorldGenerator.#{class}.#{mod_name}"
+    |> String.to_atom()
+  end
+
+  def bin_to_list(bin) do
+    :binary.bin_to_list(bin)
+  end
+
   def data_to_int(raw) do
     raw
     |> hex_to_bin()

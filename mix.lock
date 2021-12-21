@@ -1,4 +1,5 @@
 %{
+  "binary": {:hex, :binary, "0.0.5", "20d816f7274ea34f1b673b4cff2fdb9ebec9391a7a68c349070d515c66b1b2cf", [:mix], [], "hexpm", "ee1e9ebcab703a4e24db554957fbb540642fe9327eb9e295cb3f07dd7c11ddb2"},
   "castore": {:hex, :castore, "0.1.14", "3f6d7c7c1574c402fef29559d3f1a7389ba3524bc6a090a5e9e6abc3af65dcca", [:mix], [], "hexpm", "b34af542eadb727e6c8b37fdf73e18b2e02eb483a4ea0b52fd500bc23f052b7b"},
   "certifi": {:hex, :certifi, "2.8.0", "d4fb0a6bb20b7c9c3643e22507e42f356ac090a1dcea9ab99e27e0376d695eba", [:rebar3], [], "hexpm", "6ac7efc1c6f8600b08d625292d4bbf584e14847ce1b6b5c44d983d273e1097ea"},
   "connection": {:hex, :connection, "1.1.0", "ff2a49c4b75b6fb3e674bfc5536451607270aac754ffd1bdfe175abe4a6d7a68", [:mix], [], "hexpm", "722c1eb0a418fbe91ba7bd59a47e28008a189d47e37e0e7bb85585a016b2869c"},

@@ -8,6 +8,15 @@ defmodule TaiShangWorldGenerator.BlockchainFetcher do
 
   @doc """
     get_blocks -> abstract_block_by_block_number -> get_block_by_number
+
+    ```elixir
+      alias TaiShangWorldGenerator.BlockchainFetcher
+      begin_num =
+        BlockchainFetcher.get_block_number()
+      begin_num
+      |> BlockchainFetcher.get_blocks(begin_num, :txs)
+      |> BlockchainFetcher.hex_to_bin_batch()
+    ```
   """
   @spec get_blocks(integer, integer, :hash | :txs) :: list()
   def get_blocks(begin_number, last_number, txs_or_hash) do
@@ -19,6 +28,15 @@ defmodule TaiShangWorldGenerator.BlockchainFetcher do
       res
       |> Map.get(txs_or_hash)
       |> combine_res(acc)
+    end)
+  end
+
+  @spec hex_to_bin_batch(list()) :: list()
+  def hex_to_bin_batch(hex_list) do
+    Enum.map(hex_list, fn hex ->
+      hex
+      |> Binary.drop(2)
+      |> Base.decode16!(case: :lower)
     end)
   end
 

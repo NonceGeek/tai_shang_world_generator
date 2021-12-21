@@ -20,10 +20,12 @@ defmodule TaiShangWorldGeneratorWeb.Router do
     get "/", PageController, :index
   end
 
+
   # Other scopes may use custom stacks.
-  # scope "/api", TaiShangWorldGeneratorWeb do
-  #   pipe_through :api
-  # end
+  scope "/tai_shang_world_generator/api/v1", TaiShangWorldGeneratorWeb do
+    pipe_through :api
+    post "gen_map", GeneratorController, :gen
+  end
 
   # Enables LiveDashboard only for development
   #

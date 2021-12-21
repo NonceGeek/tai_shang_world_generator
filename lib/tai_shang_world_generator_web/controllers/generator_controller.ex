@@ -1,0 +1,3 @@
+defmodule TaiShangWorldGeneratorWeb.GeneratorController do
+
+end

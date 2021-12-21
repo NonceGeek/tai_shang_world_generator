@@ -36,6 +36,7 @@ defmodule TaiShangWorldGenerator.MixProject do
       {:phoenix, "~> 1.6.0"},
       {:phoenix_ecto, "~> 4.4"},
       {:ecto_sql, "~> 3.6"},
+      {:ecto, "~>3.7.1", override: true},
       {:postgrex, ">= 0.0.0"},
       {:phoenix_html, "~> 3.0"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
@@ -56,6 +57,9 @@ defmodule TaiShangWorldGenerator.MixProject do
 
       # crypto
       {:binary, "~> 0.0.5"},
+
+      # util tools
+      {:ex_struct_translator, "~> 0.1.1"},
     ]
   end
 

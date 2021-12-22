@@ -40,6 +40,11 @@ defmodule TaiShangWorldGenerator.MapTranslator do
     end)
   end
 
+  def get_type(hash, rule) do
+    rule_mod = TypeTranslator.str_to_module(@rule_class, rule)
+    apply(rule_mod, :get_type, [hash])
+  end
+
   # +-----------+
   # | Behaviour |
   # +-----------+
@@ -50,5 +55,9 @@ defmodule TaiShangWorldGenerator.MapTranslator do
     @callback handle_ele(
       ele :: integer()
       ) :: integer()
+
+    @callback get_type(
+      hash :: binary()
+      ) :: String.t()
   end
 end

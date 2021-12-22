@@ -1,5 +1,6 @@
 defmodule TaiShangWorldGenerator.Rule.RuleA do
   alias TaiShangWorldGenerator.MapTranslator.Behaviour, as: MapTranslatorBehaviour
+  @map_type ["sand", "green", "ice"]
 
   @behaviour MapTranslatorBehaviour # necessary for behaviour
 
@@ -10,5 +11,14 @@ defmodule TaiShangWorldGenerator.Rule.RuleA do
 
   def handle_ele(_ele) do
     1
+  end
+
+  @impl MapTranslatorBehaviour
+  def get_type(hash) do
+    type_index =
+      hash
+      |> Binary.at(0)
+      |> rem(Enum.count(@map_type))
+    Enum.at(@map_type, type_index)
   end
 end

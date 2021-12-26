@@ -24,7 +24,7 @@
   </style>
   <body>
     <div style="width: 80%" id="map"></div>
-    <div style="width: calc(20% - 1rem)">
+    <div style="width: calc(20% - 1rem); max-height: 100vh;">
       <div class="form-control flex">
         <!-- Block number input -->
         <input
@@ -46,12 +46,20 @@
             <span class="label-text" style="margin-left: 1.25rem">Rules:</span>
           </label>
           <label class="cursor-pointer label mx-5 my-1">
-            <span class="label-text">Rule 1</span>
-            <input type="checkbox" class="checkbox checkbox-primary" />
+            <span class="label-text">Rule A</span>
+            <input
+              type="checkbox"
+              id="rule-A"
+              class="checkbox checkbox-primary"
+            />
           </label>
           <label class="cursor-pointer label mx-5 my-1">
-            <span class="label-text">Rule 2</span>
-            <input type="checkbox" class="checkbox checkbox-primary" />
+            <span class="label-text">Rule B</span>
+            <input
+              type="checkbox"
+              id="rule-B"
+              class="checkbox checkbox-primary"
+            />
           </label>
         </div>
         <!-- Submit button -->
@@ -59,7 +67,26 @@
           Generate!
         </button>
       </div>
+      <div class="alert alert-error mx-10 hidden" id="alert">
+        <div class="flex-1">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            class="w-6 h-6 mx-2 stroke-current"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"
+            ></path>
+          </svg>
+          <label>Rules not selected!</label>
+        </div>
+      </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="./script.js"></script>
   </body>
 </html>

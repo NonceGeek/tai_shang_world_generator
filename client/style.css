@@ -1,0 +1,46 @@
+body {
+  min-height: 100vh;
+  margin: 0;
+  display: flex;
+}
+
+.form-control {
+  height: 70%;
+  margin-top: 15%;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+#map {
+  margin: 10px 0 0 10px;
+}
+
+.map-block {
+  width: 2.5vw;
+  border: 1px solid black;
+  border-bottom: none;
+  height: 2.5vw;
+}
+
+.map-block:nth-child(odd) {
+  border-left: none;
+}
+
+.map-block:nth-child(even) {
+  border-left: none;
+}
+
+.map-block:nth-child(1) {
+  border-left: 1px solid black;
+}
+
+.map-row:last-child .map-block {
+  border-bottom: 1px solid black;
+}
+
+.rule-border {
+  border-color: hsla(var(--bc) / var(--tw-border-opacity, 1));
+  border-width: 1px;
+  border-radius: var(--rounded-btn, 0.5rem);
+  --tw-border-opacity: 0.2;
+}

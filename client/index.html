@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TaiShang World Generator</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/daisyui@1.19.0/dist/full.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2/dist/tailwind.min.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+  </style>
+  <body>
+    <div style="width: 80%" id="map"></div>
+    <div style="width: calc(20% - 1rem)">
+      <div class="form-control flex">
+        <!-- Block number input -->
+        <input
+          type="text"
+          placeholder="Block number #"
+          class="input input-bordered mx-10 my-5"
+          id="block-number"
+        />
+        <!-- Chain source input -->
+        <input
+          type="text"
+          placeholder="Chain source @"
+          class="input input-bordered mx-10 my-5"
+          id="chain-source"
+        />
+        <!-- Rules selector -->
+        <div class="mx-10 my-5 rule-border">
+          <label class="label my-2">
+            <span class="label-text" style="margin-left: 1.25rem">Rules:</span>
+          </label>
+          <label class="cursor-pointer label mx-5 my-1">
+            <span class="label-text">Rule 1</span>
+            <input type="checkbox" class="checkbox checkbox-primary" />
+          </label>
+          <label class="cursor-pointer label mx-5 my-1">
+            <span class="label-text">Rule 2</span>
+            <input type="checkbox" class="checkbox checkbox-primary" />
+          </label>
+        </div>
+        <!-- Submit button -->
+        <button class="btn btn-primary mx-10 my-5" id="generate">
+          Generate!
+        </button>
+      </div>
+    </div>
+    <script src="./script.js"></script>
+  </body>
+</html>

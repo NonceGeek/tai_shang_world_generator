@@ -32,3 +32,4 @@ tai_shang_world_generator-*.tar
 npm-debug.log
 /assets/node_modules/
 
+node_modules

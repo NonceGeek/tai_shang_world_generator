@@ -105,6 +105,9 @@ const generateMap = async () => {
     rule: mapSetting.rules[0],
   };
 
+  console.log(url);
+  console.log(data);
+
   const response = await axios.post(url, data).catch((err) => console.log(err));
   const responseData = response.data;
   drawMap(responseData);

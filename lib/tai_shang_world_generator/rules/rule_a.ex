@@ -9,12 +9,16 @@ defmodule TaiShangWorldGenerator.Rule.RuleA do
     0
   end
 
-  def handle_ele(_ele) do
+  def handle_ele(ele) when ele in 201..230 do
     1
   end
 
+  def handle_ele(_ele)  do
+    2
+  end
+
   @impl MapTranslatorBehaviour
-  def get_type(hash) do
+  def get_types(hash) do
     type_index =
       hash
       |> Binary.at(0)

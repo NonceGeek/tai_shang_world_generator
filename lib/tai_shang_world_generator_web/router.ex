@@ -30,6 +30,8 @@ defmodule TaiShangWorldGeneratorWeb.Router do
   scope "/tai_shang_world_generator/api/v1", TaiShangWorldGeneratorWeb do
     pipe_through :api_allow_cross
     post "/gen_map", GeneratorController, :gen
+    post "/mint", NFTMinterController, :mint
+    get "/get_last_block_num", ChainController, :get_last_block_num
   end
 
   # Enables LiveDashboard only for development

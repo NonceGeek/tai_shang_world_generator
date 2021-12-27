@@ -1,11 +1,9 @@
-defmodule TaiShangWorldGeneratorWeb.GeneratorController do
-  alias TaiShangWorldGenerator.{BlockchainFetcher, MapTranslator}
-  alias TaiShangWorldGeneratorWeb.ResponseMod
+defmodule TaiShangWorldGeneratorWeb.NFTMinterController do
   alias Utils.TypeTranslator
 
   use TaiShangWorldGeneratorWeb, :controller
 
-  def gen(conn, params) do
+  def mint(conn, params) do
     params_atom =  ExStructTranslator.to_atom_struct(params)
     do_gen(conn, params_atom)
   end

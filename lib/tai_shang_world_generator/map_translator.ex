@@ -40,9 +40,9 @@ defmodule TaiShangWorldGenerator.MapTranslator do
     end)
   end
 
-  def get_type(hash, rule) do
+  def get_types(hash, rule) do
     rule_mod = TypeTranslator.str_to_module(@rule_class, rule)
-    apply(rule_mod, :get_type, [hash])
+    apply(rule_mod, :get_types, [hash])
   end
 
   # +-----------+

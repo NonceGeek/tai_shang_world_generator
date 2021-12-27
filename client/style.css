@@ -1,18 +1,40 @@
+@import url('https://fonts.googleapis.com/css2?family=ZCOOL+XiaoWei&display=swap');
+
 body {
   min-height: 100vh;
   margin: 0;
   display: flex;
 }
 
+html {
+  scrollbar-width: none;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+p {
+  height: 11vh;
+  line-height: 11vh;
+  text-align: center;
+  font-family: 'ZCOOL XiaoWei', serif;
+  font-size: 2.5vw;
+}
+
+progress {
+  transition: 1s ease-in-out;
+}
+
 .form-control {
   height: 70%;
-  margin-top: 15%;
+  margin-top: 6vh;
   flex-direction: column;
   justify-content: space-evenly;
 }
 
 #map {
-  margin: auto 0 auto 10px;
+  margin: auto 0 auto 20px;
 }
 
 .map-block {
@@ -43,4 +65,8 @@ body {
   border-width: 1px;
   border-radius: var(--rounded-btn, 0.5rem);
   --tw-border-opacity: 0.2;
+}
+
+#alert {
+  transition: 1s ease-in-out;
 }

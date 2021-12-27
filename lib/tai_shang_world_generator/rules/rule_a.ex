@@ -5,7 +5,7 @@ defmodule TaiShangWorldGenerator.Rule.RuleA do
   @behaviour MapTranslatorBehaviour # necessary for behaviour
 
   @impl MapTranslatorBehaviour
-  def handle_ele(ele) when ele in 1..200 do
+  def handle_ele(ele) when ele in 0..200 do
     0
   end
 

@@ -14,6 +14,11 @@ defmodule TaiShangWorldGeneratorWeb.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :api_allow_cross do
+    plug CORSPlug, origin: [~r/.*/]
+    plug :accepts, ["json"]
+  end
+
   scope "/", TaiShangWorldGeneratorWeb do
     pipe_through :browser
 
@@ -23,7 +28,7 @@ defmodule TaiShangWorldGeneratorWeb.Router do
 
   # Other scopes may use custom stacks.
   scope "/tai_shang_world_generator/api/v1", TaiShangWorldGeneratorWeb do
-    pipe_through :api
+    pipe_through :api_allow_cross
     post "/gen_map", GeneratorController, :gen
   end
 

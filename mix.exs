@@ -60,6 +60,9 @@ defmodule TaiShangWorldGenerator.MixProject do
 
       # util tools
       {:ex_struct_translator, "~> 0.1.1"},
+
+      # cross domain
+      {:cors_plug, "~> 2.0"},
     ]
   end
 

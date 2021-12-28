@@ -1,5 +1,31 @@
+let height = screen.height;
+let width = screen.width;
 let generateButton = document.getElementById('generate');
 let alert = document.getElementById('alert');
+let progress = document.getElementById('progress');
+
+const startProgress = (maxProgress) => {
+  let timer = setInterval(() => {
+    progress.value++;
+    if (progress.value >= maxProgress) {
+      clearInterval(timer);
+    }
+  }, 35);
+};
+
+const clearProgress = () => {
+  progress.style.display = 'none';
+  progress.value = 0;
+};
+
+// fill screen with rows of block
+const calcOriginalMapRowNumber = (height, width) => {
+  // subtract the p tag height
+  height = height * 0.75;
+  // one block is 2.5vw high
+  let blockHeight = width * 0.025;
+  return height / blockHeight;
+};
 
 // paint original placeholder map before generating
 const drawOriginalMap = () => {
@@ -13,46 +39,130 @@ const drawOriginalMap = () => {
   for (let i = 0; i < 32; i++) {
     row.appendChild(block.cloneNode(true));
   }
-  // 25 is a changeable number for row number
-  for (let i = 0; i < 24; i++) {
+  let rowNumber = calcOriginalMapRowNumber(height, width);
+  for (let i = 0; i < rowNumber; i++) {
     map.appendChild(row.cloneNode(true));
   }
 };
 
-// get generation setting from page
-const generationSetting = () => {
-  let blockNumber = document.getElementById('block-number');
-  let chainSource = document.getElementById('chain-source');
-  let rulesNodes = document.getElementsByClassName('rules');
+// get highest block now
+const getNewestBlockNumber = async () => {
+  startProgress(40);
+  let newestBlockNumberResponse = await axios
+    .get(
+      'http://124.251.110.212:4001/tai_shang_world_generator/api/v1/get_last_block_num',
+    )
+    .catch((err) => {
+      console.log(err);
+      stopAndClearProgress();
+    });
+  return newestBlockNumberResponse.data.result.last_block_num;
+};
+
+// get block number, if higher than highest block number, make it highest
+const getBlockNumberSetting = async (blockNumber) => {
+  let newestBlockNumber = await getNewestBlockNumber();
+  let blockNumberNode = document.getElementById('block-number');
+
+  if (
+    blockNumber &&
+    parseInt(blockNumber) <= newestBlockNumber &&
+    parseInt(blockNumber) >= 0
+  ) {
+    return parseInt(blockNumber);
+  }
+
+  blockNumberNode.value = '';
+
+  let newestBlockNumberString = String(newestBlockNumber);
+  let newestBlockNumberStringIndex = 0;
+
+  setInterval(() => {
+    blockNumberNode.value += newestBlockNumberString.charAt(
+      newestBlockNumberStringIndex,
+    );
+    newestBlockNumberStringIndex++;
+  }, 50);
+
+  blockNumberNode.focus();
+  return newestBlockNumber;
+};
+
+// get data source setting
+const getDataSourceSetting = async (dataSource) => {
+  if (dataSource) {
+    return dataSource;
+  }
+  let dataSourceNode = document.getElementById('data-source');
+  let dataSourceDefault = 'a_block';
+  let dataSourceIndex = 0;
+  setInterval(() => {
+    dataSourceNode.value += dataSourceDefault.charAt(dataSourceIndex);
+    dataSourceIndex++;
+  }, 50);
+  return dataSourceDefault;
+};
+
+// get rules settings
+const getRulesSetting = async (rulesNodes) => {
   let rules = [];
   for (let rulesNode of rulesNodes) {
     if (rulesNode.checked) {
-      rules.push(rulesNode.id)
+      rules.push(rulesNode.id);
     }
   }
-  console.log(rules);
+  return rules;
+};
+
+// get generation setting from page
+const generationSetting = async () => {
+  let blockNumberNode = document.getElementById('block-number');
+  let dataSourceNode = document.getElementById('data-source');
+  let rulesNodes = document.getElementsByClassName('rules');
+
+  let blockNumber = await getBlockNumberSetting(blockNumberNode.value);
+  let dataSource = await getDataSourceSetting(dataSourceNode.value);
+  let rules = await getRulesSetting(rulesNodes);
+  startProgress(85);
+
   return {
-    blockNumber: blockNumber.value ? blockNumber.value : 22793130,
-    chainSource: chainSource.value ? chainSource.value : 'a_block',
+    blockNumber: blockNumber,
+    dataSource: dataSource,
     rules: rules,
   };
 };
 
-// handle setting rules error
-const isSettingError = (mapSetting) => {
-  if (mapSetting.rules.length === 0) {
-    alert.style.display = 'block';
+// handle setting source and rules error, pop alert if returns true
+const isSettingError = async (mapSetting) => {
+  if (mapSetting.rules.length === 0 || mapSetting.dataSource !== 'a_block') {
+    alert.classList.remove('opacity-0');
+    progress.style.display = 'none';
+    setTimeout(() => {
+      alert.classList.add('opacity-0');
+    }, 3000);
     return true;
   } else {
-    alert.style.display = 'none';
+    alert.classList.add('opacity-0');
     return false;
   }
 };
 
 // draw individual block from map
 const drawBlock = (newBlock, map, i, j, type) => {
-  if (map[i][j] === 0) {
-    newBlock.style.backgroundColor = 'white';
+  if (type === 'ice') {
+    if (map[i][j] === 0) {
+      newBlock.style.backgroundColor = '#fffefa';
+    }
+  }
+  if (type === 'sand') {
+    if (map[i][j] === 0) {
+      newBlock.style.backgroundColor = '#f9cb8b';
+    }
+  }
+  if (type === 'grass') {
+    if (map[i][j] === 0) {
+      newBlock.style.backgroundColor = '#8cc269';
+    }
   }
 };
 
@@ -64,7 +174,6 @@ const drawMap = (responseJSON) => {
   }
   const map = responseJSON.result.map;
   const type = responseJSON.result.type;
-  console.log(type);
   let mapNode = document.getElementById('map');
   while (mapNode.firstChild) {
     mapNode.removeChild(mapNode.firstChild);
@@ -74,6 +183,7 @@ const drawMap = (responseJSON) => {
   row.classList.add('flex');
   let block = document.createElement('DIV');
   block.classList.add('map-block');
+  startProgress(99);
   for (let i = 0; i < map.length; i++) {
     let newRow = row.cloneNode(true);
     // 32 is a fixed number for column number
@@ -88,13 +198,14 @@ const drawMap = (responseJSON) => {
 
 // post generation setting
 const generateMap = async () => {
-  const mapSetting = generationSetting();
-  if (isSettingError(mapSetting)) {
+  progress.style.display = 'block';
+  const mapSetting = await generationSetting();
+  if (await isSettingError(mapSetting)) {
+    drawOriginalMap();
     return;
   }
-
   const params = new URLSearchParams({
-    source: mapSetting.chainSource,
+    source: mapSetting.dataSource,
   }).toString();
   const url =
     'http://124.251.110.212:4001/tai_shang_world_generator/api/v1/gen_map?' +
@@ -105,12 +216,13 @@ const generateMap = async () => {
     rule: mapSetting.rules[0],
   };
 
-  console.log(url);
-  console.log(data);
-
-  const response = await axios.post(url, data).catch((err) => console.log(err));
+  const response = await axios.post(url, data).catch((err) => {
+    console.log(err);
+    clearProgress();
+  });
   const responseData = response.data;
   drawMap(responseData);
+  clearProgress();
 };
 
 document.addEventListener('DOMContentLoaded', function () {

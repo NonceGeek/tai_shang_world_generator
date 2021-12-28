@@ -23,8 +23,16 @@
     }
   </style>
   <body>
-    <div style="width: 80%" id="map"></div>
-    <div style="width: calc(20% - 1rem); max-height: 100vh;">
+    <div class="artboard phone fixed bottom-0 left-0 px-2" style="width: 100vw;">
+      <progress id='progress' class="progress progress-primary hidden" value="0" max="100"></progress>
+    </div>
+    <div style="width: 80%">
+      <p>
+        一花一世界, 一叶一菩提.
+      </p>
+      <div id="map"></div>
+    </div>
+    <div style="width: calc(20% - 1rem); max-height: 100vh; margin-left: 10px;">
       <div class="form-control flex">
         <!-- Block number input -->
         <input
@@ -36,9 +44,9 @@
         <!-- Chain source input -->
         <input
           type="text"
-          placeholder="Chain source @"
+          placeholder="Data source @"
           class="input input-bordered mx-10 my-5"
-          id="chain-source"
+          id="data-source"
         />
         <!-- Rules selector -->
         <div class="mx-10 my-5 rule-border">
@@ -51,6 +59,7 @@
               type="checkbox"
               class="rules checkbox checkbox-primary"
               id="RuleA"
+              checked
             />
           </label>
           <label class="cursor-pointer label mx-5 my-1">
@@ -67,7 +76,7 @@
           Generate!
         </button>
       </div>
-      <div class="alert alert-error mx-10 hidden" id="alert">
+      <div class="alert alert-error mx-10 opacity-0" id="alert">
         <div class="flex-1">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -82,7 +91,7 @@
               d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"
             ></path>
           </svg>
-          <label>Rules not selected!</label>
+          <label>Fields not filled correctly!</label>
         </div>
       </div>
     </div>

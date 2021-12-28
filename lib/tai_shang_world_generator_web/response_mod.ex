@@ -16,6 +16,6 @@ defmodule TaiShangWorldGeneratorWeb.ResponseMod do
   end
 
   def get_res(payload, :error) do
-    Map.put(@resp_failure, :result, payload)
+    Map.put(@resp_failure, :error_msg, payload)
   end
 end

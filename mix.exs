@@ -63,6 +63,9 @@ defmodule TaiShangWorldGenerator.MixProject do
 
       # cross domain
       {:cors_plug, "~> 2.0"},
+
+      # csv
+      {:csv, "~> 2.4"},
     ]
   end
 

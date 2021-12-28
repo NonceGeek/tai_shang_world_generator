@@ -18,7 +18,7 @@ defmodule TaiShangWorldGenerator.Rule.RuleA do
   end
 
   @impl MapTranslatorBehaviour
-  def get_types(hash) do
+  def get_type(hash) do
     type_index =
       hash
       |> Binary.at(0)

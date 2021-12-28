@@ -20,7 +20,7 @@ defmodule TaiShangWorldGeneratorWeb.GeneratorController do
     type =
       block_hash
       |> TypeTranslator.hex_to_bin()
-      |> MapTranslator.get_types(rule_name)
+      |> MapTranslator.get_type(rule_name)
     map =
       block_num
       |> BlockchainFetcher.get_blocks(block_num, :txs)

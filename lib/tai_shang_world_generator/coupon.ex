@@ -15,21 +15,16 @@ defmodule TaiShangWorldGenerator.Coupon do
   @doc """
     generate a new coupon.
   """
-  def generate(func_id) do
+  def generate() do
     coupon_id = RandGen.gen_hex(16)
     create(
       %{
-        func_id: func_id,
         coupon_id: coupon_id
     })
   end
 
   def get_by_id(id) do
     Repo.get_by(Ele, id: id)
-  end
-
-  def get_by_func_id(func_id) do
-    Repo.all(Ele, func_id: func_id)
   end
 
   def get_by_coupon_id(coupon_id) do
@@ -40,7 +35,19 @@ defmodule TaiShangWorldGenerator.Coupon do
     %{is_used: is_used} = coupon
     is_used
   end
-  def use_coupon(coupon) do
+
+  def use_coupon(coupon_id) do
+    coupon = get_by_coupon_id(coupon_id)
+    with false <- is_nil(coupon),
+      false <- is_used?(coupon) do
+        do_use_coupon(coupon)
+      else
+        _else ->
+        {:error, "the coupon_id is not valid"}
+    end
+  end
+
+  def do_use_coupon(coupon) do
     change_coupon(coupon, %{is_used: true})
   end
 

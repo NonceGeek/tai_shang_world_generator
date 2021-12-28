@@ -1,35 +1,28 @@
 defmodule TaiShangWorldGeneratorWeb.NFTMinterController do
-  alias Utils.TypeTranslator
+  alias TaiShangWorldGenerator.Coupon
+  alias TaiShangWorldGeneratorWeb.ResponseMod
 
   use TaiShangWorldGeneratorWeb, :controller
 
-  def mint(conn, params) do
-    params_atom =  ExStructTranslator.to_atom_struct(params)
-    do_gen(conn, params_atom)
+  def mint(conn, %{"coupon_id" => coupon_id} = params) do
+    with {:ok, _} <- Coupon.use_coupon(coupon_id) do
+        token_info = do_mint(params)
+        json(conn, ResponseMod.get_res(%{
+            token_info: token_info
+          }, :ok))
+      else
+        {:error, msg} ->
+          json(conn,
+            ResponseMod.get_res(inspect(msg), :error)
+          )
+    end
   end
 
-  def do_gen(conn, %{
-    source: "a_block",
-    block_number: block_num,
-    rule: rule_name
-  }) do
-    {:ok, %{hash: block_hash}} =
-      BlockchainFetcher.abstract_block_by_block_number(block_num)
-    type =
-      block_hash
-      |> TypeTranslator.hex_to_bin()
-      |> MapTranslator.get_types(rule_name)
-    map =
-      block_num
-      |> BlockchainFetcher.get_blocks(block_num, :txs)
-      |> BlockchainFetcher.hex_to_bin_batch()
-      |> MapTranslator.bin_list_to_list_2d()
-      |> MapTranslator.handle_map_by_rule(rule_name)
-    json(conn, ResponseMod.get_res(
-      %{
-        map: map,
-        type: type
-      }, :ok)
-    )
+  def do_mint(_params) do
+    %{
+      contract_addr: "0x01",
+      token_id: 1,
+      minter_name: "leeduckgo"
+    }
   end
 end

@@ -22,7 +22,8 @@ defmodule TaiShangWorldGeneratorWeb.NFTMinterController do
     %{
       contract_addr: "0x01",
       token_id: 1,
-      minter_name: "leeduckgo"
+      minter_name: "leeduckgo",
+      tx_id: "0x0"
     }
   end
 end

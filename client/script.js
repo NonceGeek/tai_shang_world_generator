@@ -145,7 +145,7 @@ const drawBlock = (newBlock, map, i, j, type) => {
       newBlock.style.backgroundColor = '#f9cb8b';
     }
   }
-  if (type === 'green') {
+  if (type === 'grass') {
     if (map[i][j] === 0) {
       newBlock.style.backgroundColor = '#8cc269';
     }

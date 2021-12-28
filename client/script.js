@@ -4,6 +4,20 @@ let generateButton = document.getElementById('generate');
 let alert = document.getElementById('alert');
 let progress = document.getElementById('progress');
 
+const startProgress = (maxProgress) => {
+  let timer = setInterval(() => {
+    progress.value++;
+    if (progress.value >= maxProgress) {
+      clearInterval(timer);
+    }
+  }, 35);
+};
+
+const clearProgress = () => {
+  progress.style.display = 'none';
+  progress.value = 0;
+};
+
 // fill screen with rows of block
 const calcOriginalMapRowNumber = (height, width) => {
   // subtract the p tag height
@@ -33,12 +47,15 @@ const drawOriginalMap = () => {
 
 // get highest block now
 const getNewestBlockNumber = async () => {
+  startProgress(40);
   let newestBlockNumberResponse = await axios
     .get(
       'http://124.251.110.212:4001/tai_shang_world_generator/api/v1/get_last_block_num',
     )
-    .catch((err) => console.log(err));
-  progress.value = 40;
+    .catch((err) => {
+      console.log(err);
+      stopAndClearProgress();
+    });
   return newestBlockNumberResponse.data.result.last_block_num;
 };
 
@@ -106,7 +123,7 @@ const generationSetting = async () => {
   let blockNumber = await getBlockNumberSetting(blockNumberNode.value);
   let dataSource = await getDataSourceSetting(dataSourceNode.value);
   let rules = await getRulesSetting(rulesNodes);
-  progress.value = 80;
+  startProgress(85);
 
   return {
     blockNumber: blockNumber,
@@ -117,10 +134,7 @@ const generationSetting = async () => {
 
 // handle setting source and rules error, pop alert if returns true
 const isSettingError = async (mapSetting) => {
-  if (
-    mapSetting.rules.length === 0 ||
-    mapSetting.dataSource !== 'a_block'
-  ) {
+  if (mapSetting.rules.length === 0 || mapSetting.dataSource !== 'a_block') {
     alert.classList.remove('opacity-0');
     progress.style.display = 'none';
     setTimeout(() => {
@@ -160,7 +174,6 @@ const drawMap = (responseJSON) => {
   }
   const map = responseJSON.result.map;
   const type = responseJSON.result.type;
-  console.log(type);
   let mapNode = document.getElementById('map');
   while (mapNode.firstChild) {
     mapNode.removeChild(mapNode.firstChild);
@@ -170,6 +183,7 @@ const drawMap = (responseJSON) => {
   row.classList.add('flex');
   let block = document.createElement('DIV');
   block.classList.add('map-block');
+  startProgress(99);
   for (let i = 0; i < map.length; i++) {
     let newRow = row.cloneNode(true);
     // 32 is a fixed number for column number
@@ -202,10 +216,13 @@ const generateMap = async () => {
     rule: mapSetting.rules[0],
   };
 
-  const response = await axios.post(url, data).catch((err) => console.log(err));
+  const response = await axios.post(url, data).catch((err) => {
+    console.log(err);
+    clearProgress();
+  });
   const responseData = response.data;
   drawMap(responseData);
-  progress.style.display = 'none';
+  clearProgress();
 };
 
 document.addEventListener('DOMContentLoaded', function () {

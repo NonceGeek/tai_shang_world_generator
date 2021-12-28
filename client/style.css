@@ -68,5 +68,5 @@ progress {
 }
 
 #alert {
-  transition: 1s ease-in-out;
+  transition: 100ms ease-in-out;
 }

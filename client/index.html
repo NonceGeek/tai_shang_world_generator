@@ -23,17 +23,16 @@
     }
   </style>
   <body>
-    <div class="artboard phone fixed bottom-0 left-0 px-2" style="width: 100vw;">
-      <progress id='progress' class="progress progress-primary hidden" value="0" max="100"></progress>
-    </div>
+    <!-- THE map -->
     <div style="width: 80%">
-      <p>
-        一花一世界, 一叶一菩提.
-      </p>
+      <p id="poem">一花一世界, 一叶一菩提.</p>
       <div id="map"></div>
     </div>
-    <div style="width: calc(20% - 1rem); max-height: 100vh; margin-left: 10px;">
-      <div class="form-control flex">
+
+    <!-- Inputs -->
+    <div style="width: calc(20% - 1rem); max-height: 100vh; margin-left: 10px">
+      <!-- Generate map inputs -->
+      <div class="form-control flex" id="inputs">
         <!-- Block number input -->
         <input
           type="text"
@@ -49,7 +48,7 @@
           id="data-source"
         />
         <!-- Rules selector -->
-        <div class="mx-10 my-5 rule-border">
+        <div class="mx-10 my-5 rule-border" id='rules'>
           <label class="label my-2">
             <span class="label-text" style="margin-left: 1.25rem">Rules:</span>
           </label>
@@ -71,11 +70,36 @@
             />
           </label>
         </div>
+        <!-- Mint name input -->
+        <input
+          type="text"
+          placeholder="Minter name :"
+          class="input input-bordered mx-5 my-5 hidden"
+          id="mint-name"
+        />
+        <!-- Mint address input -->
+        <input
+          type="text"
+          placeholder="Minter address @"
+          class="input input-bordered mx-5 my-5 hidden"
+          id="mint-address"
+        />
+        <!-- Mint coupon id input -->
+        <input
+          type="text"
+          placeholder="Mint coupon :"
+          class="input input-bordered mx-5 my-5 hidden"
+          id="mint-coupon"
+        />
         <!-- Submit button -->
         <button class="btn btn-primary mx-10 my-5" id="generate">
           Generate!
         </button>
+        <!-- Mint button -->
+        <button class="btn btn-accent mx-5 hidden" id="mint">Mint!</button>
       </div>
+
+      <!-- Alert box -->
       <div class="alert alert-error mx-10 opacity-0" id="alert">
         <div class="flex-1">
           <svg
@@ -95,7 +119,20 @@
         </div>
       </div>
     </div>
+
+    <!-- progress bar -->
+    <div class="artboard phone fixed bottom-0 left-0 px-2" style="width: 100vw">
+      <progress
+        id="progress"
+        class="progress progress-primary hidden"
+        value="0"
+        max="100"
+      ></progress>
+    </div>
+
+    <!-- axios -->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!-- main page and mint -->
     <script src="./script.js"></script>
   </body>
 </html>

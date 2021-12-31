@@ -39,6 +39,13 @@ progress {
   margin: auto 0 auto 20px;
 } */
 
+.div1 {
+  width: 2.5vw;
+  border: 1px solid black;
+  border-bottom: none;
+  height: 2.5vw;
+}
+
 .map-block {
   width: 2.5vw;
   border: 1px solid black;

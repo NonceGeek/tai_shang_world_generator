@@ -59,7 +59,7 @@ const getNewestBlockNumber = async () => {
   startProgress(40);
   let newestBlockNumberResponse = await axios
     .get(
-      'http://124.251.110.212:4001/tai_shang_world_generator/api/v1/get_last_block_num',
+      'https://map.noncegeek.com/tai_shang_world_generator/api/v1/get_last_block_num',
     )
     .catch((err) => {
       console.log(err);

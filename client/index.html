@@ -198,10 +198,11 @@
 
       // scroll map when part of div1 is out of wrapper
       const scrollIfNeeded = (oDiv, wrapper, direction) => {
+        const scrollLength = parseInt(wrapper.clientHeight / 3);
         if (direction === 'bottom' && oDiv.getBoundingClientRect().bottom > wrapper.getBoundingClientRect().bottom) {
-          oDiv.scrollIntoView(false);
+          wrapper.scrollBy(0, scrollLength);
         } else if (direction === 'top' && oDiv.getBoundingClientRect().top < wrapper.getBoundingClientRect().top) {
-          oDiv.scrollIntoView(false);
+          wrapper.scrollBy(0, -scrollLength);
         }
       }
     }

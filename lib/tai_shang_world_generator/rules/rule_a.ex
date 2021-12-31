@@ -1,7 +1,12 @@
 defmodule TaiShangWorldGenerator.Rule.RuleA do
   alias TaiShangWorldGenerator.MapTranslator.Behaviour, as: MapTranslatorBehaviour
   @map_type ["sand", "green", "ice"]
-
+  @ele_descriptions %{
+    walkable: [0],
+    unwalkable: [1],
+    object: [31, 40],
+    sprite: [41, 55],
+  }
   @behaviour MapTranslatorBehaviour # necessary for behaviour
 
   @impl MapTranslatorBehaviour
@@ -13,9 +18,11 @@ defmodule TaiShangWorldGenerator.Rule.RuleA do
     1
   end
 
-  def handle_ele(_ele)  do
-    2
+  def handle_ele(ele)  do
+    ele - 200
   end
+
+  def get_ele_description, do: @ele_descriptions
 
   @impl MapTranslatorBehaviour
   def get_type(hash) do

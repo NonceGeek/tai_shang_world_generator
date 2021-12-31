@@ -157,6 +157,8 @@ window.onload = function(){
    },50);
    document.onkeydown = function(ev){
        var ev = ev || event;
+        ev.preventDefault();
+
        var keyCode = ev.keyCode;
        switch(keyCode){
           case 37: left = true;break;
@@ -167,6 +169,8 @@ window.onload = function(){
    }
    document.onkeyup = function(ev){
        var ev = ev || event;
+        ev.preventDefault();
+
        var keyCode = ev.keyCode;
        switch(keyCode){
           case 37: left = false;break;

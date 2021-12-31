@@ -1,185 +1,211 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>TaiShang World Generator</title>
-    <link
-      href="https://cdn.jsdelivr.net/npm/daisyui@1.19.0/dist/full.css"
-      rel="stylesheet"
-      type="text/css"
-    />
-    <link
-      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2/dist/tailwind.min.css"
-      rel="stylesheet"
-      type="text/css"
-    />
-    <link rel="stylesheet" href="./style.css" />
-  </head>
-  <body>
-    <!-- THE map -->
-    <div id="map-wrapper">
-      <p id="poem">一花一世界, 一叶一菩提.</p>
-    
-      <div id="map-master">
-        <div id="div1"></div>
-        <div id="map"></div>
-      </div>
-    </div>
-      
-    <!-- Inputs -->
-    <div style="width: calc(20% - 1rem); max-height: 100vh; margin-left: 10px">
-      <!-- Generate map inputs -->
-      <div class="form-control flex" id="inputs">
-        <!-- Block number input -->
-        <input
-          type="text"
-          placeholder="Block number #"
-          class="input input-bordered mx-10 my-5"
-          id="block-number"
-        />
-        <!-- Chain source input -->
-        <input
-          type="text"
-          placeholder="Data source @"
-          class="input input-bordered mx-10 my-5"
-          id="data-source"
-        />
-        <!-- Rules selector -->
-        <div class="mx-10 my-5 rule-border" id='rules'>
-          <label class="label my-2">
-            <span class="label-text" style="margin-left: 1.25rem">Rules:</span>
-          </label>
-          <label class="cursor-pointer label mx-5 my-1">
-            <span class="label-text">Rule A</span>
-            <input
-              type="checkbox"
-              class="rules checkbox checkbox-primary"
-              id="RuleA"
-              checked
-            />
-          </label>
-          <label class="cursor-pointer label mx-5 my-1">
-            <span class="label-text">Rule B</span>
-            <input
-              type="checkbox"
-              class="rules checkbox checkbox-primary"
-              id="RuleB"
-            />
-          </label>
-        </div>
-        <!-- Mint name input -->
-        <input
-          type="text"
-          placeholder="Minter name :"
-          class="input input-bordered mx-5 my-5 hidden"
-          id="mint-name"
-        />
-        <!-- Mint address input -->
-        <input
-          type="text"
-          placeholder="Minter address @"
-          class="input input-bordered mx-5 my-5 hidden"
-          id="mint-address"
-        />
-        <!-- Mint coupon id input -->
-        <input
-          type="text"
-          placeholder="Mint coupon :"
-          class="input input-bordered mx-5 my-5 hidden"
-          id="mint-coupon"
-        />
-        <!-- Submit button -->
-        <button class="btn btn-primary mx-10 my-5" id="generate">
-          Generate!
-        </button>
-        <!-- Mint button -->
-        <button class="btn btn-accent mx-5 hidden" id="mint">Mint!</button>
-      </div>
 
-      <!-- Alert box -->
-      <div class="alert alert-error mx-10 opacity-0" id="alert">
-        <div class="flex-1">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            class="w-6 h-6 mx-2 stroke-current"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"
-            ></path>
-          </svg>
-          <label>Fields not filled correctly!</label>
-        </div>
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TaiShang World Generator</title>
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@1.19.0/dist/full.css" rel="stylesheet" type="text/css" />
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2/dist/tailwind.min.css" rel="stylesheet" type="text/css" />
+  <link rel="stylesheet" href="./style.css" />
+</head>
+
+<body>
+  <!-- THE map -->
+  <div id="map-wrapper">
+    <p id="poem">一花一世界, 一叶一菩提.</p>
+
+    <div id="map-master">
+      <div id="div1"></div>
+      <div id="map"></div>
+    </div>
+  </div>
+
+  <!-- Inputs -->
+  <div style="width: calc(20% - 1rem); max-height: 100vh; margin-left: 10px">
+    <!-- Generate map inputs -->
+    <div class="form-control flex" id="inputs">
+      <!-- Block number input -->
+      <input type="text" placeholder="Block number #" class="input input-bordered mx-10 my-5" id="block-number" />
+      <!-- Chain source input -->
+      <input type="text" placeholder="Data source @" class="input input-bordered mx-10 my-5" id="data-source" />
+      <!-- Rules selector -->
+      <div class="mx-10 my-5 rule-border" id='rules'>
+        <label class="label my-2">
+          <span class="label-text" style="margin-left: 1.25rem">Rules:</span>
+        </label>
+        <label class="cursor-pointer label mx-5 my-1">
+          <span class="label-text">Rule A</span>
+          <input type="checkbox" class="rules checkbox checkbox-primary" id="RuleA" checked />
+        </label>
+        <label class="cursor-pointer label mx-5 my-1">
+          <span class="label-text">Rule B</span>
+          <input type="checkbox" class="rules checkbox checkbox-primary" id="RuleB" />
+        </label>
       </div>
+      <!-- Mint name input -->
+      <input type="text" placeholder="Minter name :" class="input input-bordered mx-5 my-5 hidden" id="mint-name" />
+      <!-- Mint address input -->
+      <input type="text" placeholder="Minter address @" class="input input-bordered mx-5 my-5 hidden"
+        id="mint-address" />
+      <!-- Mint coupon id input -->
+      <input type="text" placeholder="Mint coupon :" class="input input-bordered mx-5 my-5 hidden" id="mint-coupon" />
+      <!-- Submit button -->
+      <button class="btn btn-primary mx-10 my-5" id="generate">
+        Generate!
+      </button>
+      <!-- Mint button -->
+      <button class="btn btn-accent mx-5 hidden" id="mint">Mint!</button>
     </div>
 
-    <!-- progress bar -->
-    <div class="artboard phone fixed bottom-0 left-0 px-2" style="width: 100vw">
-      <progress
-        id="progress"
-        class="progress progress-primary hidden"
-        value="0"
-        max="100"
-      ></progress>
+    <!-- Alert box -->
+    <div class="alert alert-error mx-10 opacity-0" id="alert">
+      <div class="flex-1">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="w-6 h-6 mx-2 stroke-current">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"></path>
+        </svg>
+        <label>Fields not filled correctly!</label>
+      </div>
     </div>
+  </div>
 
-    <!-- axios -->
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <!-- main page and mint -->
-    <script src="./script.js"></script>
-    
-<script
-type="text/javascript">
-window.onload = function(){
-   var oDiv = document.getElementById("div1");
-   var timer = null;
-   var left = false;
-   var right = false;
-   var top = false;
-   var bottom = false;
-   setInterval(function(){
-       if(left){
-         console.log(screen.width)
-         oDiv.style.left = oDiv.offsetLeft-5+"px";
-       }else if(top){
-           oDiv.style.top = oDiv.offsetTop-5+"px";
-       }else if(right){
-           oDiv.style.left = oDiv.offsetLeft+5+"px";
-       }else if(bottom){
-           oDiv.style.top = oDiv.offsetTop+5+"px";
-       }
-   },50);
-   document.onkeydown = function(ev){
-       var ev = ev || event;
-        ev.preventDefault();
+  <!-- progress bar -->
+  <div class="artboard phone fixed bottom-0 left-0 px-2" style="width: 100vw">
+    <progress id="progress" class="progress progress-primary hidden" value="0" max="100"></progress>
+  </div>
 
-       var keyCode = ev.keyCode;
-       switch(keyCode){
-          case 37: left = true;break;
-          case 38: top = true;break;
-          case 39: right = true;break;
-          case 40: bottom = true;break;
-       }
-   }
-   document.onkeyup = function(ev){
-       var ev = ev || event;
-        ev.preventDefault();
+  <!-- axios -->
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <!-- main page and mint -->
+  <script src="./script.js"></script>
 
-       var keyCode = ev.keyCode;
-       switch(keyCode){
-          case 37: left = false;break;
-          case 38: top = false;break;
-          case 39: right = false;break;
-          case 40: bottom = false;break;
-       }
-   }
-}
-</script>
-  </body>
+  <script type="text/javascript">
+    window.onload = function () {
+      var oDiv = document.getElementById("div1");
+      var map = document.querySelector('#map')
+      var wrapper = document.querySelector('#map-master')
+
+      var left = false;
+      var right = false;
+      var top = false;
+      var bottom = false;
+
+      // move div1 when possible
+      const move = (oDiv, direction, stepLength = 5) => {
+        if (willCrossBorder(oDiv, map, direction, stepLength)) {
+          // console.log('%c WARNING!', 'color: red')
+          return
+        }
+
+        switch (direction) {
+          case 'left':
+            oDiv.style.left = oDiv.offsetLeft - stepLength + "px";
+            break;
+          case 'top':
+            oDiv.style.top = oDiv.offsetTop - stepLength + "px";
+            scrollIfNeeded(oDiv, wrapper, 'top');
+            break;
+          case 'right':
+            oDiv.style.left = oDiv.offsetLeft + stepLength + "px";
+            break;
+          case 'bottom':
+            oDiv.style.top = oDiv.offsetTop + stepLength + "px";
+            scrollIfNeeded(oDiv, wrapper, 'bottom');
+            break;
+          default:
+            break;
+        }
+      }
+
+      document.onkeydown = function (ev) {
+        var ev = ev || event;
+        var keyCode = ev.keyCode;
+
+        switch (keyCode) {
+          case 37:
+            ev.preventDefault();
+            left = true;
+            move(oDiv, 'left');
+            break;
+          case 38:
+            ev.preventDefault();
+            top = true;
+            move(oDiv, 'top');
+            break;
+          case 39:
+            ev.preventDefault();
+            right = true;
+            move(oDiv, 'right');
+            break;
+          case 40:
+            ev.preventDefault();
+            bottom = true;
+            move(oDiv, 'bottom');
+            break;
+        }
+      }
+
+      document.onkeyup = function (ev) {
+        var ev = ev || event;
+        var keyCode = ev.keyCode;
+
+        switch (keyCode) {
+          case 37:
+            ev.preventDefault();
+            left = false;
+            break;
+          case 38:
+            ev.preventDefault();
+            top = false;
+            break;
+          case 39:
+            ev.preventDefault();
+            right = false;
+            break;
+          case 40:
+            ev.preventDefault();
+            bottom = false;
+            break;
+        }
+      }
+
+      // check if div1 will be out of map
+      const willCrossBorder = (oDiv, map, direction, stepLength) => {
+        if (direction === 'left') {
+          if (oDiv.offsetLeft - stepLength < 0) {
+            return true
+          }
+          return false
+        } else if (direction === 'right') {
+          if (oDiv.offsetLeft + oDiv.clientWidth + stepLength > map.clientWidth) {
+            return true
+          }
+          return false
+        } else if (direction === 'top') {
+          if (oDiv.offsetTop - stepLength < 0) {
+            return true
+          }
+          return false
+        } else if (direction === 'bottom') {
+          if (oDiv.offsetTop + oDiv.clientHeight + stepLength > map.clientHeight) {
+            return true
+          }
+          return false
+        }
+      }
+
+      // scroll map when part of div1 is out of wrapper
+      const scrollIfNeeded = (oDiv, wrapper, direction) => {
+        if (direction === 'bottom' && oDiv.getBoundingClientRect().bottom > wrapper.getBoundingClientRect().bottom) {
+          oDiv.scrollIntoView(false);
+        } else if (direction === 'top' && oDiv.getBoundingClientRect().top < wrapper.getBoundingClientRect().top) {
+          oDiv.scrollIntoView(false);
+        }
+      }
+    }
+  </script>
+</body>
+
 </html>

@@ -40,6 +40,10 @@ body {
   transition: 666ms ease-out;
 }
 
+#map {
+  border-bottom: none;
+}
+
 #div1 {
   width: 2vw;
   /* border: 1px solid black; */

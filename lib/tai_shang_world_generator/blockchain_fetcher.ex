@@ -17,6 +17,8 @@ defmodule TaiShangWorldGenerator.BlockchainFetcher do
       |> BlockchainFetcher.get_blocks(begin_num, :txs)
       |> BlockchainFetcher.hex_to_bin_batch()
     ```
+
+    result: txs_hash_list | block_hash_list
   """
   @spec get_blocks(integer, integer, :hash | :txs) :: list()
   def get_blocks(begin_number, last_number, txs_or_hash) do
@@ -31,19 +33,13 @@ defmodule TaiShangWorldGenerator.BlockchainFetcher do
     end)
   end
 
-  @spec hex_to_bin_batch(list()) :: list()
-  def hex_to_bin_batch(hex_list) do
-    Enum.map(hex_list, fn hex ->
-      hex
-      |> Binary.drop(2)
-      |> Base.decode16!(case: :lower)
-    end)
-  end
-
   @doc """
     int
     |> get_block_by_number()
     |> abstract_txs_&_block_hash()
+
+    result:
+      {:ok,  %{txs: txs, hash: hash}} | {:error, inspect(msg)}
   """
   @spec abstract_block_by_block_number(integer) :: {:ok, map()} | {:error, String.t()}
   def abstract_block_by_block_number(num_int) do
@@ -76,6 +72,13 @@ defmodule TaiShangWorldGenerator.BlockchainFetcher do
     TypeTranslator.hex_to_int(hex)
   end
 
-
+  @spec hex_to_bin_batch(list()) :: list()
+  def hex_to_bin_batch(hex_list) do
+    Enum.map(hex_list, fn hex ->
+      hex
+      |> Binary.drop(2)
+      |> Base.decode16!(case: :lower)
+    end)
+  end
 
 end

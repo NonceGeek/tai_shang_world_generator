@@ -45,6 +45,11 @@ defmodule TaiShangWorldGenerator.MapTranslator do
     apply(rule_mod, :get_type, [hash])
   end
 
+  def get_ele_description(rule) do
+    rule_mod = TypeTranslator.str_to_module(@rule_class, rule)
+    apply(rule_mod, :get_ele_description, [])
+  end
+
   # +-----------+
   # | Behaviour |
   # +-----------+
@@ -59,5 +64,7 @@ defmodule TaiShangWorldGenerator.MapTranslator do
     @callback get_type(
       hash :: binary()
       ) :: String.t()
+
+    @callback get_ele_description() :: map()
   end
 end

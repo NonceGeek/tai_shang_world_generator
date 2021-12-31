@@ -27,10 +27,13 @@ defmodule TaiShangWorldGeneratorWeb.GeneratorController do
       |> BlockchainFetcher.hex_to_bin_batch()
       |> MapTranslator.bin_list_to_list_2d()
       |> MapTranslator.handle_map_by_rule(rule_name)
+    description =
+      MapTranslator.get_ele_description(rule_name)
     json(conn, ResponseMod.get_res(
       %{
         map: map,
-        type: type
+        type: type,
+        ele_description: description
       }, :ok)
     )
   end

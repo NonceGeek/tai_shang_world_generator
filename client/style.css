@@ -32,9 +32,12 @@ progress {
   justify-content: space-between;
 }
 
-#map {
+#map-master {
   margin: auto 0 auto 20px;
 }
+/* #map {
+  margin: auto 0 auto 20px;
+} */
 
 .map-block {
   width: 2.5vw;

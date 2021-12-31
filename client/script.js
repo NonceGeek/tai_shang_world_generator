@@ -12,6 +12,8 @@ let mintNameNode = document.getElementById('mint-name');
 let mintAddressNode = document.getElementById('mint-address');
 let mintCouponNode = document.getElementById('mint-coupon');
 let inputs = document.getElementById('inputs');
+let poem = document.getElementById('poem');
+let mapNode = document.getElementById('map');
 
 const startProgress = (maxProgress) => {
   let timer = setInterval(() => {
@@ -179,7 +181,6 @@ const drawMap = (responseJSON) => {
   }
   const map = responseJSON.result.map;
   const type = responseJSON.result.type;
-  let mapNode = document.getElementById('map');
   while (mapNode.firstChild) {
     mapNode.removeChild(mapNode.firstChild);
   }
@@ -199,6 +200,25 @@ const drawMap = (responseJSON) => {
     }
     mapNode.appendChild(newRow);
   }
+};
+
+const loadPoem = (type) => {
+  fetch('./poems.json')
+    .then((response) => response.json())
+    .then((data) => {
+      const poemsWithType = data[type];
+      poem.style.opacity = 0;
+      setTimeout(() => {
+        poem.innerText =
+          poemsWithType[Math.floor(Math.random() * poemsWithType.length)];
+        poem.style.opacity = 1;
+      }, 888);
+    })
+    .catch((error) => console.log(error));
+};
+
+const generatePoem = (responseData) => {
+  loadPoem(responseData.result.type);
 };
 
 // post generation setting
@@ -226,9 +246,14 @@ const generateMap = async () => {
     clearProgress();
   });
   const responseData = response.data;
-  drawMap(responseData);
+  map.style.opacity = 0;
+  setTimeout(() => {
+    drawMap(responseData);
+    map.style.opacity = 1;
+  }, 233);
   clearProgress();
   showMintButtonAndInputs();
+  generatePoem(responseData);
 };
 
 const reloadPage = () => {

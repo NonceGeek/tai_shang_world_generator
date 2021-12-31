@@ -69,3 +69,8 @@ progress {
 #alert {
   transition: 100ms ease-in-out;
 }
+
+#map,
+#poem {
+  transition: 666ms ease-out;
+}

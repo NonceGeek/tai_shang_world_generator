@@ -27,19 +27,30 @@ progress {
 }
 
 .form-control {
-  height: 70%;
-  margin-top: 6vh;
+  margin: 8vh 0 3vh 0;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: space-between;
 }
 
-#map {
+#map-master {
   margin: auto 0 auto 20px;
+}
+/* #map {
+  margin: auto 0 auto 20px;
+} */
+
+#div1 {
+  width: 2vw;
+  /* border: 1px solid black; */
+  border-bottom: none;
+  height: 2vw;
+  background:#00b7ff;
+  position:absolute;
 }
 
 .map-block {
   width: 2.5vw;
-  border: 1px solid black;
+  /* border: 1px solid rgb(255, 255, 255); */
   border-bottom: none;
   height: 2.5vw;
 }
@@ -69,4 +80,9 @@ progress {
 
 #alert {
   transition: 100ms ease-in-out;
+}
+
+#map,
+#poem {
+  transition: 666ms ease-out;
 }

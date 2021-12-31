@@ -1,8 +1,19 @@
 let height = screen.height;
 let width = screen.width;
 let generateButton = document.getElementById('generate');
+let mintButton = document.getElementById('mint');
 let alert = document.getElementById('alert');
 let progress = document.getElementById('progress');
+let blockNumberNode = document.getElementById('block-number');
+let dataSourceNode = document.getElementById('data-source');
+let rulesNodes = document.getElementsByClassName('rules');
+let rulesContainerNode = document.getElementById('rules');
+let mintNameNode = document.getElementById('mint-name');
+let mintAddressNode = document.getElementById('mint-address');
+let mintCouponNode = document.getElementById('mint-coupon');
+let inputs = document.getElementById('inputs');
+let poem = document.getElementById('poem');
+let mapNode = document.getElementById('map');
 
 const startProgress = (maxProgress) => {
   let timer = setInterval(() => {
@@ -50,7 +61,7 @@ const getNewestBlockNumber = async () => {
   startProgress(40);
   let newestBlockNumberResponse = await axios
     .get(
-      'http://124.251.110.212:4001/tai_shang_world_generator/api/v1/get_last_block_num',
+      'https://map.noncegeek.com/tai_shang_world_generator/api/v1/get_last_block_num',
     )
     .catch((err) => {
       console.log(err);
@@ -116,10 +127,6 @@ const getRulesSetting = async (rulesNodes) => {
 
 // get generation setting from page
 const generationSetting = async () => {
-  let blockNumberNode = document.getElementById('block-number');
-  let dataSourceNode = document.getElementById('data-source');
-  let rulesNodes = document.getElementsByClassName('rules');
-
   let blockNumber = await getBlockNumberSetting(blockNumberNode.value);
   let dataSource = await getDataSourceSetting(dataSourceNode.value);
   let rules = await getRulesSetting(rulesNodes);
@@ -159,7 +166,7 @@ const drawBlock = (newBlock, map, i, j, type) => {
       newBlock.style.backgroundColor = '#f9cb8b';
     }
   }
-  if (type === 'grass') {
+  if (type === 'green') {
     if (map[i][j] === 0) {
       newBlock.style.backgroundColor = '#8cc269';
     }
@@ -174,7 +181,6 @@ const drawMap = (responseJSON) => {
   }
   const map = responseJSON.result.map;
   const type = responseJSON.result.type;
-  let mapNode = document.getElementById('map');
   while (mapNode.firstChild) {
     mapNode.removeChild(mapNode.firstChild);
   }
@@ -194,6 +200,25 @@ const drawMap = (responseJSON) => {
     }
     mapNode.appendChild(newRow);
   }
+};
+
+const loadPoem = (type) => {
+  fetch('./poems.json')
+    .then((response) => response.json())
+    .then((data) => {
+      const poemsWithType = data[type];
+      poem.style.opacity = 0;
+      setTimeout(() => {
+        poem.innerText =
+          poemsWithType[Math.floor(Math.random() * poemsWithType.length)];
+        poem.style.opacity = 1;
+      }, 888);
+    })
+    .catch((error) => console.log(error));
+};
+
+const generatePoem = (responseData) => {
+  loadPoem(responseData.result.type);
 };
 
 // post generation setting
@@ -221,11 +246,128 @@ const generateMap = async () => {
     clearProgress();
   });
   const responseData = response.data;
-  drawMap(responseData);
+  map.style.opacity = 0;
+  setTimeout(() => {
+    drawMap(responseData);
+    map.style.opacity = 1;
+  }, 233);
+  clearProgress();
+  showMintButtonAndInputs();
+  generatePoem(responseData);
+};
+
+const reloadPage = () => {
+  window.location.reload();
+};
+
+// hide mint button and mint inputs, show generate inputs, reset mint info
+const showGenerateInputs = () => {
+  blockNumberNode.classList.remove('hidden');
+  dataSourceNode.classList.remove('hidden');
+  rulesContainerNode.classList.remove('hidden');
+  mintNameNode.classList.add('hidden');
+  mintAddressNode.classList.add('hidden');
+  mintCouponNode.classList.add('hidden');
+  mintButton.classList.add('hidden');
+  generateButton.classList.add('mx-10');
+  generateButton.classList.remove('mx-5');
+  alert.classList.add('mx-10');
+  alert.classList.remove('mx-5');
+  generateButton.innerText = 'Generate!';
+  generateButton.addEventListener('click', generateMap);
+};
+
+// show mint button and mint inputs, hide generate inputs
+const showMintButtonAndInputs = () => {
+  blockNumberNode.classList.add('hidden');
+  dataSourceNode.classList.add('hidden');
+  rulesContainerNode.classList.add('hidden');
+  mintNameNode.classList.remove('hidden');
+  mintAddressNode.classList.remove('hidden');
+  mintCouponNode.classList.remove('hidden');
+  mintButton.classList.remove('hidden');
+  generateButton.classList.remove('mx-10');
+  generateButton.classList.add('mx-5');
+  alert.classList.remove('mx-10');
+  alert.classList.add('mx-5');
+  generateButton.innerText = 'Regenerate!';
+  generateButton.removeEventListener('click', generateMap);
+  generateButton.addEventListener('click', showGenerateInputs);
+};
+
+const mintSetting = () => {
+  let mintName = mintNameNode.value ? mintNameNode.value : 'leeduckgo';
+  let mintAddress = mintAddressNode.value ? mintAddressNode.value : '0x0000';
+  let mintCoupon = mintCouponNode.value ? mintCouponNode.value : 'nocoupon';
+
+  return {
+    minter_name: mintName,
+    minter_address: mintAddress,
+    coupon_id: mintCoupon,
+  };
+};
+
+const showMintInfo = (mintData) => {
+  if (mintData.error_code !== 0) {
+    alert.classList.remove('opacity-0');
+    progress.classList.remove('hidden');
+    setTimeout(() => {
+      alert.classList.add('opacity-0');
+    }, 3000);
+    return;
+  }
+  let tokenInfo = mintData.result.token_info;
+  let mintNameDisplay = tokenInfo.minter_name;
+  let mintContractDisplay = tokenInfo.contract_addr;
+  let mintTokenIdDisplay = tokenInfo.token_id;
+  let mintUrl = 'https://polygonscan.com/tx/' + mintTokenIdDisplay;
+  mintNameNode.classList.add('hidden');
+  mintAddressNode.classList.add('hidden');
+  mintCouponNode.classList.add('hidden');
+  mintButton.classList.add('hidden');
+  generateButton.classList.add('hidden');
+  inputs.innerHTML += `
+    <div class="mx-5 my-5 rule-border" id='rules'>
+      <label class="label my-2">
+        <span class="label-text" style="margin-left: 1.25rem"><b>Minter name: </b><br/>${mintNameDisplay}</span>
+      </label>
+      <label class="label my-2">
+        <span class="label-text" style="margin-left: 1.25rem"><b>Contract Address: </b><br/>${mintContractDisplay}</span>
+      </label>
+      <label class="label my-2">
+        <span class="label-text" style="margin-left: 1.25rem"><b>Token id: </b><br/>${mintTokenIdDisplay} </span>
+      </label>
+      <a class="block link link-accent mx-5 my-2 text-center" style="margin-bottom: 1rem;" href=${mintUrl}>Tx on Polygonscan</a>
+    </div>
+  `;
+  inputs.innerHTML +=
+    '<button class="btn btn-secondary mx-5 my-5" id="reset">Reset!</button> ';
+  document.getElementById('reset').addEventListener('click', reloadPage);
+};
+
+// mint map
+const mintMap = async () => {
+  progress.classList.add('hidden');
+  const setting = mintSetting();
+  const params = new URLSearchParams({
+    coupon_id: setting.coupon_id,
+  }).toString();
+  const url =
+    'http://124.251.110.212:4001/tai_shang_world_generator/api/v1/mint?' +
+    params;
+
+  const response = await axios.post(url, null).catch((err) => {
+    console.log(err);
+    clearProgress();
+  });
+
+  const responseData = response.data;
+  showMintInfo(responseData);
   clearProgress();
 };
 
 document.addEventListener('DOMContentLoaded', function () {
   drawOriginalMap();
   generateButton.addEventListener('click', generateMap);
+  mintButton.addEventListener('click', mintMap);
 });

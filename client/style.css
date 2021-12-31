@@ -1,43 +1,48 @@
 @import url('https://fonts.googleapis.com/css2?family=ZCOOL+XiaoWei&display=swap');
 
-body {
-  min-height: 100vh;
-  margin: 0;
-  display: flex;
+* {
+  box-sizing: border-box;
 }
 
 html {
   scrollbar-width: none;
+  height: 100vh;
+}
+
+body {
+  height: 100%;
+  margin: 0;
+  display: flex;
 }
 
 ::-webkit-scrollbar {
   display: none;
 }
 
-p {
-  height: 11vh;
-  line-height: 11vh;
-  text-align: center;
-  font-family: 'ZCOOL XiaoWei', serif;
-  font-size: 2.5vw;
-}
-
-progress {
-  transition: 1s ease-in-out;
-}
-
-.form-control {
-  margin: 8vh 0 3vh 0;
+/* 左侧 map */
+#map-wrapper {
+  width: 80%;
+  height: 100%;
+  display: flex;
   flex-direction: column;
-  justify-content: space-between;
 }
 
 #map-master {
-  margin: auto 0 auto 20px;
+  height: inherit;
+  overflow-y: scroll;
+  margin: 0 0 20px 20px;
+  border: 1px solid #fff;
+  position: relative;
 }
-/* #map {
-  margin: auto 0 auto 20px;
-} */
+
+#map,
+#poem {
+  transition: 666ms ease-out;
+}
+
+#map {
+  border-bottom: none;
+}
 
 #div1 {
   width: 2vw;
@@ -71,6 +76,26 @@ progress {
   border-bottom: 1px solid black;
 }
 
+/* 右侧及底部 */
+
+p {
+  height: 11vh;
+  line-height: 11vh;
+  text-align: center;
+  font-family: 'ZCOOL XiaoWei', serif;
+  font-size: 2.5vw;
+}
+
+progress {
+  transition: 1s ease-in-out;
+}
+
+.form-control {
+  margin: 8vh 0 3vh 0;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
 .rule-border {
   border-color: hsla(var(--bc) / var(--tw-border-opacity, 1));
   border-width: 1px;
@@ -80,9 +105,4 @@ progress {
 
 #alert {
   transition: 100ms ease-in-out;
-}
-
-#map,
-#poem {
-  transition: 666ms ease-out;
 }

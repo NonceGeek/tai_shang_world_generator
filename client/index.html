@@ -21,7 +21,7 @@
     * {
       box-sizing: border-box;
     }
-    #div1{width:37.78px;height:38.4px;background:#00b7ff;position:absolute;}
+    /* #div1{width:2.5vw;height:2.5vw;background:#00b7ff;position:absolute;} */
   </style>
   <body>
     <!-- THE map -->
@@ -151,13 +151,14 @@ window.onload = function(){
    var bottom = false;
    setInterval(function(){
        if(left){
-         oDiv.style.left = oDiv.offsetLeft-38+"px";
+         console.log(screen.width)
+         oDiv.style.left = oDiv.offsetLeft-5+"px";
        }else if(top){
-           oDiv.style.top = oDiv.offsetTop-38+"px";
+           oDiv.style.top = oDiv.offsetTop-5+"px";
        }else if(right){
-           oDiv.style.left = oDiv.offsetLeft+38+"px";
+           oDiv.style.left = oDiv.offsetLeft+5+"px";
        }else if(bottom){
-           oDiv.style.top = oDiv.offsetTop+38+"px";
+           oDiv.style.top = oDiv.offsetTop+5+"px";
        }
    },50);
    document.onkeydown = function(ev){

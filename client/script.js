@@ -14,6 +14,8 @@ let mintCouponNode = document.getElementById('mint-coupon');
 let inputs = document.getElementById('inputs');
 let poem = document.getElementById('poem');
 let mapNode = document.getElementById('map');
+let originalMap = document.getElementById('original-map');
+let movingBlock = document.getElementById('moving-block');
 
 const startProgress = (maxProgress) => {
   let timer = setInterval(() => {
@@ -40,19 +42,18 @@ const calcOriginalMapRowNumber = (height, width) => {
 
 // paint original placeholder map before generating
 const drawOriginalMap = () => {
-  let map = document.getElementById('map');
   let row = document.createElement('DIV');
-  row.classList.add('map-row');
+  row.classList.add('original-map-row');
   row.classList.add('flex');
   let block = document.createElement('DIV');
-  block.classList.add('map-block');
+  block.classList.add('original-map-block');
   // 32 is a fixed number for column number
   for (let i = 0; i < 32; i++) {
     row.appendChild(block.cloneNode(true));
   }
   let rowNumber = calcOriginalMapRowNumber(height, width);
   for (let i = 0; i < rowNumber; i++) {
-    map.appendChild(row.cloneNode(true));
+    originalMap.appendChild(row.cloneNode(true));
   }
 };
 
@@ -221,6 +222,15 @@ const generatePoem = (responseData) => {
   loadPoem(responseData.result.type);
 };
 
+const showMovingBlockAndMapContainer = () => {
+  movingBlock.classList.remove('hidden')
+  movingBlock.style.opacity = 0;
+  setTimeout(() => {
+    movingBlock.style.opacity = 1;
+  }, 233);
+  document.getElementById('map-container').classList.remove('hidden');
+}
+
 // post generation setting
 const generateMap = async () => {
   progress.style.display = 'block';
@@ -254,6 +264,8 @@ const generateMap = async () => {
   clearProgress();
   showMintButtonAndInputs();
   generatePoem(responseData);
+  originalMap.classList.add('hidden')
+  showMovingBlockAndMapContainer();
 };
 
 const reloadPage = () => {

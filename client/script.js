@@ -223,13 +223,13 @@ const generatePoem = (responseData) => {
 };
 
 const showMovingBlockAndMapContainer = () => {
-  movingBlock.classList.remove('hidden')
+  movingBlock.classList.remove('hidden');
   movingBlock.style.opacity = 0;
   setTimeout(() => {
     movingBlock.style.opacity = 1;
   }, 233);
   document.getElementById('map-container').classList.remove('hidden');
-}
+};
 
 // post generation setting
 const generateMap = async () => {
@@ -264,12 +264,22 @@ const generateMap = async () => {
   clearProgress();
   showMintButtonAndInputs();
   generatePoem(responseData);
-  originalMap.classList.add('hidden')
+  originalMap.classList.add('hidden');
   showMovingBlockAndMapContainer();
 };
 
 const reloadPage = () => {
   window.location.reload();
+};
+
+// reset moving block
+const resetMovingBlock = () => {
+  movingBlock.style.transition = 'top 666ms ease-in-out 0s';
+  movingBlock.style.top = '0.25vw';
+  movingBlock.style.left = '0.25vw';
+  setTimeout(() => {
+    movingBlock.style.transition = 'none';
+  }, 2000);
 };
 
 // hide mint button and mint inputs, show generate inputs, reset mint info
@@ -286,6 +296,7 @@ const showGenerateInputs = () => {
   alert.classList.add('mx-10');
   alert.classList.remove('mx-5');
   generateButton.innerText = 'Generate!';
+  resetMovingBlock();
   generateButton.addEventListener('click', generateMap);
 };
 

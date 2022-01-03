@@ -51,12 +51,14 @@ body {
 }
 
 #moving-block {
-  width: 2.5vw;
+  width: 2vw;
   /* border: 1px solid black; */
   border-bottom: none;
-  height: 2.5vw;
-  background:#00b7ff;
-  position:absolute;
+  height: 2vw;
+  top: 0.25vw;
+  left: 0.25vw;
+  background: #4e7ca1;
+  position: absolute;
   z-index: 1;
 }
 
@@ -119,5 +121,3 @@ progress {
 #alert {
   transition: 100ms ease-in-out;
 }
-
-

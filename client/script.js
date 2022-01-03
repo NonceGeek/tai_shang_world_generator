@@ -275,8 +275,8 @@ const reloadPage = () => {
 // reset moving block
 const resetMovingBlock = () => {
   movingBlock.style.transition = 'top 666ms ease-in-out 0s';
-  movingBlock.style.top = '0.25vw';
-  movingBlock.style.left = '0.25vw';
+  movingBlock.style.top = '0';
+  movingBlock.style.left = '0';
   setTimeout(() => {
     movingBlock.style.transition = 'none';
   }, 2000);

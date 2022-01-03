@@ -243,7 +243,7 @@ const generateMap = async () => {
     source: mapSetting.dataSource,
   }).toString();
   const url =
-    'http://124.251.110.212:4001/tai_shang_world_generator/api/v1/gen_map?' +
+    'https://map.noncegeek.com/tai_shang_world_generator/api/v1/gen_map?' +
     params;
   const data = {
     block_number: mapSetting.blockNumber,
@@ -376,7 +376,7 @@ const mintMap = async () => {
     coupon_id: setting.coupon_id,
   }).toString();
   const url =
-    'http://124.251.110.212:4001/tai_shang_world_generator/api/v1/mint?' +
+    'https://map.noncegeek.com/tai_shang_world_generator/api/v1/mint?' +
     params;
 
   const response = await axios.post(url, null).catch((err) => {

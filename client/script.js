@@ -14,6 +14,8 @@ let mintCouponNode = document.getElementById('mint-coupon');
 let inputs = document.getElementById('inputs');
 let poem = document.getElementById('poem');
 let mapNode = document.getElementById('map');
+let originalMap = document.getElementById('original-map');
+let movingBlock = document.getElementById('moving-block');
 
 const startProgress = (maxProgress) => {
   let timer = setInterval(() => {
@@ -40,19 +42,18 @@ const calcOriginalMapRowNumber = (height, width) => {
 
 // paint original placeholder map before generating
 const drawOriginalMap = () => {
-  let map = document.getElementById('map');
   let row = document.createElement('DIV');
-  row.classList.add('map-row');
+  row.classList.add('original-map-row');
   row.classList.add('flex');
   let block = document.createElement('DIV');
-  block.classList.add('map-block');
+  block.classList.add('original-map-block');
   // 32 is a fixed number for column number
   for (let i = 0; i < 32; i++) {
     row.appendChild(block.cloneNode(true));
   }
   let rowNumber = calcOriginalMapRowNumber(height, width);
   for (let i = 0; i < rowNumber; i++) {
-    map.appendChild(row.cloneNode(true));
+    originalMap.appendChild(row.cloneNode(true));
   }
 };
 
@@ -221,6 +222,15 @@ const generatePoem = (responseData) => {
   loadPoem(responseData.result.type);
 };
 
+const showMovingBlockAndMapContainer = () => {
+  movingBlock.classList.remove('hidden');
+  movingBlock.style.opacity = 0;
+  setTimeout(() => {
+    movingBlock.style.opacity = 1;
+  }, 233);
+  document.getElementById('map-container').classList.remove('hidden');
+};
+
 // post generation setting
 const generateMap = async () => {
   progress.style.display = 'block';
@@ -233,7 +243,7 @@ const generateMap = async () => {
     source: mapSetting.dataSource,
   }).toString();
   const url =
-    'http://124.251.110.212:4001/tai_shang_world_generator/api/v1/gen_map?' +
+    'https://map.noncegeek.com/tai_shang_world_generator/api/v1/gen_map?' +
     params;
   const data = {
     block_number: mapSetting.blockNumber,
@@ -254,10 +264,22 @@ const generateMap = async () => {
   clearProgress();
   showMintButtonAndInputs();
   generatePoem(responseData);
+  originalMap.classList.add('hidden');
+  showMovingBlockAndMapContainer();
 };
 
 const reloadPage = () => {
   window.location.reload();
+};
+
+// reset moving block
+const resetMovingBlock = () => {
+  movingBlock.style.transition = 'top 666ms ease-in-out 0s';
+  movingBlock.style.top = '0';
+  movingBlock.style.left = '0';
+  setTimeout(() => {
+    movingBlock.style.transition = 'none';
+  }, 2000);
 };
 
 // hide mint button and mint inputs, show generate inputs, reset mint info
@@ -274,6 +296,7 @@ const showGenerateInputs = () => {
   alert.classList.add('mx-10');
   alert.classList.remove('mx-5');
   generateButton.innerText = 'Generate!';
+  resetMovingBlock();
   generateButton.addEventListener('click', generateMap);
 };
 
@@ -353,7 +376,7 @@ const mintMap = async () => {
     coupon_id: setting.coupon_id,
   }).toString();
   const url =
-    'http://124.251.110.212:4001/tai_shang_world_generator/api/v1/mint?' +
+    'https://map.noncegeek.com/tai_shang_world_generator/api/v1/mint?' +
     params;
 
   const response = await axios.post(url, null).catch((err) => {

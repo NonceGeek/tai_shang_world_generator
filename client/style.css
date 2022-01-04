@@ -27,53 +27,66 @@ body {
   flex-direction: column;
 }
 
-#map-master {
+#original-map {
+  margin-left: 30px;
+}
+
+#map-container {
   height: inherit;
   overflow-y: scroll;
   margin: 0 0 20px 20px;
-  border: 1px solid #fff;
+  border: 1px black solid;
   position: relative;
 }
 
 #map,
-#poem {
+#poem,
+#original-map {
   transition: 666ms ease-out;
 }
 
-#map {
-  border-bottom: none;
+#poem {
+  height: 10.5vh;
+  line-height: 10.5vh;
 }
 
-#div1 {
+#moving-block {
   width: 2vw;
   /* border: 1px solid black; */
   border-bottom: none;
   height: 2vw;
-  background:#00b7ff;
-  position:absolute;
+  background: #4e7ca1;
+  position: absolute;
+  z-index: 1;
 }
 
 .map-block {
   width: 2.5vw;
-  /* border: 1px solid rgb(255, 255, 255); */
   border-bottom: none;
   height: 2.5vw;
 }
 
-.map-block:nth-child(odd) {
+.original-map-block {
+  border: 2px solid black;
+  width: 2.5vw;
+  height: 2.5vw;
+  border-bottom: none;
+}
+
+.original-map-block:nth-child(odd) {
   border-left: none;
 }
 
-.map-block:nth-child(even) {
+.original-map-block:nth-child(even) {
   border-left: none;
 }
 
-.map-block:nth-child(1) {
-  border-left: 1px solid black;
+.original-map-block:nth-child(1) {
+  border-left: 2px solid black;
 }
 
-.map-row:last-child .map-block {
-  border-bottom: 1px solid black;
+.original-map-row:last-child {
+  border-bottom: 2px solid black;
 }
 
 /* 右侧及底部 */

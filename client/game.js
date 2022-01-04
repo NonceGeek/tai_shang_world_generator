@@ -3,18 +3,20 @@ window.onload = function () {
   var map = document.querySelector('#map');
   var wrapper = document.querySelector('#map-container');
 
-  var left = false;
-  var right = false;
-  var top = false;
-  var bottom = false;
+  const stepLength = 2.5;
 
   // move moving-block when possible
-  const move = (oDiv, direction, stepLength = 2.5) => {
+  const move = (oDiv, direction, stepLength) => {
     if (willCrossBorder(oDiv, map, direction, stepLength)) {
       return;
     }
 
-    const style = oDiv.style
+    const style = oDiv.style;
+    const currentPosition = getCoordinate(oDiv, stepLength);
+
+    if (willCollide(currentPosition, direction)) {
+      return;
+    }
 
     switch (direction) {
       case 'left':
@@ -44,22 +46,22 @@ window.onload = function () {
       case 37:
         ev.preventDefault();
         left = true;
-        move(oDiv, 'left');
+        move(oDiv, 'left', stepLength);
         break;
       case 38:
         ev.preventDefault();
         top = true;
-        move(oDiv, 'top');
+        move(oDiv, 'top', stepLength);
         break;
       case 39:
         ev.preventDefault();
         right = true;
-        move(oDiv, 'right');
+        move(oDiv, 'right', stepLength);
         break;
       case 40:
         ev.preventDefault();
         bottom = true;
-        move(oDiv, 'bottom');
+        move(oDiv, 'bottom', stepLength);
         break;
     }
   };
@@ -139,4 +141,30 @@ window.onload = function () {
       scrollSmoothly(-scrollLength, -1);
     }
   };
+
+  const getCoordinate = (oDiv, stepLength) => {
+    const x = parseFloat(oDiv.style.top) / stepLength;
+    const y = parseFloat(oDiv.style.left) / stepLength;
+    
+    return { x, y };
+  }
+
+  const willCollide = (currentPosition, direction) => {
+    let { x, y } = currentPosition;
+
+    if (direction === 'left') {
+      y -= 1;
+    } else if (direction === 'right') {
+      y += 1;
+    } else if (direction === 'top') {
+      x -= 1;
+    } else if (direction === 'bottom') {
+      x += 1;
+    }
+
+    return document
+      .querySelectorAll('.map-row')[x]
+      .children.item(y)
+      .classList.contains('unwalkable')
+  }
 };

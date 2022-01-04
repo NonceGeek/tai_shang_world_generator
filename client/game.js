@@ -9,25 +9,26 @@ window.onload = function () {
   var bottom = false;
 
   // move moving-block when possible
-  const move = (oDiv, direction, stepLength = 5) => {
+  const move = (oDiv, direction, stepLength = 2.5) => {
     if (willCrossBorder(oDiv, map, direction, stepLength)) {
-      // console.log('%c WARNING!', 'color: red')
       return;
     }
 
+    const style = oDiv.style
+
     switch (direction) {
       case 'left':
-        oDiv.style.left = oDiv.offsetLeft - stepLength + 'px';
+        style.left = parseFloat(style.left) - stepLength + 'vw';
         break;
       case 'top':
-        oDiv.style.top = oDiv.offsetTop - stepLength + 'px';
+        style.top = parseFloat(style.top) - stepLength + 'vw';
         scrollIfNeeded(oDiv, wrapper, 'top');
         break;
       case 'right':
-        oDiv.style.left = oDiv.offsetLeft + stepLength + 'px';
+        style.left = parseFloat(style.left) + stepLength + 'vw';
         break;
       case 'bottom':
-        oDiv.style.top = oDiv.offsetTop + stepLength + 'px';
+        style.top = parseFloat(style.top) + stepLength + 'vw';
         scrollIfNeeded(oDiv, wrapper, 'bottom');
         break;
       default:

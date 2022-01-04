@@ -174,29 +174,55 @@ const drawBlock = (newBlock, map, i, j, type) => {
   }
 };
 
+const setBlockType = (newBlock, coordinate, ele_description) => {
+  if (withinRange(coordinate, ele_description.walkable)) {
+    newBlock.classList.add('walkable');
+  } else if (withinRange(coordinate, ele_description.unwalkable)) {
+    newBlock.classList.add('unwalkable');
+  } else if (withinRange(coordinate, ele_description.object)) {
+    newBlock.classList.add('object');
+  } else if (withinRange(coordinate, ele_description.sprite)) {
+    newBlock.classList.add('sprite');
+  }
+}
+
+const withinRange = (value, arr) => {
+  if (arr.length === 1) {
+    return value === arr[0];
+  } else if (arr.length > 1) {
+    return value >= arr[0] && value <= arr[1];
+  }
+}
+
 // draw map from response
 const drawMap = (responseJSON) => {
   if (responseJSON.error_code !== 0) {
     drawOriginalMap();
     return;
   }
+
   const map = responseJSON.result.map;
   const type = responseJSON.result.type;
+  const ele_description = responseJSON.result.ele_description;
+
   while (mapNode.firstChild) {
     mapNode.removeChild(mapNode.firstChild);
   }
+
   let row = document.createElement('DIV');
   row.classList.add('map-row');
   row.classList.add('flex');
   let block = document.createElement('DIV');
   block.classList.add('map-block');
   startProgress(99);
+
   for (let i = 0; i < map.length; i++) {
     let newRow = row.cloneNode(true);
     // 32 is a fixed number for column number
     for (let j = 0; j < 32; j++) {
       let newBlock = block.cloneNode(true);
       drawBlock(newBlock, map, i, j, type);
+      setBlockType(newBlock, map[i][j], ele_description);
       newRow.appendChild(newBlock);
     }
     mapNode.appendChild(newRow);

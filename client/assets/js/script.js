@@ -17,6 +17,9 @@ let mapNode = document.getElementById('map');
 let originalMap = document.getElementById('original-map');
 let movingBlock = document.getElementById('moving-block');
 
+const objectCount = 4;
+const spriteCount = 5;
+
 const startProgress = (maxProgress) => {
   let timer = setInterval(() => {
     progress.value++;
@@ -169,11 +172,13 @@ const setBlockType = (newBlock, coordinate, ele_description) => {
     newBlock.classList.add('unwalkable');
     insertImage(newBlock, 'unwalkable');
   } else if (withinRange(coordinate, ele_description.object)) {
-    newBlock.classList.add('object');
-    insertImage(newBlock, 'object');
+    const object = 'object' + Math.floor(Math.random() * objectCount + 1);
+    newBlock.classList.add(object);
+    insertImage(newBlock, object);
   } else if (withinRange(coordinate, ele_description.sprite)) {
-    newBlock.classList.add('sprite');
-    insertImage(newBlock, 'sprite');
+    const sprite = 'sprite' + Math.floor(Math.random() * spriteCount + 1);
+    newBlock.classList.add(sprite);
+    insertImage(newBlock, sprite);
   }
 }
 

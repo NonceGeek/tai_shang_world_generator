@@ -47,7 +47,6 @@ body {
 #moving-block {
   width: 2.5vw;
   height: 2.5vw;
-  background: #4e7ca1;
   position: absolute;
   z-index: 1;
 }

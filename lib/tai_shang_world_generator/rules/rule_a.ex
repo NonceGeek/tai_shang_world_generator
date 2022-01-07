@@ -22,6 +22,7 @@ defmodule TaiShangWorldGenerator.Rule.RuleA do
     ele - 200
   end
 
+  @impl MapTranslatorBehaviour
   def get_ele_description, do: @ele_description
 
   @impl MapTranslatorBehaviour

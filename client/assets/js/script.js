@@ -157,20 +157,8 @@ const isSettingError = async (mapSetting) => {
 
 // draw individual block from map
 const drawBlock = (newBlock, map, i, j, type) => {
-  if (type === 'ice') {
-    if (map[i][j] === 0) {
-      newBlock.style.backgroundColor = '#fffefa';
-    }
-  }
-  if (type === 'sand') {
-    if (map[i][j] === 0) {
-      newBlock.style.backgroundColor = '#f9cb8b';
-    }
-  }
-  if (type === 'green') {
-    if (map[i][j] === 0) {
-      newBlock.style.backgroundColor = '#8cc269';
-    }
+  if (map[i][j] === 0 && ['ice', 'sand', 'green'].includes(type)) {
+    newBlock.classList.add(type);
   }
 };
 
@@ -230,7 +218,7 @@ const drawMap = (responseJSON) => {
 };
 
 const loadPoem = (type) => {
-  fetch('./poems.json')
+  fetch('./assets/json/poems.json')
     .then((response) => response.json())
     .then((data) => {
       const poemsWithType = data[type];

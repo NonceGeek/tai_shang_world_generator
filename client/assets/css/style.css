@@ -61,6 +61,26 @@ body {
   height: 2.5vw;
 }
 
+.map-block.ice,
+.map-block.sand,
+.map-block.green {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.map-block.ice {
+  background-image: url(../img/bg/ice.png);
+}
+
+.map-block.sand {
+  background-image: url(../img/bg/sand.png);
+}
+
+.map-block.green {
+  background-image: url(../img/bg/green.png);
+}
+
 .original-map-block {
   box-sizing: border-box;
   border: 2px solid black;

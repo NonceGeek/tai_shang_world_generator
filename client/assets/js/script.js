@@ -157,7 +157,7 @@ const isSettingError = async (mapSetting) => {
 
 // draw individual block from map
 const drawBlock = (newBlock, map, i, j, type) => {
-  if (map[i][j] === 0 && ['ice', 'sand', 'green'].includes(type)) {
+  if (['ice', 'sand', 'green'].includes(type)) {
     newBlock.classList.add(type);
   }
 };
@@ -167,11 +167,21 @@ const setBlockType = (newBlock, coordinate, ele_description) => {
     newBlock.classList.add('walkable');
   } else if (withinRange(coordinate, ele_description.unwalkable)) {
     newBlock.classList.add('unwalkable');
+    insertImage(newBlock, 'unwalkable');
   } else if (withinRange(coordinate, ele_description.object)) {
     newBlock.classList.add('object');
+    insertImage(newBlock, 'object');
   } else if (withinRange(coordinate, ele_description.sprite)) {
     newBlock.classList.add('sprite');
+    insertImage(newBlock, 'sprite');
   }
+}
+
+const insertImage = (parentNode, type) => {
+  const img = document.createElement('img')
+  img.src = 'assets/img/block/' + type + '.png'
+
+  parentNode.appendChild(img)
 }
 
 const withinRange = (value, arr) => {

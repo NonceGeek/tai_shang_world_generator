@@ -27,9 +27,6 @@ body {
   flex-direction: column;
 }
 
-#original-map {
-}
-
 #map-container {
   height: inherit;
   overflow-y: scroll;
@@ -103,18 +100,6 @@ body {
 
 .original-map-row:last-child {
   border-bottom: 2px solid black;
-}
-
-.unwalkable {
-  background-color: #000;
-}
-
-.object {
-  background-color: #6495ed;
-}
-
-.sprite {
-  background-color: #ff1493;
 }
 
 /* 右侧及底部 */

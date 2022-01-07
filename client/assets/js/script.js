@@ -11,6 +11,7 @@ let rulesContainerNode = document.getElementById('rules');
 let mintNameNode = document.getElementById('mint-name');
 let mintAddressNode = document.getElementById('mint-address');
 let mintCouponNode = document.getElementById('mint-coupon');
+let mintDescription = document.getElementById('mint-description');
 let inputs = document.getElementById('inputs');
 let poem = document.getElementById('poem');
 let mapNode = document.getElementById('map');
@@ -19,6 +20,7 @@ let movingBlock = document.getElementById('moving-block');
 
 const objectCount = 4;
 const spriteCount = 5;
+const mintData = {};
 
 const startProgress = (maxProgress) => {
   let timer = setInterval(() => {
@@ -136,6 +138,8 @@ const generationSetting = async () => {
   let rules = await getRulesSetting(rulesNodes);
   startProgress(85);
 
+  mintData.source = dataSource;
+
   return {
     blockNumber: blockNumber,
     dataSource: dataSource,
@@ -180,7 +184,7 @@ const setBlockType = (newBlock, coordinate, ele_description) => {
     newBlock.classList.add(sprite);
     insertImage(newBlock, sprite);
   }
-}
+};
 
 const insertImage = (parentNode, type) => {
   const img = document.createElement('img')
@@ -195,7 +199,7 @@ const withinRange = (value, arr) => {
   } else if (arr.length > 1) {
     return value >= arr[0] && value <= arr[1];
   }
-}
+};
 
 // draw map from response
 const drawMap = (responseJSON) => {
@@ -232,24 +236,24 @@ const drawMap = (responseJSON) => {
   }
 };
 
-const loadPoem = (type) => {
-  fetch('./assets/json/poems.json')
-    .then((response) => response.json())
-    .then((data) => {
-      const poemsWithType = data[type];
-      poem.style.opacity = 0;
-      setTimeout(() => {
-        poem.innerText =
-          poemsWithType[Math.floor(Math.random() * poemsWithType.length)];
-        poem.style.opacity = 1;
-      }, 888);
-    })
-    .catch((error) => console.log(error));
-};
+// const loadPoem = (type) => {
+//   fetch('./poems.json')
+//     .then((response) => response.json())
+//     .then((data) => {
+//       const poemsWithType = data[type];
+//       poem.style.opacity = 0;
+//       setTimeout(() => {
+//         poem.innerText =
+//           poemsWithType[Math.floor(Math.random() * poemsWithType.length)];
+//         poem.style.opacity = 1;
+//       }, 888);
+//     })
+//     .catch((error) => console.log(error));
+// };
 
-const generatePoem = (responseData) => {
-  loadPoem(responseData.result.type);
-};
+// const generatePoem = (responseData) => {
+//   loadPoem(responseData.result.type);
+// };
 
 const showMovingBlockAndMapContainer = () => {
   movingBlock.classList.remove('hidden');
@@ -280,6 +284,9 @@ const generateMap = async () => {
     rule: mapSetting.rules[0],
   };
 
+  mintData.block_number = data.block_number;
+  mintData.rule = data.rule;
+
   const response = await axios.post(url, data).catch((err) => {
     console.log(err);
     clearProgress();
@@ -291,10 +298,12 @@ const generateMap = async () => {
     map.style.opacity = 1;
   }, 233);
   clearProgress();
-  showMintButtonAndInputs();
-  generatePoem(responseData);
   originalMap.classList.add('hidden');
   showMovingBlockAndMapContainer();
+  setTimeout(() => {
+    showMintButtonAndInputs();
+  }, 233);
+  // generatePoem(responseData);
 };
 
 const reloadPage = () => {
@@ -320,6 +329,7 @@ const showGenerateInputs = () => {
   mintAddressNode.classList.add('hidden');
   mintCouponNode.classList.add('hidden');
   mintButton.classList.add('hidden');
+  mintDescription.classList.add('hidden');
   generateButton.classList.add('mx-10');
   generateButton.classList.remove('mx-5');
   alert.classList.add('mx-10');
@@ -338,6 +348,7 @@ const showMintButtonAndInputs = () => {
   mintAddressNode.classList.remove('hidden');
   mintCouponNode.classList.remove('hidden');
   mintButton.classList.remove('hidden');
+  mintDescription.classList.remove('hidden');
   generateButton.classList.remove('mx-10');
   generateButton.classList.add('mx-5');
   alert.classList.remove('mx-10');
@@ -348,14 +359,18 @@ const showMintButtonAndInputs = () => {
 };
 
 const mintSetting = () => {
-  let mintName = mintNameNode.value ? mintNameNode.value : 'leeduckgo';
-  let mintAddress = mintAddressNode.value ? mintAddressNode.value : '0x0000';
-  let mintCoupon = mintCouponNode.value ? mintCouponNode.value : 'nocoupon';
+  mintName = mintNameNode.value ? mintNameNode.value : 'leeduckgo';
+  mintAddress = mintAddressNode.value ? mintAddressNode.value : '0x0000';
+  mintCoupon = mintCouponNode.value ? mintCouponNode.value : 'nocoupon';
+  mintDescription = mintDescription.value ? mintDescription.value : '';
+
+  mintData.description = mintDescription;
 
   return {
     minter_name: mintName,
     minter_address: mintAddress,
     coupon_id: mintCoupon,
+    description: mintDescription,
   };
 };
 
@@ -377,6 +392,7 @@ const showMintInfo = (mintData) => {
   mintAddressNode.classList.add('hidden');
   mintCouponNode.classList.add('hidden');
   mintButton.classList.add('hidden');
+  mintDescription.classList.add('hidden');
   generateButton.classList.add('hidden');
   inputs.innerHTML += `
     <div class="mx-5 my-5 rule-border" id='rules'>
@@ -405,10 +421,16 @@ const mintMap = async () => {
     coupon_id: setting.coupon_id,
   }).toString();
   const url =
-    'https://map.noncegeek.com/tai_shang_world_generator/api/v1/mint?' +
-    params;
+    'https://map.noncegeek.com/tai_shang_world_generator/api/v1/mint?' + params;
 
-  const response = await axios.post(url, null).catch((err) => {
+  const data = {
+    block_number: mintData.block_number,
+    rule: mintData.rule,
+    source: mintData.source,
+    description: mintData.description,
+  };
+
+  const response = await axios.post(url, data).catch((err) => {
     console.log(err);
     clearProgress();
   });

@@ -18,6 +18,8 @@ let mapNode = document.getElementById('map');
 let originalMap = document.getElementById('original-map');
 let movingBlock = document.getElementById('moving-block');
 
+const objectCount = 4;
+const spriteCount = 5;
 const mintData = {};
 
 const startProgress = (maxProgress) => {
@@ -162,20 +164,8 @@ const isSettingError = async (mapSetting) => {
 
 // draw individual block from map
 const drawBlock = (newBlock, map, i, j, type) => {
-  if (type === 'ice') {
-    if (map[i][j] === 0) {
-      newBlock.style.backgroundColor = '#fffefa';
-    }
-  }
-  if (type === 'sand') {
-    if (map[i][j] === 0) {
-      newBlock.style.backgroundColor = '#f9cb8b';
-    }
-  }
-  if (type === 'green') {
-    if (map[i][j] === 0) {
-      newBlock.style.backgroundColor = '#8cc269';
-    }
+  if (['ice', 'sand', 'green'].includes(type)) {
+    newBlock.classList.add(type);
   }
 };
 
@@ -184,12 +174,24 @@ const setBlockType = (newBlock, coordinate, ele_description) => {
     newBlock.classList.add('walkable');
   } else if (withinRange(coordinate, ele_description.unwalkable)) {
     newBlock.classList.add('unwalkable');
+    insertImage(newBlock, 'unwalkable');
   } else if (withinRange(coordinate, ele_description.object)) {
-    newBlock.classList.add('object');
+    const object = 'object' + Math.floor(Math.random() * objectCount + 1);
+    newBlock.classList.add(object);
+    insertImage(newBlock, object);
   } else if (withinRange(coordinate, ele_description.sprite)) {
-    newBlock.classList.add('sprite');
+    const sprite = 'sprite' + Math.floor(Math.random() * spriteCount + 1);
+    newBlock.classList.add(sprite);
+    insertImage(newBlock, sprite);
   }
 };
+
+const insertImage = (parentNode, type) => {
+  const img = document.createElement('img')
+  img.src = 'assets/img/block/' + type + '.png'
+
+  parentNode.appendChild(img)
+}
 
 const withinRange = (value, arr) => {
   if (arr.length === 1) {

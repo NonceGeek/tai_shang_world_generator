@@ -5,17 +5,23 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>TaiShang World Generator</title>
-    <link
+    <!-- <link
       href="https://cdn.jsdelivr.net/npm/daisyui@1.19.0/dist/full.css"
       rel="stylesheet"
       type="text/css"
-    />
-    <link
+    /> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/daisyui/1.19.0/full.min.css"
+      integrity="sha512-0SSPZdVmpLVS26YTwbGc1ShY1yaip9ftVZWKu8zqKMQ8p4QHjKOg4Y7JoytzuliH4kfMHHYyCu4J/SgGIL+tsg=="
+      crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- <link
       href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2/dist/tailwind.min.css"
       rel="stylesheet"
       type="text/css"
-    />
-    <link rel="stylesheet" href="./style.css" />
+    /> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.0/tailwind.min.css"
+      integrity="sha512-ksC7McuoU4VJ07WGtca5INyDRXzGsmhyEEJYzoWBkjC/KwuG+IK/pFnxJFNIGmOd8pmGexOxd3FziCPZXQJ4lA=="
+      crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="assets/css/style.css" />
   </head>
 
   <body>
@@ -24,7 +30,9 @@
       <!-- <p id="poem">一花一世界, 一叶一菩提.</p> -->
       <div id="original-map"></div>
       <div id="map-container" class="hidden">
-        <div id="moving-block" class="hidden" style="left: 0vw; top: 0vw"></div>
+        <div id="moving-block" class="hidden" style="left: 0vw; top: 0vw">
+          <img src="assets/img/block/hero.gif" alt="">
+        </div>
         <div id="map"></div>
       </div>
     </div>
@@ -138,10 +146,13 @@
     </div>
 
     <!-- axios -->
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.24.0/axios.min.js"
+      integrity="sha512-u9akINsQsAkG9xjc1cnGF4zw5TFDwkxuc9vUp5dltDWYCSmyd0meygbvgXrlc/z7/o4a19Fb5V0OUE58J7dcyw=="
+      crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <!-- generate and mint -->
-    <script src="./script.js"></script>
+    <script src="assets/js/script.js"></script>
     <!-- moving block -->
-    <script src="./game.js"></script>
+    <script src="assets/js/game.js"></script>
   </body>
 </html>

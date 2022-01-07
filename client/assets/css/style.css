@@ -48,7 +48,6 @@ body {
 #moving-block {
   width: 2.5vw;
   height: 2.5vw;
-  background: #4e7ca1;
   position: absolute;
   z-index: 1;
 }
@@ -57,6 +56,26 @@ body {
   width: 2.5vw;
   border-bottom: none;
   height: 2.5vw;
+}
+
+.map-block.ice,
+.map-block.sand,
+.map-block.green {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.map-block.ice {
+  background-image: url(../img/bg/ice.png);
+}
+
+.map-block.sand {
+  background-image: url(../img/bg/sand.png);
+}
+
+.map-block.green {
+  background-image: url(../img/bg/green.png);
 }
 
 .original-map-block {
@@ -81,18 +100,6 @@ body {
 
 .original-map-row:last-child {
   border-bottom: 2px solid black;
-}
-
-.unwalkable {
-  background-color: #000;
-}
-
-.object {
-  background-color: #6495ed;
-}
-
-.sprite {
-  background-color: #ff1493;
 }
 
 /* 右侧及底部 */

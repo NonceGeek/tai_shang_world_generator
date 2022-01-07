@@ -21,10 +21,10 @@
   <body>
     <!-- THE map -->
     <div id="map-wrapper">
-      <p id="poem">一花一世界, 一叶一菩提.</p>
+      <!-- <p id="poem">一花一世界, 一叶一菩提.</p> -->
       <div id="original-map"></div>
       <div id="map-container" class="hidden">
-        <div id="moving-block" class="hidden" style="left: 0vw; top: 0vw;"></div>
+        <div id="moving-block" class="hidden" style="left: 0vw; top: 0vw"></div>
         <div id="map"></div>
       </div>
     </div>
@@ -76,6 +76,13 @@
           placeholder="Minter name :"
           class="input input-bordered mx-5 my-5 hidden"
           id="mint-name"
+        />
+        <!-- Mint description input -->
+        <input
+          type="text"
+          placeholder="Map description :"
+          class="input input-bordered mx-5 my-5 hidden"
+          id="mint-description"
         />
         <!-- Mint address input -->
         <input

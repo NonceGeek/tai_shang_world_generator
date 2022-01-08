@@ -52,7 +52,21 @@ TaiShang World Generator
 
 ### 3.1 玩家视角下的项目操作
 
-// TODO
+- 点击`Generate` ，根据链上数据生成地图。
+
+![image-20220108233452338](https://tva1.sinaimg.cn/large/008i3skNgy1gy6os9ync4j31c30u078g.jpg)
+
+- 主角可以行走，可以和NPC对话，可以开宝箱
+
+![image-20220108233617120](https://tva1.sinaimg.cn/large/008i3skNgy1gy6otqsxgvj30wf0jpjtu.jpg)
+
+- 可以通过Mint按钮将该区块的地图mint为`mapNFT`：
+
+![image-20220108233821593](https://tva1.sinaimg.cn/large/008i3skNgy1gy6ovyg71tj30w80k5goo.jpg)
+
+- 可以在首页查看已经被mint出来的地图
+
+![image-20220108233901281](https://tva1.sinaimg.cn/large/008i3skNgy1gy6owlbwm2j314n0nxwht.jpg)
 
 ### 3.2 链上数据源 -> 游戏地图全流程
 

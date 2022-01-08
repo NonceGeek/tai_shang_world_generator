@@ -18,7 +18,7 @@ let mapNode = document.getElementById('map');
 let originalMap = document.getElementById('original-map');
 let movingBlock = document.getElementById('moving-block');
 
-const objectCount = 4;
+const treasureCount = 2;
 const spriteCount = 5;
 const mintData = {};
 
@@ -173,12 +173,12 @@ const setBlockType = (newBlock, coordinate, ele_description) => {
     newBlock.classList.add('unwalkable');
     insertImage(newBlock, 'unwalkable');
   } else if (withinRange(coordinate, ele_description.object)) {
-    const object = 'object' + Math.floor(Math.random() * objectCount + 1);
-    newBlock.classList.add(object);
+    const object = 'treasure-locked-' + Math.floor(Math.random() * treasureCount + 1);
+    newBlock.classList.add(object, 'unwalkable');
     insertImage(newBlock, object);
   } else if (withinRange(coordinate, ele_description.sprite)) {
     const sprite = 'sprite' + Math.floor(Math.random() * spriteCount + 1);
-    newBlock.classList.add(sprite);
+    newBlock.classList.add(sprite, 'unwalkable');
     insertImage(newBlock, sprite);
   }
 };

@@ -4,6 +4,71 @@ window.onload = function () {
   var wrapper = document.querySelector('#map-container');
 
   const stepLength = 2.5;
+  let direction = null;
+  let targetPosition = null;
+
+  document.onkeydown = function (ev) {
+    var ev = ev || event;
+    var keyCode = ev.keyCode;
+
+    switch (keyCode) {
+      case 37:
+        ev.preventDefault();
+        direction = 'left';
+        move(oDiv, direction, stepLength);
+        break;
+      case 38:
+        ev.preventDefault();
+        direction = 'top';
+        move(oDiv, direction, stepLength);
+        break;
+      case 39:
+        ev.preventDefault();
+        direction = 'right';
+        move(oDiv, direction, stepLength);
+        break;
+      case 40:
+        ev.preventDefault();
+        direction = 'bottom';
+        move(oDiv, direction, stepLength);
+        break;
+      case 32:
+        ev.preventDefault();
+        interact(oDiv, direction);
+        break;
+      default:
+        ev.preventDefault();
+    }
+  };
+
+  document.onkeyup = function (ev) {
+    var ev = ev || event;
+    var keyCode = ev.keyCode;
+
+    switch (keyCode) {
+      case 37:
+        ev.preventDefault();
+        direction = 'left';
+        break;
+      case 38:
+        ev.preventDefault();
+        direction = 'top';
+        break;
+      case 39:
+        ev.preventDefault();
+        direction = 'right';
+        break;
+      case 40:
+        ev.preventDefault();
+        direction = 'bottom';
+        break;
+      case 32:
+        ev.preventDefault();
+        break;
+      default:
+        ev.preventDefault();
+    }
+  };
 
   // move moving-block when possible
   const move = (oDiv, direction, stepLength) => {
@@ -38,61 +103,52 @@ window.onload = function () {
     }
   };
 
-  document.onkeydown = function (ev) {
-    var ev = ev || event;
-    var keyCode = ev.keyCode;
+  const interact = (oDiv, direction) => {
+    if (!direction) {
+      return;
+    }
 
-    switch (keyCode) {
-      case 37:
-        ev.preventDefault();
-        left = true;
-        move(oDiv, 'left', stepLength);
+    const currentPosition = getCoordinate(oDiv, stepLength);
+
+    switch (direction) {
+      case 'left':
+        targetPosition = {
+          x: currentPosition.x,
+          y: currentPosition.y - 1,
+        }
         break;
-      case 38:
-        ev.preventDefault();
-        top = true;
-        move(oDiv, 'top', stepLength);
+      case 'right':
+        targetPosition = {
+          x: currentPosition.x,
+          y: currentPosition.y + 1,
+        }
         break;
-      case 39:
-        ev.preventDefault();
-        right = true;
-        move(oDiv, 'right', stepLength);
+      case 'top':
+        targetPosition = {
+          x: currentPosition.x - 1,
+          y: currentPosition.y,
+        }
         break;
-      case 40:
-        ev.preventDefault();
-        bottom = true;
-        move(oDiv, 'bottom', stepLength);
+      case 'bottom':
+        targetPosition = {
+          x: currentPosition.x + 1,
+          y: currentPosition.y,
+        }
         break;
       default:
-        ev.preventDefault();
+        break;
     }
-  };
 
-  document.onkeyup = function (ev) {
-    var ev = ev || event;
-    var keyCode = ev.keyCode;
+    const targetBlock = document
+      .querySelectorAll('.map-row')[targetPosition.x]
+      .children.item(targetPosition.y);
 
-    switch (keyCode) {
-      case 37:
-        ev.preventDefault();
-        left = false;
-        break;
-      case 38:
-        ev.preventDefault();
-        top = false;
-        break;
-      case 39:
-        ev.preventDefault();
-        right = false;
-        break;
-      case 40:
-        ev.preventDefault();
-        bottom = false;
-        break;
-      default:
-        ev.preventDefault();
+    if (/sprite\d+/.test(targetBlock.className)) {
+      showDialog();
+    } else if (/treasure-locked-\d+/.test(targetBlock.className)) {
+      openTreasureBox(targetPosition);
     }
-  };
+  }
 
   // check if moving-block will be out of map
   const willCrossBorder = (oDiv, map, direction, stepLength) => {
@@ -170,5 +226,22 @@ window.onload = function () {
       .querySelectorAll('.map-row')[x]
       .children.item(y)
       .classList.contains('unwalkable')
+  }
+
+  const showDialog = () => {
+    document.querySelector('.dialog').classList.toggle('hidden');
+
+    setTimeout(() => {
+      document.querySelector('.dialog').classList.toggle('hidden');
+    }, 2000);
+  }
+
+  const openTreasureBox = (targetPosition) => {
+    const treasureBox = document
+      .querySelectorAll('.map-row')[targetPosition.x]
+      .children.item(targetPosition.y);
+
+    treasureBox.className = treasureBox.className.replace('treasure-locked', 'treasure-unlocked');
+    treasureBox.innerHTML = treasureBox.innerHTML.replace('treasure-locked', 'treasure-unlocked')
   }
 };

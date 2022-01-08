@@ -54,9 +54,11 @@ defmodule TaiShangWorldGenerator.MixProject do
       # Ethereum
       {:ethereumex, "~> 0.7.0"},
       {:ex_abi, "~> 0.5.2"},
+      {:ex_rlp, "~> 0.2.1"},
 
       # crypto
       {:binary, "~> 0.0.5"},
+      {:libsecp256k1, "~> 0.1.9"},
 
       # util tools
       {:ex_struct_translator, "~> 0.1.1"},
@@ -66,6 +68,10 @@ defmodule TaiShangWorldGenerator.MixProject do
 
       # csv
       {:csv, "~> 2.4"},
+
+      # handle_uri
+      {:ex_url, "~> 1.4"},
+
     ]
   end
 

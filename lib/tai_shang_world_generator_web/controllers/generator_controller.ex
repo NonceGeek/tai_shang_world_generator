@@ -15,26 +15,7 @@ defmodule TaiShangWorldGeneratorWeb.GeneratorController do
     block_number: block_num,
     rule: rule_name
   }) do
-    {:ok, %{hash: block_hash}} =
-      BlockchainFetcher.abstract_block_by_block_number(block_num)
-    type =
-      block_hash
-      |> TypeTranslator.hex_to_bin()
-      |> MapTranslator.get_type(rule_name)
-    map =
-      block_num
-      |> BlockchainFetcher.get_blocks(block_num, :txs)
-      |> BlockchainFetcher.hex_to_bin_batch()
-      |> MapTranslator.bin_list_to_list_2d()
-      |> MapTranslator.handle_map_by_rule(rule_name)
-    description =
-      MapTranslator.get_ele_description(rule_name)
-    json(conn, ResponseMod.get_res(
-      %{
-        map: map,
-        type: type,
-        ele_description: description
-      }, :ok)
-    )
+    payload = MapTranslator.get_map_by_block_num_and_rule_name(block_num, rule_name)
+    json(conn, ResponseMod.get_res(payload, :ok))
   end
 end

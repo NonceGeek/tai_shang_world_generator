@@ -1,7 +1,29 @@
 defmodule TaiShangWorldGenerator.MapTranslator do
   alias Utils.TypeTranslator
+  alias TaiShangWorldGenerator.BlockchainFetcher
   @rule_class "Rule"
 
+  def get_map_by_block_num_and_rule_name(block_num, rule_name) do
+    {:ok, %{hash: block_hash}} =
+      BlockchainFetcher.abstract_block_by_block_number(block_num)
+    type =
+      block_hash
+      |> TypeTranslator.hex_to_bin()
+      |> get_type(rule_name)
+    map =
+      block_num
+      |> BlockchainFetcher.get_blocks(block_num, :txs)
+      |> BlockchainFetcher.hex_to_bin_batch()
+      |> bin_list_to_list_2d()
+      |> handle_map_by_rule(rule_name)
+    description =
+      get_ele_description(rule_name)
+    %{
+      map: map,
+      type: type,
+      ele_description: description
+    }
+  end
   @doc """
     ```elixir
     alias TaiShangWorldGenerator.{BlockchainFetcher, MapTranslator}

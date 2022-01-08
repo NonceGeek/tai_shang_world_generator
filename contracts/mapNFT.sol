@@ -45,9 +45,8 @@ contract MapNFT is ERC721Enumerable, ReentrancyGuard, Ownable {
         parts[1] = "see map in: ";
         parts[2] = '</text><text x="10" y="40" class="base">';
         parts[3] = baseURL;
-        parts[4] = "?blockHeight=";
-        parts[5] = toString(blockHeight[tokenId]);
-        // parts[4] = toString(blockHeight[tokenId]);
+        parts[4] = "&amp;token_id=";
+        parts[5] = toString(tokenId);
         parts[6] = '</text><text x="10" y="60" class="base">';
         parts[7] = "description: ";
         parts[8] = '</text><text x="10" y="80" class="base">';
@@ -56,18 +55,24 @@ contract MapNFT is ERC721Enumerable, ReentrancyGuard, Ownable {
 
         string memory output = string(
             abi.encodePacked(
-            parts[0], 
-            parts[1], 
-            parts[2], 
-            parts[3], 
-            parts[4], 
+            parts[0],
+            parts[1],
+            parts[2],
+            parts[3],
+            parts[4],
             parts[5],
-            parts[6], 
+            parts[6],
             parts[7],
             parts[8],
-            parts[9],
-            parts[10]
+            parts[9]
             )
+        );
+
+        output = string(
+            abi.encodePacked(
+                output,
+                parts[10]
+                )
         );
         string memory json = Base64.encode(
             bytes(

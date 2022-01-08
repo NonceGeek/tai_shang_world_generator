@@ -11,7 +11,8 @@ config :tai_shang_world_generator,
   ecto_repos: [TaiShangWorldGenerator.Repo]
 
 config :ethereumex,
-  url: "https://polygon-rpc.com"
+  # url: "https://polygon-rpc.com" # matic mainnet
+  url: "https://rpc-mumbai.maticvigil.com" # matic testnet
 # Configures the endpoint
 config :tai_shang_world_generator, TaiShangWorldGeneratorWeb.Endpoint,
   url: [host: "localhost"],

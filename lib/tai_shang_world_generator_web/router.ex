@@ -21,8 +21,8 @@ defmodule TaiShangWorldGeneratorWeb.Router do
 
   scope "/", TaiShangWorldGeneratorWeb do
     pipe_through :browser
-
-    get "/", PageController, :index
+    live "/", MapShowerLive, :index
+    # get "/", PageController, :index
   end
 
 
@@ -46,7 +46,7 @@ defmodule TaiShangWorldGeneratorWeb.Router do
 
     scope "/" do
       pipe_through :browser
-      live_dashboard "/dashboard", metrics: TaiShangWorldGeneratorWeb.Telemetry
+      # live_dashboard "/dashboard", metrics: TaiShangWorldGeneratorWeb.Telemetry
     end
   end
 

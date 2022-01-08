@@ -53,9 +53,10 @@ body {
 }
 
 .map-block {
+  overflow: hidden;
   width: 2.5vw;
-  border-bottom: none;
   height: 2.5vw;
+  border-bottom: none;
 }
 
 .map-block.ice,

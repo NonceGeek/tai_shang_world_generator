@@ -13,6 +13,7 @@ body {
   height: 100%;
   margin: 0;
   display: flex;
+  position: relative;
 }
 
 ::-webkit-scrollbar {
@@ -53,9 +54,10 @@ body {
 }
 
 .map-block {
+  overflow: hidden;
   width: 2.5vw;
-  border-bottom: none;
   height: 2.5vw;
+  border-bottom: none;
 }
 
 .map-block.ice,
@@ -135,4 +137,17 @@ progress {
 #original-map,
 #map-container {
   margin-top: 10.5vh;
+}
+
+/* 对话框 */
+.dialog {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 10em;
+}
+
+.dialog.hidden {
+  display: none;
 }

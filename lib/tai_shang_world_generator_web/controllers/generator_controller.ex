@@ -27,14 +27,15 @@ defmodule TaiShangWorldGeneratorWeb.GeneratorController do
     contract_id: contract_id,
     token_id: token_id
   }) do
-    abstract_map =
-      @default_contract_addr
-      |> NftInteractor.get_block_height_for_token(
+    block_height =
+      NftInteractor.get_block_height_for_token(
+        @default_contract_addr,
         token_id
       )
-      |> MapTranslator.get_map_by_block_num_and_rule_name(
-        @default_rule
-        )
+    abstract_map =
+      block_height
+      |> MapTranslator.get_map_by_block_num_and_rule_name(@default_rule)
+      |> Map.put(:block_height, block_height)
     json(conn, ResponseMod.get_res(abstract_map, :ok))
   end
 end

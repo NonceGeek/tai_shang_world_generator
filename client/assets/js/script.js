@@ -8,6 +8,7 @@ let blockNumberNode = document.getElementById('block-number');
 let dataSourceNode = document.getElementById('data-source');
 let rulesNodes = document.getElementsByClassName('rules');
 let rulesContainerNode = document.getElementById('rules');
+let mintAreaNode = document.getElementById('mint-area');
 let mintNameNode = document.getElementById('mint-name');
 let mintAddressNode = document.getElementById('mint-address');
 let mintCouponNode = document.getElementById('mint-coupon');
@@ -20,6 +21,7 @@ let poem = document.getElementById('poem');
 let mapNode = document.getElementById('map');
 let originalMap = document.getElementById('original-map');
 let movingBlock = document.getElementById('moving-block');
+let backButton = document.querySelector('#back-button');
 
 const treasureCount = 2;
 const spriteCount = 5;
@@ -315,7 +317,10 @@ const viewMap = async () => {
   originalMap.classList.add('hidden');
   showMovingBlockAndMapContainer();
   setTimeout(() => {
-    showMintButtonAndInputs();
+    hideGenerateArea();
+    hideViewArea();
+    hideMintArea();
+    showBackButton();
   }, 233);
   // generatePoem(responseData);
 };
@@ -329,6 +334,9 @@ const generateMap = async () => {
     drawOriginalMap();
     return;
   }
+
+  hideViewArea();
+  
   const params = new URLSearchParams({
     source: mapSetting.dataSource,
   }).toString();
@@ -358,6 +366,8 @@ const generateMap = async () => {
   originalMap.classList.add('hidden');
   showMovingBlockAndMapContainer();
   setTimeout(() => {
+    hideGenerateArea();
+    showBackButton();
     showMintButtonAndInputs();
   }, 233);
   // generatePoem(responseData);
@@ -379,50 +389,33 @@ const resetMovingBlock = () => {
 
 // hide mint button and mint inputs, show generate inputs, reset mint info
 const showGenerateInputs = () => {
-  blockNumberNode.classList.remove('hidden');
-  dataSourceNode.classList.remove('hidden');
-  rulesContainerNode.classList.remove('hidden');
-  mintNameNode.classList.add('hidden');
-  mintAddressNode.classList.add('hidden');
-  mintCouponNode.classList.add('hidden');
-  mintButton.classList.add('hidden');
-  mintDescription.classList.add('hidden');
+  showGenerateArea();
+  hideMintArea();
   generateButton.classList.add('mx-10');
   generateButton.classList.remove('mx-5');
   alert.classList.add('mx-10');
   alert.classList.remove('mx-5');
-  generateButton.innerText = 'Generate!';
+  // generateButton.innerText = 'Generate!';
   resetMovingBlock();
-  generateButton.addEventListener('click', generateMap);
+  // generateButton.addEventListener('click', generateMap);
 };
 
 // show mint button and mint inputs, hide generate inputs
 const showMintButtonAndInputs = () => {
-  blockNumberNode.classList.add('hidden');
-  dataSourceNode.classList.add('hidden');
-  rulesContainerNode.classList.add('hidden');
-  mintNameNode.classList.remove('hidden');
-  mintAddressNode.classList.remove('hidden');
-  mintCouponNode.classList.remove('hidden');
-  mintButton.classList.remove('hidden');
-  mintDescription.classList.remove('hidden');
+  hideGenerateArea();
+  showMintArea();
   generateButton.classList.remove('mx-10');
   generateButton.classList.add('mx-5');
-  // tokenIDNode.classList.add('hidden');
-  // document.querySelector('#token-id-label').classList.add('hidden');
-  viewButton.classList.add('hidden');
-  // contractIDNode.classList.add('hidden');
-  // document.querySelector('#contract-id-label').classList.add('hidden');
   alert.classList.remove('mx-10');
   alert.classList.add('mx-5');
-  generateButton.innerText = 'Regenerate!';
-  generateButton.removeEventListener('click', generateMap);
-  generateButton.addEventListener('click', showGenerateInputs);
+  // generateButton.innerText = 'BACK';
+  // generateButton.removeEventListener('click', generateMap);
+  // generateButton.addEventListener('click', showGenerateInputs);
 };
 
 const mintSetting = () => {
   mintName = mintNameNode.value ? mintNameNode.value : 'leeduckgo';
-  mintAddress = mintAddressNode.value ? mintAddressNode.value : '0x0000';
+  mintAddress = mintAddressNode.value ? mintAddressNode.value : '0x0';
   mintCoupon = mintCouponNode.value ? mintCouponNode.value : 'nocoupon';
   mintDescription = mintDescription.value ? mintDescription.value : '';
 
@@ -446,33 +439,35 @@ const showMintInfo = (mintData) => {
     return;
   }
   let tokenInfo = mintData.result.token_info;
-  let mintNameDisplay = tokenInfo.minter_name;
   let mintContractDisplay = tokenInfo.contract_addr;
+  let mintNameDisplay = tokenInfo.minter_name;
   let mintTokenIdDisplay = tokenInfo.token_id;
+  let mintTransactionIdDisplay = tokenInfo.tx_id;
   let mintUrl = 'https://polygonscan.com/tx/' + mintTokenIdDisplay;
-  mintNameNode.classList.add('hidden');
-  mintAddressNode.classList.add('hidden');
-  mintCouponNode.classList.add('hidden');
-  mintButton.classList.add('hidden');
-  mintDescription.classList.add('hidden');
+  showMintArea();
+  document.querySelector('#mint-contract_addr').innerText = 'Contract Address: ' + mintContractDisplay;
+  document.querySelector('#mint-minter_name').innerText = 'Minter Name: ' + mintNameDisplay;
+  document.querySelector('#mint-token_id').innerText = 'Token ID: ' + mintTokenIdDisplay;
+  document.querySelector('#mint-tx_id').innerText = 'Transaction ID: ' + mintTransactionIdDisplay;
+
   generateButton.classList.add('hidden');
-  inputs.innerHTML += `
-    <div class="mx-5 my-5 rule-border" id='rules'>
-      <label class="label my-2">
-        <span class="label-text" style="margin-left: 1.25rem"><b>Minter name: </b><br/>${mintNameDisplay}</span>
-      </label>
-      <label class="label my-2">
-        <span class="label-text" style="margin-left: 1.25rem"><b>Contract Address: </b><br/>${mintContractDisplay}</span>
-      </label>
-      <label class="label my-2">
-        <span class="label-text" style="margin-left: 1.25rem"><b>Token id: </b><br/>${mintTokenIdDisplay} </span>
-      </label>
-      <a class="block link link-accent mx-5 my-2 text-center" style="margin-bottom: 1rem;" href=${mintUrl}>Tx on Polygonscan</a>
-    </div>
-  `;
-  inputs.innerHTML +=
-    '<button class="btn btn-secondary mx-5 my-5" id="reset">Reset!</button> ';
-  document.getElementById('reset').addEventListener('click', reloadPage);
+  // inputs.innerHTML += `
+  //   <div class="mx-5 my-5 rule-border" id='rules'>
+  //     <label class="label my-2">
+  //       <span class="label-text" style="margin-left: 1.25rem"><b>Minter name: </b><br/>${mintNameDisplay}</span>
+  //     </label>
+  //     <label class="label my-2">
+  //       <span class="label-text" style="margin-left: 1.25rem"><b>Contract Address: </b><br/>${mintContractDisplay}</span>
+  //     </label>
+  //     <label class="label my-2">
+  //       <span class="label-text" style="margin-left: 1.25rem"><b>Token id: </b><br/>${mintTokenIdDisplay} </span>
+  //     </label>
+  //     <a class="block link link-accent mx-5 my-2 text-center" style="margin-bottom: 1rem;" href=${mintUrl}>Tx on Polygonscan</a>
+  //   </div>
+  // `;
+  // inputs.innerHTML +=
+  //   '<button class="btn btn-secondary mx-5 my-5" id="reset">Reset!</button> ';
+  // document.getElementById('reset').addEventListener('click', reloadPage);
 };
 
 // mint map
@@ -481,6 +476,8 @@ const mintMap = async () => {
   const setting = mintSetting();
   const params = new URLSearchParams({
     coupon_id: setting.coupon_id,
+    minter_name: setting.minter_name,
+    minter_addr: setting.minter_address,
   }).toString();
   const url =
     'https://map.noncegeek.com/tai_shang_world_generator/api/v1/mint?' + params;
@@ -489,7 +486,7 @@ const mintMap = async () => {
     block_number: mintData.block_number,
     rule: mintData.rule,
     source: mintData.source,
-    description: mintData.description,
+    // description: mintData.description,
   };
 
   const response = await axios.post(url, data).catch((err) => {
@@ -502,11 +499,51 @@ const mintMap = async () => {
   clearProgress();
 };
 
+const showHome = () => {
+  hideMintArea();
+  hideBackButton();
+  showGenerateArea();
+  showViewArea();
+}
+
+const hideBackButton = () => {
+  document.querySelector('#back').classList.add('hidden');
+}
+
+const showBackButton = () => {
+  document.querySelector('#back').classList.remove('hidden');
+}
+
+const hideGenerateArea = () => {
+  document.querySelector('#inputs').classList.add('hidden');
+}
+
+const showGenerateArea = () => {
+  document.querySelector('#inputs').classList.remove('hidden');
+}
+
+const hideViewArea = () => {
+  document.querySelector('#view-area').classList.add('hidden');
+}
+
+const showViewArea = () => {
+  document.querySelector('#view-area').classList.remove('hidden');
+}
+
+const hideMintArea = () => {
+  document.querySelector('#mint-area').classList.add('hidden');
+}
+
+const showMintArea = () => {
+  document.querySelector('#mint-area').classList.remove('hidden');
+}
+
 document.addEventListener('DOMContentLoaded', async function () {
   drawOriginalMap();
   await getBlockNumberSetting();
   await getDataSourceSetting();
   generateButton.addEventListener('click', generateMap);
+  backButton.addEventListener('click', showHome);
   mintButton.addEventListener('click', mintMap);
   viewButton.addEventListener('click', viewMap);
 });

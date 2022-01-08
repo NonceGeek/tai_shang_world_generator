@@ -80,38 +80,17 @@
             />
           </label>
         </div>
-        <!-- Mint name input -->
-        <input
-          type="text"
-          placeholder="Minter name :"
-          class="input input-bordered mx-5 my-5 hidden"
-          id="mint-name"
-        />
-        <!-- Mint description input -->
-        <input
-          type="text"
-          placeholder="Map description :"
-          class="input input-bordered mx-5 my-5 hidden"
-          id="mint-description"
-        />
-        <!-- Mint address input -->
-        <input
-          type="text"
-          placeholder="Minter address @"
-          class="input input-bordered mx-5 my-5 hidden"
-          id="mint-address"
-        />
-        <!-- Mint coupon id input -->
-        <input
-          type="text"
-          placeholder="Mint coupon :"
-          class="input input-bordered mx-5 my-5 hidden"
-          id="mint-coupon"
-        />
         <!-- Submit button -->
         <button class="btn btn-primary mx-10 my-5" id="generate">
-          Generate!
+          GENERATE!
         </button>
+      </div>
+      <div class="form-control flex hidden" id="back">
+        <button class="btn btn-primary mx-5 my-5" id="back-button">
+          BACK
+        </button>
+      </div>
+      <div class="form-control flex" id="view-area">
         <label
           id="token-id-label"
           for="token-id"
@@ -141,8 +120,44 @@
         <button class="btn btn-primary mx-10 my-5" id="view">
           View!
         </button>
+      </div>
+      <div class="form-control flex hidden" id="mint-area">
+        <!-- Mint name input -->
+        <input
+          type="text"
+          placeholder="Minter name :"
+          class="input input-bordered mx-5 my-5"
+          id="mint-name"
+        />
+        <!-- Mint description input -->
+        <input
+          type="text"
+          placeholder="Map description :"
+          class="input input-bordered mx-5 my-5"
+          id="mint-description"
+        />
+        <!-- Mint address input -->
+        <input
+          type="text"
+          placeholder="Minter address @"
+          class="input input-bordered mx-5 my-5"
+          id="mint-address"
+        />
+        <!-- Mint coupon id input -->
+        <input
+          type="text"
+          placeholder="Mint coupon :"
+          class="input input-bordered mx-5 my-5"
+          id="mint-coupon"
+        />
         <!-- Mint button -->
-        <button class="btn btn-accent mx-5 hidden" id="mint">Mint!</button>
+        <button class="btn btn-accent mx-5" id="mint">MINT!</button>
+        <div class="flex" id="mint-result" style="flex-direction: column;">
+          <div class="mx-5 my-5" style="word-break: break-all;" id="mint-contract_addr"></div>
+          <div class="mx-5 my-5" style="word-break: break-all;" id="mint-minter_name"></div>
+          <div class="mx-5 my-5" style="word-break: break-all;" id="mint-token_id"></div>
+          <div class="mx-5 my-5" style="word-break: break-all;" id="mint-tx_id"></div>
+        </div>
       </div>
 
       <!-- Alert box -->

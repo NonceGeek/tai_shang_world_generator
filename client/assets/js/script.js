@@ -12,8 +12,8 @@ let mintNameNode = document.getElementById('mint-name');
 let mintAddressNode = document.getElementById('mint-address');
 let mintCouponNode = document.getElementById('mint-coupon');
 let mintDescription = document.getElementById('mint-description');
-let tokenID = document.getElementById('token-id');
-let contractID = document.getElementById('contract-id');
+let tokenIDNode = document.getElementById('token-id');
+let contractIDNode = document.getElementById('contract-id');
 let viewButton = document.getElementById('view');
 let inputs = document.getElementById('inputs');
 let poem = document.getElementById('poem');
@@ -264,38 +264,20 @@ const showMovingBlockAndMapContainer = () => {
   document.getElementById('map-container').classList.remove('hidden');
 };
 
-const getTokenIdNodeSetting = async (tokenId) => {
-  let tokenIdNode = document.getElementById('token-id');
-
-  if (
-    tokenIdNode &&
-    parseInt(tokenIdNode) >= 0
-  ) {
-    return parseInt(tokenIdNode);
-  }
+const getTokenId = (tokenIDNode) => {
+  return +tokenIDNode.value;
 };
 
-const getContractIdNodeSetting = async (contractId) => {
-  let contractIdNode = document.getElementById('contract-id');
-
-  if (
-    contractIdNode &&
-    parseInt(contractIdNode) >= 0
-  ) {
-    return parseInt(contractIdNode);
-  }
+const getContractId = (contractIDNode) => {
+  return +contractIDNode.value;
 };
 
-const viewSetting = async () => {
-  let tokenId = await getTokenIdNodeSetting(tokenID.value);
-  let contractId = await getContractIdNodeSetting(contractID.value);
-  // startProgress(85);
-
-  // mintData.source = dataSource;
-
+const viewSetting = () => {
+  let tokenId = getTokenId(tokenIDNode);
+  let contractId = getContractId(contractIDNode);
   return {
-    tokenId: tokenId,
-    contractId: contractId,
+    tokenId,
+    contractId,
   };
 };
 
@@ -303,11 +285,11 @@ const viewSetting = async () => {
 // post view setting
 const viewMap = async () => {
   progress.style.display = 'block';
-  const mapSetting = await viewSetting();
-  if (await isSettingError(mapSetting)) {
-    drawOriginalMap();
-    return;
-  }
+  const mapSetting = viewSetting();
+  // if (await isSettingError(mapSetting)) {
+  //   drawOriginalMap();
+  //   return;
+  // }
   const url = 'https://map.noncegeek.com/tai_shang_world_generator/api/v1/gen_map';
   const data = {
     token_id: mapSetting.tokenId,
@@ -323,6 +305,7 @@ const viewMap = async () => {
   });
 
   const responseData = response.data;
+  console.log(responseData);
   map.style.opacity = 0;
   setTimeout(() => {
     drawMap(responseData);
@@ -425,9 +408,11 @@ const showMintButtonAndInputs = () => {
   mintDescription.classList.remove('hidden');
   generateButton.classList.remove('mx-10');
   generateButton.classList.add('mx-5');
-  tokenID.classList.add('hidden');
+  // tokenIDNode.classList.add('hidden');
+  // document.querySelector('#token-id-label').classList.add('hidden');
   viewButton.classList.add('hidden');
-  contractID.classList.add('hidden');
+  // contractIDNode.classList.add('hidden');
+  // document.querySelector('#contract-id-label').classList.add('hidden');
   alert.classList.remove('mx-10');
   alert.classList.add('mx-5');
   generateButton.innerText = 'Regenerate!';
@@ -523,4 +508,5 @@ document.addEventListener('DOMContentLoaded', async function () {
   await getDataSourceSetting();
   generateButton.addEventListener('click', generateMap);
   mintButton.addEventListener('click', mintMap);
+  viewButton.addEventListener('click', viewMap);
 });

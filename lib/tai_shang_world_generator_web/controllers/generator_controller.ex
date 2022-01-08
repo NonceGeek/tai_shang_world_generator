@@ -30,7 +30,7 @@ defmodule TaiShangWorldGeneratorWeb.GeneratorController do
     abstract_map =
       @default_contract_addr
       |> NftInteractor.get_block_height_for_token(
-        String.to_integer(token_id)
+        token_id
       )
       |> MapTranslator.get_map_by_block_num_and_rule_name(
         @default_rule

@@ -12,5 +12,6 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 
 ## 项目详情
 
+ * Demo: https://welightproject.github.io/tai-shang-world-generator/
  * 文字版：https://github.com/WeLightProject/tai-shang-world-generator/blob/main/Introduction.md
  * PPT版：https://github.com/WeLightProject/tai-shang-world-generator/blob/main/Introduction.pdf

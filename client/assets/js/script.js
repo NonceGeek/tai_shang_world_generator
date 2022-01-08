@@ -12,6 +12,9 @@ let mintNameNode = document.getElementById('mint-name');
 let mintAddressNode = document.getElementById('mint-address');
 let mintCouponNode = document.getElementById('mint-coupon');
 let mintDescription = document.getElementById('mint-description');
+let tokenID = document.getElementById('token-id');
+let contractID = document.getElementById('contract-id');
+let viewButton = document.getElementById('view');
 let inputs = document.getElementById('inputs');
 let poem = document.getElementById('poem');
 let mapNode = document.getElementById('map');
@@ -261,6 +264,80 @@ const showMovingBlockAndMapContainer = () => {
   document.getElementById('map-container').classList.remove('hidden');
 };
 
+const getTokenIdNodeSetting = async (tokenId) => {
+  let tokenIdNode = document.getElementById('token-id');
+
+  if (
+    tokenIdNode &&
+    parseInt(tokenIdNode) >= 0
+  ) {
+    return parseInt(tokenIdNode);
+  }
+};
+
+const getContractIdNodeSetting = async (contractId) => {
+  let contractIdNode = document.getElementById('contract-id');
+
+  if (
+    contractIdNode &&
+    parseInt(contractIdNode) >= 0
+  ) {
+    return parseInt(contractIdNode);
+  }
+};
+
+const viewSetting = async () => {
+  let tokenId = await getTokenIdNodeSetting(tokenID.value);
+  let contractId = await getContractIdNodeSetting(contractID.value);
+  // startProgress(85);
+
+  // mintData.source = dataSource;
+
+  return {
+    tokenId: tokenId,
+    contractId: contractId,
+  };
+};
+
+
+// post view setting
+const viewMap = async () => {
+  progress.style.display = 'block';
+  const mapSetting = await viewSetting();
+  if (await isSettingError(mapSetting)) {
+    drawOriginalMap();
+    return;
+  }
+  const url = 'https://map.noncegeek.com/tai_shang_world_generator/api/v1/gen_map';
+  const data = {
+    token_id: mapSetting.tokenId,
+    contract_id: mapSetting.contractId,
+  };
+
+  mintData.token_id = data.tokenId;
+  mintData.contract_id = data.contract_id;
+
+  const response = await axios.post(url, data).catch((err) => {
+    console.log(err);
+    clearProgress();
+  });
+
+  const responseData = response.data;
+  map.style.opacity = 0;
+  setTimeout(() => {
+    drawMap(responseData);
+    map.style.opacity = 1;
+  }, 233);
+  clearProgress();
+  originalMap.classList.add('hidden');
+  showMovingBlockAndMapContainer();
+  setTimeout(() => {
+    showMintButtonAndInputs();
+  }, 233);
+  // generatePoem(responseData);
+};
+
+
 // post generation setting
 const generateMap = async () => {
   progress.style.display = 'block';
@@ -348,6 +425,9 @@ const showMintButtonAndInputs = () => {
   mintDescription.classList.remove('hidden');
   generateButton.classList.remove('mx-10');
   generateButton.classList.add('mx-5');
+  tokenID.classList.add('hidden');
+  viewButton.classList.add('hidden');
+  contractID.classList.add('hidden');
   alert.classList.remove('mx-10');
   alert.classList.add('mx-5');
   generateButton.innerText = 'Regenerate!';

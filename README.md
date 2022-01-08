@@ -10,10 +10,7 @@ Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
 Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
 
-## Learn more
+## 项目详情
 
-  * Official website: https://www.phoenixframework.org/
-  * Guides: https://hexdocs.pm/phoenix/overview.html
-  * Docs: https://hexdocs.pm/phoenix
-  * Forum: https://elixirforum.com/c/phoenix-forum
-  * Source: https://github.com/phoenixframework/phoenix
+ * 文字版：https://github.com/WeLightProject/tai-shang-world-generator/blob/main/Introduction.md
+ * PPT版：https://github.com/WeLightProject/tai-shang-world-generator/blob/main/Introduction.pdf

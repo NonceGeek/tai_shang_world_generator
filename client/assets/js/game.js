@@ -36,7 +36,10 @@ window.onload = function () {
         ev.preventDefault();
         interact(oDiv, direction);
         break;
-      default:
+      case 33: // PageUp
+      case 34: // PageDown
+      case 35: // End
+      case 36: // Home
         ev.preventDefault();
     }
   };

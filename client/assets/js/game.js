@@ -63,6 +63,8 @@ window.onload = function () {
         bottom = true;
         move(oDiv, 'bottom', stepLength);
         break;
+      default:
+        ev.preventDefault();
     }
   };
 
@@ -87,6 +89,8 @@ window.onload = function () {
         ev.preventDefault();
         bottom = false;
         break;
+      default:
+        ev.preventDefault();
     }
   };
 

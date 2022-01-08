@@ -106,13 +106,10 @@ const getBlockNumberSetting = async (blockNumber) => {
 };
 
 // get data source setting
-const getDataSourceSetting = async (dataSource) => {
-  if (dataSource) {
-    return dataSource;
-  }
-  let dataSourceNode = document.getElementById('data-source');
+const getDataSourceSetting = async () => {
   let dataSourceDefault = 'a_block';
   let dataSourceIndex = 0;
+  dataSourceNode.value = '';
   setInterval(() => {
     dataSourceNode.value += dataSourceDefault.charAt(dataSourceIndex);
     dataSourceIndex++;
@@ -134,7 +131,7 @@ const getRulesSetting = async (rulesNodes) => {
 // get generation setting from page
 const generationSetting = async () => {
   let blockNumber = await getBlockNumberSetting(blockNumberNode.value);
-  let dataSource = await getDataSourceSetting(dataSourceNode.value);
+  let dataSource = await getDataSourceSetting();
   let rules = await getRulesSetting(rulesNodes);
   startProgress(85);
 
@@ -440,8 +437,10 @@ const mintMap = async () => {
   clearProgress();
 };
 
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', async function () {
   drawOriginalMap();
+  await getBlockNumberSetting();
+  await getDataSourceSetting();
   generateButton.addEventListener('click', generateMap);
   mintButton.addEventListener('click', mintMap);
 });

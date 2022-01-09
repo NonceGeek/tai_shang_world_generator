@@ -269,10 +269,6 @@ function claim(uint256 _blockHeight,string memory _tokenInfo) public nonReentran
 
 ## 0x04 应用场景说明 Scenario Description
 
-本项目主要面向 NFT 玩家、游戏项目团队两类群体。
-
-NFT 玩家又可以进一步划分为「体验型玩家」、「创作型玩家」与「经营型玩家」。这三种类型可以是重叠的，就是某个玩家可能是单一类型的，也可能是多种类型兼具。
-
 ## 0x04 Scenario Description
 
 This project is mainly for two groups: NFT players and game project teams.

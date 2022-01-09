@@ -1,9 +1,3 @@
-TaiShang World Generator
-
-> 参考资料： [Summary@Workshop 0x01](https://r8jmm3f9xe.feishu.cn/docs/doccnuxwDeRookA651S1XX4QWXg?from=from) 
-
-> [TaiShang World Generator 项目规划](https://r8jmm3f9xe.feishu.cn/docs/doccnDBQPDwux6bGMcEF9YRJRpe?from=from) 
-
 ## 0x01 极速简介 ⚡️Introduction
 
 目前市面上的随机地图生成均是在线下进行地图的随机生成，然后上传地图内对象坐标到区块链上。由于没有可重复性，这样生成的世界是不那么 Web3 的。用户无法自行生成一个与 Sandbox 一样的世界，世界的所有权依然掌控在 Sandbox 手里。
@@ -54,19 +48,19 @@ TaiShang World Generator
 
 - 点击`Generate` ，根据链上数据生成地图。
 
-![image-20220108233452338](https://tva1.sinaimg.cn/large/008i3skNgy1gy6os9ync4j31c30u078g.jpg)
+![generate_map](https://tva1.sinaimg.cn/large/008i3skNgy1gy7p0dddidg31360kydwl.gif)
 
 - 主角可以行走，可以和NPC对话，可以开宝箱
 
-![image-20220108233617120](https://tva1.sinaimg.cn/large/008i3skNgy1gy6otqsxgvj30wf0jpjtu.jpg)
+![walks](https://tva1.sinaimg.cn/large/008i3skNgy1gy7p1ibtz2g31360kykdo.gif)
 
 - 可以通过Mint按钮将该区块的地图mint为`mapNFT`：
 
-![image-20220108233821593](https://tva1.sinaimg.cn/large/008i3skNgy1gy6ovyg71tj30w80k5goo.jpg)
+![mint](https://tva1.sinaimg.cn/large/008i3skNgy1gy7p39y15ug31360kyx6p.gif)
 
 - 可以在首页查看已经被mint出来的地图
 
-![image-20220108233901281](https://tva1.sinaimg.cn/large/008i3skNgy1gy6owlbwm2j314n0nxwht.jpg)
+![view_token](https://tva1.sinaimg.cn/large/008i3skNgy1gy7p44j5y0g31360kyb29.gif)
 
 ### 3.2 链上数据源 -> 游戏地图全流程
 

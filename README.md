@@ -10,6 +10,10 @@ Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
 Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
 
+## Frontend
+
+See in `client`.
+
 ## 项目详情
 
  * Demo: https://welightproject.github.io/tai-shang-world-generator/

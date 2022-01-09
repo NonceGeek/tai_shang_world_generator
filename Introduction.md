@@ -1,3 +1,7 @@
+# TaiShang World Generator
+
+> **白皮书作者:** leeduckgo, msfew, fengfeng
+
 ## 0x01 极速简介 ⚡️Introduction
 
 目前市面上的随机地图生成均是在线下进行地图的随机生成，然后上传地图内对象坐标到区块链上。由于没有可重复性，这样生成的世界是不那么 Web3 的。用户无法自行生成一个与 Sandbox 一样的世界，世界的所有权依然掌控在 Sandbox 手里。
@@ -54,7 +58,7 @@
 
 ![walks](https://tva1.sinaimg.cn/large/008i3skNgy1gy7p1ibtz2g31360kykdo.gif)
 
-- 可以通过Mint按钮将该区块的地图mint为`mapNFT`：
+- 可以通过`Mint`按钮将该区块的地图mint为`mapNFT`：
 
 ![mint](https://tva1.sinaimg.cn/large/008i3skNgy1gy7p39y15ug31360kyx6p.gif)
 
@@ -66,7 +70,7 @@
 
 ![img](https://tva1.sinaimg.cn/large/008i3skNgy1gy6o5sj1jmj30u01es787.jpg)
 
-链上数据源到游戏地图全流程
+<center>链上数据源到游戏地图全流程</center>
 
 #### 3.1.1 链上步骤
 
@@ -80,7 +84,7 @@
 
 一个链上规则模块的例子：
 
-```Ruby
+```elixir
 defmodule TaiShangWorldGenerator.Rule.RuleA do
   alias TaiShangWorldGenerator.MapTranslator.Behaviour, as: MapTranslatorBehaviour
   @map_type ["sand", "green", "ice"]   # 地图风格

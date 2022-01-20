@@ -31,6 +31,8 @@ defmodule TaiShangWorldGeneratorWeb.Router do
     pipe_through :api_allow_cross
     post "/gen_map", GeneratorController, :gen
     post "/mint", NFTMinterController, :mint
+    get "/interact", InteractorController, :interact_first_time
+    post "/interact", InteractorController, :interact_second_time
     get "/get_last_block_num", ChainController, :get_last_block_num
   end
 

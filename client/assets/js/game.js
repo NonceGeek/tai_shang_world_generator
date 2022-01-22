@@ -106,7 +106,7 @@ window.onload = function () {
     }
   };
 
-  const interact = (oDiv, direction) => {
+  const interact = async (oDiv, direction) => {
     if (!direction) {
       return;
     }
@@ -147,7 +147,7 @@ window.onload = function () {
       .children.item(targetPosition.y);
 
     if (/sprite\d+/.test(targetBlock.className)) {
-      showDialog();
+      await interactNpc(targetPosition);
     } else if (/treasure-locked-\d+/.test(targetBlock.className)) {
       openTreasureBox(targetPosition);
     }
@@ -231,12 +231,50 @@ window.onload = function () {
       .classList.contains('unwalkable')
   }
 
-  const showDialog = () => {
-    document.querySelector('.dialog').classList.toggle('hidden');
+  const interactNpc = async (targetPosition) => {
+    const interactResponse = await getInteractResponse(targetPosition, window.blockHeight);
+    const dialogContent = interactResponse.result.event.payload.first;
+    showNpcDialog(dialogContent);
+  }
 
-    setTimeout(() => {
-      document.querySelector('.dialog').classList.toggle('hidden');
-    }, 2000);
+  const getInteractResponse = async (targetPosition, blockHeight) => {
+    const { x, y } = targetPosition;
+    
+    let interactApi = `https://map.noncegeek.com/tai_shang_world_generator/api/v1/interact?x=${y}&y=${x}&block_height=${blockHeight}`;
+
+    let interactResponse = await axios
+      .get(interactApi)
+      .catch((err) => {
+        console.log(err);
+      });
+
+    return interactResponse.data;
+  }
+
+  const showNpcDialog = (dialogContent) => {
+    document.querySelector('.dialog-content').innerText = dialogContent.text;
+    document.querySelector('.dialog-action-no').innerText = dialogContent.btn.no;
+    document.querySelector('.dialog-action-yes').innerText = dialogContent.btn.yes;
+
+    document.querySelector('.dialog').classList.remove('hidden');
+
+    const noListener = () => {
+      closeNpcDialog('say no');
+      // 下面的代码放到该函数外面不生效
+      document.querySelector('.dialog-action-no').removeEventListener('click', noListener);
+    }
+    document.querySelector('.dialog-action-no').addEventListener('click', noListener, false);
+
+    const yesListener = () => {
+      closeNpcDialog('say yes');
+      document.querySelector('.dialog-action-yes').removeEventListener('click', yesListener);
+    }
+    document.querySelector('.dialog-action-yes').addEventListener('click', yesListener, false);
+  }
+
+  const closeNpcDialog = (action) => {
+    console.log(action);
+    document.querySelector('.dialog').classList.add('hidden');
   }
 
   const openTreasureBox = (targetPosition) => {

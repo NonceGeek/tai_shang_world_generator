@@ -78,7 +78,10 @@ const getNewestBlockNumber = async () => {
       console.log(err);
       stopAndClearProgress();
     });
-  return newestBlockNumberResponse.data.result.last_block_num;
+  // TODO: 临时用固定块高，后面改为获取实际值
+  // window.blockHeight = newestBlockNumberResponse.data.result.last_block_num;
+  window.blockHeight = 24028170;
+  return window.blockHeight;
 };
 
 // get block number, if higher than highest block number, make it highest

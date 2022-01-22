@@ -233,8 +233,11 @@ window.onload = function () {
 
   const interactNpc = async (targetPosition) => {
     const interactResponse = await getInteractResponse(targetPosition, window.blockHeight);
-    const dialogContent = interactResponse.result.event.payload.first;
-    showNpcDialog(dialogContent);
+
+    if (interactResponse.error_code === 0) {
+      const dialogContent = interactResponse.result.event.payload.first;
+      showNpcDialog(dialogContent);
+    }
   }
 
   const getInteractResponse = async (targetPosition, blockHeight) => {
@@ -260,7 +263,7 @@ window.onload = function () {
 
     const noListener = () => {
       closeNpcDialog('say no');
-      // 下面的代码放到该函数外面不生效
+      // TODO: 下面的代码放到该函数外面不生效
       document.querySelector('.dialog-action-no').removeEventListener('click', noListener);
     }
     document.querySelector('.dialog-action-no').addEventListener('click', noListener, false);

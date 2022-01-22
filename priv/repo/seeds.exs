@@ -32,8 +32,8 @@ coupond_list
 GameEvent.create(
   %{
     type: "npc",
-    x: 5,
-    y: 3,
+    x: 4,
+    y: 2,
     block_height: 24028170,
     payload: %{
         first: %{

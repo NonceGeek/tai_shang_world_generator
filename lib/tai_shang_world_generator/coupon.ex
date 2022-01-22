@@ -48,7 +48,7 @@ defmodule TaiShangWorldGenerator.Coupon do
   end
 
   def do_use_coupon(coupon) do
-    change_coupon(coupon, %{is_used: true})
+    update(coupon, %{is_used: true})
   end
 
   def create(attrs \\ %{}) do
@@ -57,7 +57,7 @@ defmodule TaiShangWorldGenerator.Coupon do
     |> Repo.insert()
   end
 
-  def change_coupon(%Ele{} = ele, attrs) do
+  def update(%Ele{} = ele, attrs) do
     ele
     |> changeset(attrs)
     |> Repo.update()

@@ -15,6 +15,7 @@
 # +---------------------------------------------+
 
 alias TaiShangWorldGenerator.Coupon
+alias TaiShangWorldGenerator.GameEvent
 
 coupond_list =
 Enum.map(0..100, fn _whatever ->
@@ -27,3 +28,18 @@ file = File.open!("coupon.csv", [:write, :utf8])
 coupond_list
 |> CSV.encode
 |> Enum.each(&IO.write(file, &1))
+
+GameEvent.create(
+  %{
+    type: "npc",
+    x: 1,
+    y: 1,
+    block_height: 100,
+    payload: %{
+        first: %{
+          text: "May I help U?",
+          btn: %{yes: "need_help", no: "not_need_help"}
+        }
+    }
+  }
+)

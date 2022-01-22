@@ -32,9 +32,9 @@ coupond_list
 GameEvent.create(
   %{
     type: "npc",
-    x: 1,
-    y: 1,
-    block_height: 100,
+    x: 5,
+    y: 3,
+    block_height: 24028170,
     payload: %{
         first: %{
           text: "May I help U?",

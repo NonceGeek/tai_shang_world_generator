@@ -36,6 +36,10 @@ defmodule TaiShangWorldGeneratorWeb.Router do
     get "/get_last_block_num", ChainController, :get_last_block_num
   end
 
+  scope "/tai_shang_world_generator/api/v1/admin", TaiShangWorldGeneratorWeb do
+    # TODO: api about setting game event, create AdminController
+  end
+
   # Enables LiveDashboard only for development
   #
   # If you want to use the LiveDashboard in production, you should put

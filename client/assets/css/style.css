@@ -145,9 +145,30 @@ progress {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 10em;
+  width: 18em;
+  background-color: rgba(100, 100, 100, 0.5);
 }
 
 .dialog.hidden {
   display: none;
+}
+
+.dialog-content {
+  border: 1px solid;
+  padding: 1.2em 0.9em;
+  font-size: 1.1em;
+}
+
+.dialog-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+[class^="dialog-action-"] {
+  flex: 1;
+  border: 1px solid;
+  padding: 0.4em 0.4em;
+  text-align: center;
+  cursor: pointer;
 }

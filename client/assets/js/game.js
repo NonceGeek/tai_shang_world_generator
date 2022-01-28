@@ -232,7 +232,9 @@ window.onload = function () {
   }
 
   const interactNpc = async (targetPosition) => {
-    const interactResponse = await getInteractResponse(targetPosition, window.blockHeight);
+    const blockNumberNode = document.getElementById('block-number');
+    const blockNumber = blockNumberNode.value;
+    const interactResponse = await getInteractResponse(targetPosition, blockNumber);
 
     if (interactResponse.error_code === 0) {
       const dialogContent = interactResponse.result.event.payload.first;
@@ -240,10 +242,10 @@ window.onload = function () {
     }
   }
 
-  const getInteractResponse = async (targetPosition, blockHeight) => {
+  const getInteractResponse = async (targetPosition, blockNumber) => {
     const { x, y } = targetPosition;
     
-    let interactApi = `https://map.noncegeek.com/tai_shang_world_generator/api/v1/interact?x=${y}&y=${x}&block_height=${blockHeight}`;
+    let interactApi = `https://map.noncegeek.com/tai_shang_world_generator/api/v1/interact?x=${y}&y=${x}&block_height=${blockNumber}`;
 
     let interactResponse = await axios
       .get(interactApi)

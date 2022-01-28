@@ -78,9 +78,7 @@ const getNewestBlockNumber = async () => {
       console.log(err);
       stopAndClearProgress();
     });
-  // TODO: 临时用固定块高，后面改为获取实际值
-  // window.blockHeight = newestBlockNumberResponse.data.result.last_block_num;
-  window.blockHeight = 24028170;
+  window.blockHeight = newestBlockNumberResponse.data.result.last_block_num;
   return window.blockHeight;
 };
 
@@ -285,7 +283,6 @@ const viewSetting = () => {
     contractId,
   };
 };
-
 
 // post view setting
 const viewMap = async () => {

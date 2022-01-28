@@ -78,7 +78,8 @@ const getNewestBlockNumber = async () => {
       console.log(err);
       stopAndClearProgress();
     });
-  return newestBlockNumberResponse.data.result.last_block_num;
+  window.blockHeight = newestBlockNumberResponse.data.result.last_block_num;
+  return window.blockHeight;
 };
 
 // get block number, if higher than highest block number, make it highest
@@ -282,7 +283,6 @@ const viewSetting = () => {
     contractId,
   };
 };
-
 
 // post view setting
 const viewMap = async () => {

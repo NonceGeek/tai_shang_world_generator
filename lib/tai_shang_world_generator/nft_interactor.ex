@@ -12,7 +12,7 @@ defmodule TaiShangWorldGenerator.NftInteractor do
     token_uri: "tokenURI(uint256)", # token_id
     claim: "claim(uint256, string)", # block_height & token_info
     owner_of: "ownerOf(uint256)", # token_id
-    get_block_height_for_token: "getBlockHeightForToken(uint256)"
+    block_height: "blockHeight(uint256)"
   }
 
   # +-------------+
@@ -59,7 +59,7 @@ defmodule TaiShangWorldGenerator.NftInteractor do
 
   @spec get_block_height_for_token(String.t(), integer()) :: integer()
   def get_block_height_for_token(contract_addr, token_id) do
-    data = get_data(@func.get_block_height_for_token, [token_id])
+    data = get_data(@func.block_height, [token_id])
 
     {:ok, block_height_hex} =
       Ethereumex.HttpClient.eth_call(%{

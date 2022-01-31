@@ -16,7 +16,7 @@ See in `client`.
 
 ## 项目详情
 
- * Demo: https://welightproject.github.io/tai-shang-world-generator/
+ * Demo: https://welightproject.github.io/tai_shang_world_generator/
  * 文字版：
      * CN: https://github.com/WeLightProject/tai-shang-world-generator/blob/main/Introduction.md
      * EN: https://github.com/WeLightProject/tai-shang-world-generator/blob/main/Introduction(EN).md

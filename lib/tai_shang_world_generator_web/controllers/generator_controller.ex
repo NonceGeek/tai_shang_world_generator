@@ -6,7 +6,7 @@ defmodule TaiShangWorldGeneratorWeb.GeneratorController do
 
   use TaiShangWorldGeneratorWeb, :controller
 
-  @default_contract_addr "0x545EDf91e91b96cFA314485F5d2A1757Be11d384"
+  @default_contract_addr "0x9c0C846705E95632512Cc8D09e24248AbFd6D679"
   @default_rule "RuleA"
 
   def gen(conn, params) do

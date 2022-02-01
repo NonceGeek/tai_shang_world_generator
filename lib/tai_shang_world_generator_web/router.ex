@@ -38,7 +38,7 @@ defmodule TaiShangWorldGeneratorWeb.Router do
 
   scope "/tai_shang_world_generator/api/v1/admin", TaiShangWorldGeneratorWeb do
     # TODO: api about setting game event, create AdminController
-    post "/game_event", AdminController, :game_event
+    post "/create_game_event", AdminController, :create_game_event
   end
 
   # Enables LiveDashboard only for development

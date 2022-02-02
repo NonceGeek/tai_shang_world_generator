@@ -336,7 +336,7 @@ const generateMap = async () => {
   }
 
   hideViewArea();
-  
+
   const params = new URLSearchParams({
     source: mapSetting.dataSource,
   }).toString();
@@ -392,7 +392,7 @@ const showGenerateInputs = () => {
   showGenerateArea();
   hideMintArea();
   generateButton.classList.add('mx-10');
-  generateButton.classList.remove('mx-5');
+  generateButton.classList.remove('mx-10');
   alert.classList.add('mx-10');
   alert.classList.remove('mx-5');
   // generateButton.innerText = 'Generate!';
@@ -405,7 +405,7 @@ const showMintButtonAndInputs = () => {
   hideGenerateArea();
   showMintArea();
   generateButton.classList.remove('mx-10');
-  generateButton.classList.add('mx-5');
+  generateButton.classList.add('mx-10');
   alert.classList.remove('mx-10');
   alert.classList.add('mx-5');
   // generateButton.innerText = 'BACK';

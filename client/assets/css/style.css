@@ -37,7 +37,9 @@ body {
 
 #map,
 /* #poem, */
-#original-map {
+#original-map,
+#view-area,
+#back {
   transition: 666ms ease-out;
 }
 
@@ -182,4 +184,14 @@ progress {
   padding: 0.4em 0.4em;
   text-align: center;
   cursor: pointer;
+}
+
+#view-area,
+#mint-area {
+  margin: 0;
+}
+
+#back,
+#generate {
+  margin-bottom: 0;
 }

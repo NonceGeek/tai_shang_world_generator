@@ -159,6 +159,17 @@ progress {
   font-size: 1.1em;
 }
 
+.dialog-content p {
+  height: auto;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  line-height: initial;
+  text-align: initial;
+  font-size: initial;
+  font-family: initial;
+}
+
 .dialog-actions {
   display: flex;
   justify-content: space-between;

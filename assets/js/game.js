@@ -257,7 +257,11 @@ window.onload = function () {
   }
 
   const showNpcDialog = (dialogContent) => {
-    document.querySelector('.dialog-content').innerText = dialogContent.text;
+    marked.setOptions({
+      gfm: true,
+      breaks: true,
+    })
+    document.querySelector('.dialog-content').innerHTML = marked.parse(dialogContent.text);
     document.querySelector('.dialog-action-no').innerText = dialogContent.btn.no;
     document.querySelector('.dialog-action-yes').innerText = dialogContent.btn.yes;
 

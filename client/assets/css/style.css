@@ -170,6 +170,18 @@ progress {
   text-align: initial;
   font-size: initial;
   font-family: initial;
+  /* 使 markdown codeblock 能够正常显示水平滚动条 */
+  overflow-x: auto;
+}
+
+.dialog-content p::-webkit-scrollbar {
+  display: block;
+  height: 10px;
+  background-color: #eee;
+}
+
+.dialog-content p::-webkit-scrollbar-thumb {
+  background-color: #aaa;
 }
 
 .dialog-actions {

@@ -29,11 +29,22 @@ defmodule TaiShangWorldGeneratorWeb.Router do
   # Other scopes may use custom stacks.
   scope "/tai_shang_world_generator/api/v1", TaiShangWorldGeneratorWeb do
     pipe_through :api_allow_cross
-    post "/gen_map", GeneratorController, :gen
-    post "/mint", NFTMinterController, :mint
+
+    # event
     get "/interact", InteractorController, :interact_first_time
     post "/interact", InteractorController, :interact_second_time
+
+    # map
+    post "/gen_map", GeneratorController, :gen
+
+    #nft
+    post "/mint", NFTMinterController, :mint
+    get "/load", NFTLoaderController, :load
+
+    # blockchain
     get "/get_last_block_num", ChainController, :get_last_block_num
+
+
   end
 
   scope "/tai_shang_world_generator/api/v1/admin", TaiShangWorldGeneratorWeb do

@@ -1,5 +1,4 @@
 defmodule TaiShangWorldGeneratorWeb.ChainController do
-  alias Utils.TypeTranslator
   alias TaiShangWorldGenerator.BlockchainFetcher
   alias TaiShangWorldGeneratorWeb.ResponseMod
   use TaiShangWorldGeneratorWeb, :controller

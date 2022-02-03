@@ -43,3 +43,5 @@ GameEvent.create(
     }
   }
 )
+
+Code.require_file("priv/repo/seeds_gen_chain.exs")

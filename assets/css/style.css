@@ -37,7 +37,9 @@ body {
 
 #map,
 /* #poem, */
-#original-map {
+#original-map,
+#view-area,
+#back {
   transition: 666ms ease-out;
 }
 
@@ -168,6 +170,18 @@ progress {
   text-align: initial;
   font-size: initial;
   font-family: initial;
+  /* 使 markdown codeblock 能够正常显示水平滚动条 */
+  overflow-x: auto;
+}
+
+.dialog-content p::-webkit-scrollbar {
+  display: block;
+  height: 10px;
+  background-color: #eee;
+}
+
+.dialog-content p::-webkit-scrollbar-thumb {
+  background-color: #aaa;
 }
 
 .dialog-actions {
@@ -182,4 +196,14 @@ progress {
   padding: 0.4em 0.4em;
   text-align: center;
   cursor: pointer;
+}
+
+#view-area,
+#mint-area {
+  margin: 0;
+}
+
+#back,
+#generate {
+  margin-bottom: 0;
 }

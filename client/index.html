@@ -5,12 +5,20 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>TaiShang World Generator</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/daisyui/1.19.0/full.min.css"
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/daisyui/1.19.0/full.min.css"
       integrity="sha512-0SSPZdVmpLVS26YTwbGc1ShY1yaip9ftVZWKu8zqKMQ8p4QHjKOg4Y7JoytzuliH4kfMHHYyCu4J/SgGIL+tsg=="
-      crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.0/tailwind.min.css"
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.0/tailwind.min.css"
       integrity="sha512-ksC7McuoU4VJ07WGtca5INyDRXzGsmhyEEJYzoWBkjC/KwuG+IK/pFnxJFNIGmOd8pmGexOxd3FziCPZXQJ4lA=="
-      crossorigin="anonymous" referrerpolicy="no-referrer" />
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
     <link rel="stylesheet" href="assets/css/style.css" />
   </head>
 
@@ -21,7 +29,7 @@
       <div id="original-map"></div>
       <div id="map-container" class="hidden">
         <div id="moving-block" class="hidden" style="left: 0vw; top: 0vw">
-          <img src="assets/img/block/hero.gif" alt="">
+          <img src="assets/img/block/hero.gif" alt="" />
         </div>
         <div id="map"></div>
       </div>
@@ -76,40 +84,39 @@
         </button>
       </div>
       <div class="form-control flex hidden" id="back">
-        <button class="btn btn-primary mx-5 my-5" id="back-button">
+        <button
+          class="btn btn-secondary btn-outline mx-5 my-5"
+          id="back-button"
+        >
           BACK
         </button>
+        <div class="divider mx-5 opacity-50"></div>
       </div>
       <div class="form-control flex" id="view-area">
-        <label
-          id="token-id-label"
-          for="token-id"
-          class="label mx-5"
-        >Token ID:</label>
+        <div class="divider mx-10 opacity-50"></div>
+        <label id="token-id-label" for="token-id" class="label mx-10"
+          >Token ID:</label
+        >
         <input
           type="text"
           name="token-id"
           value="1"
           placeholder="Token id @"
-          class="input input-bordered mx-5 my-1"
+          class="input input-bordered mx-10 my-1"
           id="token-id"
         />
-        <label
-          id="contract-id-label"
-          for="contract-id"
-          class="label mx-5"
-        >Contract ID:</label>
+        <label id="contract-id-label" for="contract-id" class="label mx-10"
+          >Contract ID:</label
+        >
         <input
           type="text"
           name="contract-id"
           value="1"
           placeholder="Contract id :"
-          class="input input-bordered mx-5 my-1"
+          class="input input-bordered mx-10 my-1"
           id="contract-id"
         />
-        <button class="btn btn-primary mx-10 my-5" id="view">
-          View!
-        </button>
+        <button class="btn btn-info mx-10 my-5" id="view">View!</button>
       </div>
       <div class="form-control flex hidden" id="mint-area">
         <!-- Mint name input -->
@@ -142,11 +149,27 @@
         />
         <!-- Mint button -->
         <button class="btn btn-accent mx-5" id="mint">MINT!</button>
-        <div class="flex" id="mint-result" style="flex-direction: column;">
-          <div class="mx-5 my-5" style="word-break: break-all;" id="mint-contract_addr"></div>
-          <div class="mx-5 my-5" style="word-break: break-all;" id="mint-minter_name"></div>
-          <div class="mx-5 my-5" style="word-break: break-all;" id="mint-token_id"></div>
-          <div class="mx-5 my-5" style="word-break: break-all;" id="mint-tx_id"></div>
+        <div class="flex" id="mint-result" style="flex-direction: column">
+          <div
+            class="mx-5 my-5"
+            style="word-break: break-all"
+            id="mint-contract_addr"
+          ></div>
+          <div
+            class="mx-5 my-5"
+            style="word-break: break-all"
+            id="mint-minter_name"
+          ></div>
+          <div
+            class="mx-5 my-5"
+            style="word-break: break-all"
+            id="mint-token_id"
+          ></div>
+          <div
+            class="mx-5 my-5"
+            style="word-break: break-all"
+            id="mint-tx_id"
+          ></div>
         </div>
       </div>
 
@@ -190,9 +213,19 @@
     </div>
 
     <!-- axios -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.24.0/axios.min.js"
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.24.0/axios.min.js"
       integrity="sha512-u9akINsQsAkG9xjc1cnGF4zw5TFDwkxuc9vUp5dltDWYCSmyd0meygbvgXrlc/z7/o4a19Fb5V0OUE58J7dcyw=="
-      crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <!-- marked -->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.0.2/marked.min.js"
+      integrity="sha512-hzyXu3u+VDu/7vpPjRKFp9w33Idx7pWWNazPm+aCMRu26yZXFCby1gn1JxevVv3LDwnSbyKrvLo3JNdi4Qx1ww=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
     <!-- generate and mint -->
     <script src="assets/js/script.js"></script>
     <!-- moving block -->

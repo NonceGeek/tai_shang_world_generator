@@ -8,7 +8,7 @@ let blockNumberNode = document.getElementById('block-number');
 let dataSourceNode = document.getElementById('data-source');
 let rulesNodes = document.getElementsByClassName('rules');
 let rulesContainerNode = document.getElementById('rules');
-let mintAreaNode = document.getElementById('mint-area');
+let characterNFTNode = document.getElementById('character-nft');
 let mintNameNode = document.getElementById('mint-name');
 let mintAddressNode = document.getElementById('mint-address');
 let mintCouponNode = document.getElementById('mint-coupon');
@@ -26,6 +26,17 @@ let backButton = document.querySelector('#back-button');
 const treasureCount = 2;
 const spriteCount = 5;
 const mintData = {};
+const characterNFTDescriptions = {
+  learner: '参与相关区块链技术付费课程',
+  buidler: '参与过 Web3Dev 代码建设工作者',
+  partner: 'Web3Dev 的伙伴',
+  noncegeeker: 'Web3Dev 核心成员',
+  workshoper: '参与过 Web3DevWorkshop 的同学',
+  camper: '积极参与 Web3DevCamp 的同学',
+  writer: '为 Web3Dev 供稿的同学',
+  researcher: '参与过 Web3Dev 研究工作的同学',
+  puzzler: '解谜成功者',
+};
 
 const startProgress = (maxProgress) => {
   let timer = setInterval(() => {
@@ -319,6 +330,7 @@ const viewMap = async () => {
   setTimeout(() => {
     hideGenerateArea();
     hideViewArea();
+    hideCharacterNFTArea();
     hideMintArea();
     showBackButton();
   }, 233);
@@ -390,6 +402,7 @@ const resetMovingBlock = () => {
 // hide mint button and mint inputs, show generate inputs, reset mint info
 const showGenerateInputs = () => {
   showGenerateArea();
+  hideCharacterNFTArea();
   hideMintArea();
   generateButton.classList.add('mx-10');
   generateButton.classList.remove('mx-10');
@@ -403,6 +416,7 @@ const showGenerateInputs = () => {
 // show mint button and mint inputs, hide generate inputs
 const showMintButtonAndInputs = () => {
   hideGenerateArea();
+  showCharacterNFTArea();
   showMintArea();
   generateButton.classList.remove('mx-10');
   generateButton.classList.add('mx-10');
@@ -444,6 +458,7 @@ const showMintInfo = (mintData) => {
   let mintTokenIdDisplay = tokenInfo.token_id;
   let mintTransactionIdDisplay = tokenInfo.tx_id;
   let mintUrl = 'https://polygonscan.com/tx/' + mintTokenIdDisplay;
+  showCharacterNFTArea();
   showMintArea();
   document.querySelector('#mint-contract_addr').innerText = 'Contract Address: ' + mintContractDisplay;
   document.querySelector('#mint-minter_name').innerText = 'Minter Name: ' + mintNameDisplay;
@@ -472,40 +487,70 @@ const showMintInfo = (mintData) => {
 
 // mint map
 const mintMap = async () => {
-  progress.classList.add('hidden');
-  const setting = mintSetting();
-  const params = new URLSearchParams({
-    coupon_id: setting.coupon_id,
-    minter_name: setting.minter_name,
-    minter_addr: setting.minter_address,
-  }).toString();
+  location.href = 'https://polygonscan.com/address/0x9c0C846705E95632512Cc8D09e24248AbFd6D679#writeContract';
+  // progress.classList.add('hidden');
+  // const setting = mintSetting();
+  // const params = new URLSearchParams({
+  //   coupon_id: setting.coupon_id,
+  //   minter_name: setting.minter_name,
+  //   minter_addr: setting.minter_address,
+  // }).toString();
+  // const url =
+  //   'https://map.noncegeek.com/tai_shang_world_generator/api/v1/mint?' + params;
+
+  // const data = {
+  //   block_number: mintData.block_number,
+  //   rule: mintData.rule,
+  //   source: mintData.source,
+  //   // description: mintData.description,
+  // };
+
+  // const response = await axios.post(url, data).catch((err) => {
+  //   console.log(err);
+  //   clearProgress();
+  // });
+
+  // const responseData = response.data;
+  // showMintInfo(responseData);
+  // clearProgress();
+};
+
+const loadCharacterNFT = async () => {
+  const characterNFTTokenID = document.querySelector('#character-nft-token-id').value;
+  if (!characterNFTTokenID) {
+    return;
+  }
+
   const url =
-    'https://map.noncegeek.com/tai_shang_world_generator/api/v1/mint?' + params;
+    'https://map.noncegeek.com/tai_shang_world_generator/api/v1/load_character?chain_name=Moonbeam&contract_addr=0xb6FC950C4bC9D1e4652CbEDaB748E8Cdcfe5655F&token_id=' + characterNFTTokenID;
 
-  const data = {
-    block_number: mintData.block_number,
-    rule: mintData.rule,
-    source: mintData.source,
-    // description: mintData.description,
-  };
-
-  const response = await axios.post(url, data).catch((err) => {
+  const response = await axios.get(url).catch((err) => {
     console.log(err);
-    clearProgress();
   });
 
   const responseData = response.data;
-  showMintInfo(responseData);
-  clearProgress();
-};
+
+  if (responseData.error_code !== 0) {
+    return;
+  }
+
+  window.characterNFTs = responseData.result.character_info;
+
+  document.querySelector('#character-nft .nft-info').classList.remove('hidden');
+  document.querySelector('#character-nft .nft-info .character-badge').innerText = characterNFTs.badges[0];
+  document.querySelector('#character-nft .nft-info .character-description').innerText = characterNFTDescriptions[characterNFTs.badges[0]];
+  // console.log(responseData.result.character_info);
+}
 
 const showHome = () => {
+  hideCharacterNFTArea();
   hideMintArea();
   hideBackButton();
   showGenerateArea();
   showViewArea();
 }
 
+// TODO: 将这类隐藏/显示 DOM 的函数统一为两个函数
 const hideBackButton = () => {
   document.querySelector('#back').classList.add('hidden');
 }
@@ -530,12 +575,25 @@ const showViewArea = () => {
   document.querySelector('#view-area').classList.remove('hidden');
 }
 
+const hideCharacterNFTArea = () => {
+  let loadCharacterNFTButton = document.querySelector('#load-character-nft');
+  loadCharacterNFTButton.removeEventListener('click', loadCharacterNFT);
+  document.querySelector('#character-nft .nft-info').classList.add('hidden');
+  document.querySelector('#character-nft').classList.add('hidden');
+}
+
+const showCharacterNFTArea = () => {
+  document.querySelector('#character-nft').classList.remove('hidden');
+  let loadCharacterNFTButton = document.querySelector('#load-character-nft');
+  loadCharacterNFTButton.addEventListener('click', loadCharacterNFT);
+}
+
 const hideMintArea = () => {
-  document.querySelector('#mint-area').classList.add('hidden');
+  document.querySelector('#mint').classList.add('hidden');
 }
 
 const showMintArea = () => {
-  document.querySelector('#mint-area').classList.remove('hidden');
+  document.querySelector('#mint').classList.remove('hidden');
 }
 
 document.addEventListener('DOMContentLoaded', async function () {

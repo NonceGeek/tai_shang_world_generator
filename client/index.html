@@ -83,6 +83,7 @@
           GENERATE!
         </button>
       </div>
+      <!-- Back to generate map inputs -->
       <div class="form-control flex hidden" id="back">
         <button
           class="btn btn-secondary btn-outline mx-5 my-5"
@@ -92,6 +93,7 @@
         </button>
         <div class="divider mx-5 opacity-50"></div>
       </div>
+      <!-- View map -->
       <div class="form-control flex" id="view-area">
         <div class="divider mx-10 opacity-50"></div>
         <label id="token-id-label" for="token-id" class="label mx-10"
@@ -118,59 +120,53 @@
         />
         <button class="btn btn-info mx-10 my-5" id="view">View!</button>
       </div>
-      <div class="form-control flex hidden" id="mint-area">
-        <!-- Mint name input -->
+      <div class="form-control flex hidden" id="character-nft">
+        <!-- Character NFT Token ID input -->
         <input
           type="text"
-          placeholder="Minter name :"
-          class="input input-bordered mx-5 my-5"
-          id="mint-name"
+          placeholder="Token ID :"
+          class="input input-bordered mx-5 my-3"
+          id="character-nft-token-id"
         />
-        <!-- Mint description input -->
-        <input
-          type="text"
-          placeholder="Map description :"
-          class="input input-bordered mx-5 my-5"
-          id="mint-description"
-        />
-        <!-- Mint address input -->
-        <input
-          type="text"
-          placeholder="Minter address @"
-          class="input input-bordered mx-5 my-5"
-          id="mint-address"
-        />
-        <!-- Mint coupon id input -->
-        <input
-          type="text"
-          placeholder="Mint coupon :"
-          class="input input-bordered mx-5 my-5"
-          id="mint-coupon"
-        />
-        <!-- Mint button -->
-        <button class="btn btn-accent mx-5" id="mint">MINT!</button>
-        <div class="flex" id="mint-result" style="flex-direction: column">
-          <div
-            class="mx-5 my-5"
-            style="word-break: break-all"
-            id="mint-contract_addr"
-          ></div>
-          <div
-            class="mx-5 my-5"
-            style="word-break: break-all"
-            id="mint-minter_name"
-          ></div>
-          <div
-            class="mx-5 my-5"
-            style="word-break: break-all"
-            id="mint-token_id"
-          ></div>
-          <div
-            class="mx-5 my-5"
-            style="word-break: break-all"
-            id="mint-tx_id"
-          ></div>
+        <!-- Load Character NFT -->
+        <button class="btn btn-accent mx-5 my-3" id="load-character-nft">LOAD</button>
+
+        <!-- Character NFT -->
+        <div class="flex flex-col mx-5 my-3 p-5 border nft-info hidden">
+          <div class="character-badge"></div>
+          <div class="character-avatar my-2 w-full">
+            <img src="https://i.pravatar.cc/150?img=24" alt="avatar">
+          </div>
+          <div class="character-description"></div>
         </div>
+      </div>
+
+      <!-- Mint button -->
+      <div class="form-control flex hidden">
+        <div class="divider mx-5 opacity-50"></div>
+        <button class="btn btn-accent mx-5" id="mint">MINT!</button>
+      </div>
+      <div class="flex" id="mint-result" style="flex-direction: column">
+        <div
+          class="mx-5 my-5"
+          style="word-break: break-all"
+          id="mint-contract_addr"
+        ></div>
+        <div
+          class="mx-5 my-5"
+          style="word-break: break-all"
+          id="mint-minter_name"
+        ></div>
+        <div
+          class="mx-5 my-5"
+          style="word-break: break-all"
+          id="mint-token_id"
+        ></div>
+        <div
+          class="mx-5 my-5"
+          style="word-break: break-all"
+          id="mint-tx_id"
+        ></div>
       </div>
 
       <!-- Alert box -->

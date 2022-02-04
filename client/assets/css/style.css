@@ -198,8 +198,23 @@ progress {
   cursor: pointer;
 }
 
+/* 角色 NFT */
+#character-nft .character-avatar {
+  padding-bottom: 100%;
+  position: relative;
+}
+
+#character-nft .character-avatar img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* 其他 */
 #view-area,
-#mint-area {
+#character-nft {
   margin: 0;
 }
 

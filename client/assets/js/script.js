@@ -96,7 +96,6 @@ const getNewestBlockNumber = async () => {
 // get block number, if higher than highest block number, make it highest
 const getBlockNumberSetting = async (blockNumber) => {
   let newestBlockNumber = await getNewestBlockNumber();
-  let blockNumberNode = document.getElementById('block-number');
 
   if (
     blockNumber &&
@@ -320,6 +319,7 @@ const viewMap = async () => {
   const responseData = response.data;
   console.log(responseData);
   map.style.opacity = 0;
+  blockNumberNode.value = responseData.result.block_height;
   setTimeout(() => {
     drawMap(responseData);
     map.style.opacity = 1;

@@ -40,7 +40,7 @@ defmodule TaiShangWorldGenerator.NftInteractor do
   @doc """
     return a map that is decoded
   """
-  def token_uri(contract_addr, token_id) do
+  def token_uri(contract_addr, token_id, opts \\ []) do
     data =
       get_data(
         @func.token_uri,
@@ -51,7 +51,7 @@ defmodule TaiShangWorldGenerator.NftInteractor do
       Ethereumex.HttpClient.eth_call(%{
         data: data,
         to: contract_addr
-      })
+      }, "latest", opts)
     uri
     |> TypeTranslator.data_to_str()
     |> parse_nft()

@@ -1,5 +1,9 @@
 # TaiShang World Generator
 
+> **注：** 中文版本白皮书有所滞后，请以英文版本为主：
+> 
+> https://github.com/WeLightProject/tai_shang_world_generator/blob/main/Introduction(EN).md
+> 
 > **白皮书作者:** leeduckgo, msfew, fengfeng
 
 ## 0x01 极速简介 ⚡️Introduction

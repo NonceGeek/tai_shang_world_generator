@@ -41,6 +41,7 @@ defmodule TaiShangWorldGenerator.NftInteractor do
     return a map that is decoded
   """
   def token_uri(contract_addr, token_id, opts \\ []) do
+    IO.puts inspect token_id
     data =
       get_data(
         @func.token_uri,

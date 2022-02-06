@@ -39,11 +39,11 @@ defmodule TaiShangWorldGeneratorWeb.Router do
 
     #nft
     post "/mint", NFTMinterController, :mint
-    get  "/load_character", NFTLoaderController, :load
+    get  "/character/load_character", NFTLoaderController, :load_character
+    get  "/character/get_info", NFTLoaderController, :get_info
 
     # blockchain
     get "/get_last_block_num", ChainController, :get_last_block_num
-
 
   end
 

@@ -19,7 +19,6 @@ defmodule TaiShangWorldGenerator.Nft.CharacterLoader do
 
   def token_uri(contract_addr, token_id, endpoint \\ []) do
     %{img_parsed: img_parsed} = NftInteractor.token_uri(contract_addr, token_id, endpoint)
-    IO.inspect(img_parsed)
     %{ elements: get_nums_in_svg(img_parsed),
        badges: get_badges_list(img_parsed)
     }

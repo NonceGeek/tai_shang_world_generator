@@ -330,7 +330,8 @@ const viewMap = async () => {
   setTimeout(() => {
     hideGenerateArea();
     hideViewArea();
-    hideCharacterNFTArea();
+    // hideCharacterNFTArea();
+    showCharacterNFTArea();
     hideMintArea();
     showBackButton();
   }, 233);

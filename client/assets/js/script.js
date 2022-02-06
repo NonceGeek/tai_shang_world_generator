@@ -576,8 +576,8 @@ const loadCharacterNFT = async () => {
 
   document.querySelector('#character-nft .nft-info').classList.remove('hidden');
   document.querySelector('#character-nft .nft-info .character-badge').innerText = characterNFTs.badges[0];
+  document.querySelector('.character-avatar img').src = './assets/img/meme/' + characterNFTs.badges[0] + '.png';
   document.querySelector('#character-nft .nft-info .character-description').innerText = characterNFTDescriptions[characterNFTs.badges[0]];
-  // console.log(responseData.result.character_info);
 }
 
 const showHome = () => {

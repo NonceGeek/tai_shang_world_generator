@@ -117,7 +117,7 @@ const getBlockNumberSetting = async (blockNumber) => {
     newestBlockNumberStringIndex++;
   }, 50);
 
-  blockNumberNode.focus();
+  // blockNumberNode.focus();
   return newestBlockNumber;
 };
 

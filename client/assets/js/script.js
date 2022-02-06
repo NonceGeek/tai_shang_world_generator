@@ -589,11 +589,11 @@ const showCharacterNFTArea = () => {
 }
 
 const hideMintArea = () => {
-  document.querySelector('#mint').classList.add('hidden');
+  document.querySelector('#mint-area').classList.add('hidden');
 }
 
 const showMintArea = () => {
-  document.querySelector('#mint').classList.remove('hidden');
+  document.querySelector('#mint-area').classList.remove('hidden');
 }
 
 document.addEventListener('DOMContentLoaded', async function () {

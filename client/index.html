@@ -91,7 +91,6 @@
         >
           BACK
         </button>
-        <div class="divider mx-5 opacity-50"></div>
       </div>
       <!-- View map -->
       <div class="form-control flex" id="view-area">
@@ -120,7 +119,16 @@
         />
         <button class="btn btn-info mx-10 my-5" id="view">View!</button>
       </div>
+
+      <!-- Mint action -->
+      <div class="form-control flex hidden" id="mint-area">
+        <div class="divider mx-5 opacity-50"></div>
+        <button class="btn btn-accent mx-5 my-5" id="mint">Mint map as NFT</button>
+      </div>
+
+      <!-- Load character NFT -->
       <div class="form-control flex hidden" id="character-nft">
+        <div class="divider mx-5 opacity-50"></div>
         <!-- Character NFT Token ID input -->
         <input
           type="text"
@@ -141,11 +149,6 @@
         </div>
       </div>
 
-      <!-- Mint button -->
-      <div class="form-control flex hidden">
-        <div class="divider mx-5 opacity-50"></div>
-        <button class="btn btn-accent mx-5" id="mint">MINT!</button>
-      </div>
       <div class="flex" id="mint-result" style="flex-direction: column">
         <div
           class="mx-5 my-5"

@@ -74,11 +74,17 @@ Blockchain data retrieval is free, so the equivalent of what we have is a free d
 
 - Click `load` to load character from NFT by `chain_name` and  `contract_address`!
 
+// TODO
+
 ### 3.2 Full flow of On-chain data source -> Game maps
 
 ![TaiShang World Generator Main Process](https://tva1.sinaimg.cn/large/008i3skNgy1gy7ragak27j30u01cstch.jpg)
 
 <center>Full flow of On-chain data source -> Game maps</center>
+
+![TaiShang World Adventure (1)](https://tva1.sinaimg.cn/large/008i3skNgy1gz3x9jw548j31w50u078j.jpg)
+
+<center>Map + Game Event + Character = MVP Version of TaiShangVerse</center>
 
 #### 3.1.1 Steps on chain
 
@@ -153,7 +159,7 @@ Game operators can render abstract 2D matrix maps into actual game maps
 
  -- This can be either a 2D map or a 3D map.
 
-### 3.3 NFT contract code explained
+### 3.3 mapNFT Contract Code
 
 Source codes are at: 
 
@@ -181,7 +187,7 @@ NFT Collection on OpenSea:
     // the description of mapNFT when player mint it.
 ```
 
-#### 3.3.2 Key funtions
+#### 3.3.2 Key functions
 
 Functions for setting variables by contract owner for only once: 
 
@@ -295,7 +301,17 @@ function claim(uint256 _blockHeight,string memory _tokenInfo) public nonReentran
     }
 ```
 
-## 0x04 应用场景说明 Scenario Description
+### 3.4 NFT as Character Example
+
+In our DEMO, `web3devNFT` can be load as character.
+
+`web3devNFT` on explorer:
+
+> https://moonbeam.moonscan.io/address/0xb6FC950C4bC9D1e4652CbEDaB748E8Cdcfe5655F#code
+
+The gallery for `web3devNFT`:
+
+> https://gallery.noncegeek.com
 
 ## 0x04 Scenario Description
 
@@ -357,3 +373,16 @@ In the future, we hope to build the TaiShang meta-universe on the basis of a ser
 
 **NonceGeek:** Cool-Oriented Programming.
 
+Members contributed to this Project:
+
+`//TODO: add links for every member`
+
+- leeduckgo
+- 追忆似水年华
+- msfew
+- ff
+- 零月浅浅
+- Ken
+- Kenspirit
+- lovelyrosa
+- zhangying-code

@@ -487,7 +487,8 @@ const showMintInfo = (mintData) => {
 
 // mint map
 const mintMap = async () => {
-  location.href = 'https://polygonscan.com/address/0x9c0C846705E95632512Cc8D09e24248AbFd6D679#writeContract';
+  const mintUrl = 'https://polygonscan.com/address/0x9c0C846705E95632512Cc8D09e24248AbFd6D679#writeContract';
+  window.open(mintUrl, '_blank').focus();
   // progress.classList.add('hidden');
   // const setting = mintSetting();
   // const params = new URLSearchParams({
@@ -589,11 +590,11 @@ const showCharacterNFTArea = () => {
 }
 
 const hideMintArea = () => {
-  document.querySelector('#mint').classList.add('hidden');
+  document.querySelector('#mint-area').classList.add('hidden');
 }
 
 const showMintArea = () => {
-  document.querySelector('#mint').classList.remove('hidden');
+  document.querySelector('#mint-area').classList.remove('hidden');
 }
 
 document.addEventListener('DOMContentLoaded', async function () {

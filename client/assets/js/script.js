@@ -317,7 +317,6 @@ const viewMap = async () => {
   });
 
   const responseData = response.data;
-  console.log(responseData);
   map.style.opacity = 0;
   blockNumberNode.value = responseData.result.block_height;
   setTimeout(() => {
@@ -330,8 +329,8 @@ const viewMap = async () => {
   setTimeout(() => {
     hideGenerateArea();
     hideViewArea();
-    // hideCharacterNFTArea();
     showCharacterNFTArea();
+    loadChainInfo();
     hideMintArea();
     showBackButton();
   }, 233);
@@ -413,8 +412,9 @@ const showGenerateInputs = () => {
 };
 
 // show mint button and mint inputs, hide generate inputs
-const showMintButtonAndInputs = () => {
+const showMintButtonAndInputs = async () => {
   hideGenerateArea();
+  await loadChainInfo();
   showCharacterNFTArea();
   showMintArea();
   generateButton.classList.remove('mx-10');
@@ -515,14 +515,52 @@ const mintMap = async () => {
   // clearProgress();
 };
 
+const loadChainInfo = async () => {
+  const response = await axios.get(loadChainURL).catch((err) => {
+    console.log(err);
+  });
+
+  window.chains = response.data.chains;
+
+  const chainsDropDown = document.querySelector('#chains');
+  const chainsChildren = chainsDropDown.children[0];
+  for (let i = 0; i < chains.length; i++) {
+    const chain = chains[i].name;
+
+    let newNode = chainsChildren.cloneNode();
+    newNode.value = chain;
+    newNode.innerText = chain;
+
+    chainsDropDown.appendChild(newNode);
+  }
+  chainsDropDown.removeChild(chainsChildren);
+  
+  const contractsDropDown = document.querySelector('#contracts');
+  const contractsChildren = contractsDropDown.children[0];
+  let contract_addrs = chains[0].contract_addrs;
+  for (let i = 0; i < contract_addrs.length; i++) {
+    const chain = contract_addrs[i];
+
+    let newNode = contractsChildren.cloneNode();
+    newNode.value = chain;
+    newNode.innerText = chain;
+
+    contractsDropDown.appendChild(newNode);
+  }
+  contractsDropDown.removeChild(contractsChildren);
+}
+
+// TODO: 选择另一个 chain 之后，contracts 也要对应更新
+
 const loadCharacterNFT = async () => {
   const characterNFTTokenID = document.querySelector('#character-nft-token-id').value;
   if (!characterNFTTokenID) {
     return;
   }
 
-  const url = loadCharacterURL +
-  '?chain_name=Moonbeam&contract_addr=0xb6FC950C4bC9D1e4652CbEDaB748E8Cdcfe5655F&token_id=' + characterNFTTokenID;
+  const chainName = document.querySelector('#chains').value;
+  const contractAddr = document.querySelector('#contracts').value;
+  const url = `${loadCharacterURL}?chain_name=${chainName}&contract_addr=${contractAddr}&token_id=${characterNFTTokenID}`;
 
   const response = await axios.get(url).catch((err) => {
     console.log(err);

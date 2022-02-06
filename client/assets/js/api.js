@@ -7,11 +7,12 @@
  * @FilePath: /tai_shang_world_generator/client/assets/js/api.js
  * 道阻且长，行则将至
  */
-const baseURL = 'https://map.noncegeek.com/tai_shang_world_generator/api/v1/';
-
+const baseURL = 'https://map.noncegeek.com/tai_shang_world_generator/api/v1/'
 
 const lastBlockNumURL = baseURL + 'get_last_block_num'
 
-const genMapURL =  baseURL + 'gen_map';
+const genMapURL =  baseURL + 'gen_map'
+
+const loadChainURL = baseURL + 'character/get_info'
 
 const loadCharacterURL = baseURL + 'character/load_character'

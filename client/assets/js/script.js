@@ -83,7 +83,7 @@ const getNewestBlockNumber = async () => {
   startProgress(40);
   let newestBlockNumberResponse = await axios
     .get(
-      'https://map.noncegeek.com/tai_shang_world_generator/api/v1/get_last_block_num',
+      lastBlockNumURL,
     )
     .catch((err) => {
       console.log(err);
@@ -302,7 +302,7 @@ const viewMap = async () => {
   //   drawOriginalMap();
   //   return;
   // }
-  const url = 'https://map.noncegeek.com/tai_shang_world_generator/api/v1/gen_map';
+  const url = genMapURL;
   const data = {
     token_id: mapSetting.tokenId,
     contract_id: mapSetting.contractId,
@@ -330,7 +330,8 @@ const viewMap = async () => {
   setTimeout(() => {
     hideGenerateArea();
     hideViewArea();
-    hideCharacterNFTArea();
+    // hideCharacterNFTArea();
+    showCharacterNFTArea();
     hideMintArea();
     showBackButton();
   }, 233);
@@ -352,9 +353,7 @@ const generateMap = async () => {
   const params = new URLSearchParams({
     source: mapSetting.dataSource,
   }).toString();
-  const url =
-    'https://map.noncegeek.com/tai_shang_world_generator/api/v1/gen_map?' +
-    params;
+  const url = genMapURL + '?' + params;
   const data = {
     block_number: mapSetting.blockNumber,
     // only rule 1 now
@@ -522,8 +521,8 @@ const loadCharacterNFT = async () => {
     return;
   }
 
-  const url =
-    'https://map.noncegeek.com/tai_shang_world_generator/api/v1/load_character?chain_name=Moonbeam&contract_addr=0xb6FC950C4bC9D1e4652CbEDaB748E8Cdcfe5655F&token_id=' + characterNFTTokenID;
+  const url = loadCharacterURL +
+  '?chain_name=Moonbeam&contract_addr=0xb6FC950C4bC9D1e4652CbEDaB748E8Cdcfe5655F&token_id=' + characterNFTTokenID;
 
   const response = await axios.get(url).catch((err) => {
     console.log(err);

@@ -129,17 +129,26 @@
       <!-- Load character NFT -->
       <div class="form-control flex hidden" id="character-nft">
         <div class="divider mx-5 opacity-50"></div>
-        <!-- Character NFT Token ID input -->
+        <!-- Dropdown of chains -->
+        <!-- style: https://tailwindui.com/components/application-ui/elements/dropdowns -->
+        <select name="chains" id="chains" class="mx-5 my-3 inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500">
+          <option class="dropdown-option mx-5 my-3 block font-medium text-gray-700 px-4 py-2 text-sm" value="option">option</option>
+        </select>
+        <!-- Dropdown of contracts -->
+        <select name="contracts" id="contracts" class="mx-5 my-3 inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500">
+          <option class="dropdown-option mx-5 my-3 block font-medium text-gray-700 px-4 py-2 text-sm" value="option">option</option>
+        </select>
+        <!-- Input Token ID -->
         <input
           type="text"
           placeholder="Token ID :"
           class="input input-bordered mx-5 my-3"
           id="character-nft-token-id"
         />
-        <!-- Load Character NFT -->
+        <!-- Load -->
         <button class="btn btn-accent mx-5 my-3" id="load-character-nft">LOAD</button>
 
-        <!-- Character NFT -->
+        <!-- Character NFT Detail -->
         <div class="flex flex-col mx-5 my-3 p-5 border nft-info hidden">
           <div class="character-badge"></div>
           <div class="character-avatar my-2 w-full">
@@ -225,6 +234,8 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     ></script>
+    <!-- api -->
+    <script src="assets/js/api.js"></script>
     <!-- generate and mint -->
     <script src="assets/js/script.js"></script>
     <!-- moving block -->

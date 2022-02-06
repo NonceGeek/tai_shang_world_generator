@@ -16,6 +16,7 @@ Therefore, this project decided to start from this point, on-chain data that can
 - **The practice of abstract NFT:** NFT consists only pointers to renderers;
 - **The practice of cold media NFT:** the on-chain data is responsible for the generation of the 2D matrix map and the users are responsible for telling the "story of the map" by recreation of maps;
 - **The practice of Arweave with traditional Layer1:** traditional chains are responsible for the storage of data, and Arweave is responsible for the storage of stateless code (e.g., generation rules) and resources.
+- **The practice with NFT as character: ** load character from NFTs on multi-chain as a character in Map!
 
 ## 0x02 Background
 
@@ -55,6 +56,8 @@ Blockchain data retrieval is free, so the equivalent of what we have is a free d
 
 - Click `Generate`  to generate game map based on blockchain data
 
+`// TODO: update`
+
 ![generate_map](https://tva1.sinaimg.cn/large/008i3skNgy1gy7p0dddidg31360kydwl.gif)
 
 - Character could walk in map, talk to NPC, open the chest
@@ -69,9 +72,11 @@ Blockchain data retrieval is free, so the equivalent of what we have is a free d
 
 ![view_token](https://tva1.sinaimg.cn/large/008i3skNgy1gy7p44j5y0g31360kyb29.gif)
 
+- Click `load` to load character from NFT by `chain_name` and  `contract_address`!
+
 ### 3.2 Full flow of On-chain data source -> Game maps
 
-![TaiShang World Generator Main Process](https://tva1.sinaimg.cn/large/008i3skNgy1gy7ragak27j30u01cstch.jpg)![img]()
+![TaiShang World Generator Main Process](https://tva1.sinaimg.cn/large/008i3skNgy1gy7ragak27j30u01cstch.jpg)
 
 <center>Full flow of On-chain data source -> Game maps</center>
 
@@ -154,20 +159,26 @@ Source codes are at:
 
 > [tai-shang-world-generator/mapNFT.sol at main · WeLightProject/tai-shang-world-generator](https://github.com/WeLightProject/tai-shang-world-generator/blob/main/contracts/mapNFT.sol)
 
-#### 3.3.1 Key variables
+Deployed Contract on Polygonscan:
+
+> https://polygonscan.com/address/0x9c0C846705E95632512Cc8D09e24248AbFd6D679#code
+
+NFT Collection on OpenSea:
+
+> https://opensea.io/assets/matic/0x9c0c846705e95632512cc8d09e24248abfd6d679/1
 
 #### 3.3.1 Key variables
 
 ```JavaScript
-    string public rule; // 合约指定规则，内容为ar上的交易id
-    string public baseURL; // 基础 URL，呈现地址为基础 URL + blockHeight 拼接而成
-    string public onlyGame; // 合约钦定游戏
-    // 如上参数都只能设定一次
+    string public rule; // rule is the tx-id on arweave
+    string public baseURL; // url_full =  baseURL + blockHeight
+    string public onlyGame; 
+    // all var above can only set once
     uint256 tokenId = 1;
     mapping(uint256 => uint256) blockHeight;
-    // 区块高度（数据源）
+    // blockHeight
     mapping(uint256 => string) tokenInfo;
-    // 在mint时候用户自行填写的地图描述
+    // the description of mapNFT when player mint it.
 ```
 
 #### 3.3.2 Key funtions
@@ -194,21 +205,26 @@ Functions for setting variables by contract owner for only once:
 tokenURI concatenating rule:
 
 ```solidity
-    function tokenURI(uint256 tokenId) public view override returns (string memory) {
-        string[11] memory parts;
+        function tokenURI(uint256 tokenId) public view override returns (string memory) {
+        string[16] memory parts;
         parts[
             0
         ] = '<svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMinYMin meet" viewBox="0 0 350 350"><style>.base { fill: white; font-family: serif; font-size: 14px; }</style><rect width="100%" height="100%" fill="black" /><text x="10" y="20" class="base">';
-        parts[1] = "see map in: ";
+        parts[1] = "data resource based on: Polygon";
         parts[2] = '</text><text x="10" y="40" class="base">';
-        parts[3] = baseURL;
-        parts[4] = "&amp;token_id=";
-        parts[5] = toString(tokenId);
-        parts[6] = '</text><text x="10" y="60" class="base">';
-        parts[7] = "description: ";
-        parts[8] = '</text><text x="10" y="80" class="base">';
-        parts[9] = tokenInfo[tokenId];
-        parts[10] = "</text></svg>";
+        parts[3] = "block height: ";
+        parts[4] = toString(blockHeight[tokenId]);
+        parts[5] = '</text><text x="10" y="60" class="base">';     
+        parts[6] = "see map in: ";
+        parts[7] = '</text><text x="10" y="80" class="base">';
+        parts[8] = baseURL;
+        parts[9] = "&amp;t_id=";
+        parts[10] = toString(tokenId);
+        parts[11] = '</text><text x="10" y="100" class="base">';
+        parts[12] = "description: ";
+        parts[13] = '</text><text x="10" y="120" class="base">';
+        parts[14] = tokenInfo[tokenId];
+        parts[15] = "</text></svg>";
 
         string memory output = string(
             abi.encodePacked(
@@ -219,25 +235,35 @@ tokenURI concatenating rule:
             parts[4],
             parts[5],
             parts[6],
-            parts[7],
-            parts[8],
-            parts[9]
+            parts[7]
             )
         );
 
         output = string(
             abi.encodePacked(
                 output,
-                parts[10]
+                parts[8],
+                parts[9],
+                parts[10],
+                parts[11],
+                parts[12],
+                parts[13],
+                parts[14],
+                parts[15]
                 )
         );
         string memory json = Base64.encode(
+        		// set full_url in the description so it can be visited on OpenSea
             bytes(
                 string(
                     abi.encodePacked(
-                        '{"name": "Map #',
+                        '{"name": "TaiShang Map #',
                         toString(tokenId),
-                        '", "description": "nfts based on blockHeight.", "image": "data:image/svg+xml;base64,',
+                        '", "description": "',
+                        baseURL, 
+                        '&t_id=',
+                        toString(tokenId),
+                        '","image": "data:image/svg+xml;base64,',
                         Base64.encode(bytes(output)),
                         '"}'
                     )
@@ -249,6 +275,8 @@ tokenURI concatenating rule:
         return output;
     }
 ```
+
+
 
 Final presentation style of NFT in the exchange market:
 

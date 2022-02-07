@@ -12,7 +12,7 @@ Therefore, this project decided to start from this point, on-chain data that can
 
 **Innovations of this project:**
 
-- A new perspective on blockchains -- **verifiable self-growing distributed data sources;**
+- **A new perspective on blockchains:** verifiable self-growing distributed data sources;
 - **The practice of abstract NFT:** NFT consists only pointers to renderers;
 - **The practice of cold media NFT:** the on-chain data is responsible for the generation of the 2D matrix map and the users are responsible for telling the "story of the map" by recreation of maps;
 - **The practice of Arweave with traditional Layer1:** traditional chains are responsible for the storage of data, and Arweave is responsible for the storage of stateless code (e.g., generation rules) and resources.

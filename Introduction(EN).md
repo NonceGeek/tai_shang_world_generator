@@ -56,25 +56,25 @@ Blockchain data retrieval is free, so the equivalent of what we have is a free d
 
 - Click `Generate`  to generate game map based on blockchain data
 
-`// TODO: update`
-
-![generate_map](https://tva1.sinaimg.cn/large/008i3skNgy1gy7p0dddidg31360kydwl.gif)
+![generate_map](https://tva1.sinaimg.cn/large/008i3skNgy1gz4mh33sybg30te0koe1u.gif)
 
 - Character could walk in map, talk to NPC, open the chest
 
-![walks](https://tva1.sinaimg.cn/large/008i3skNgy1gy7p1ibtz2g31360kykdo.gif)
+  > the cord of game event example: `(23876771,15,1)`
+
+![talk](https://tva1.sinaimg.cn/large/008i3skNgy1gz4mebenbdg30te0kokce.gif)
 
 - Click `Mint` to mint the map as `mapNFT`：
 
-![mint](https://tva1.sinaimg.cn/large/008i3skNgy1gy7p39y15ug31360kyx6p.gif)
+![mint_map](https://tva1.sinaimg.cn/large/008i3skNgy1gz4mhubnyig30te0kott6.gif)
 
 - Click `View` to see the map of `mapNFT` by token_id
 
-![view_token](https://tva1.sinaimg.cn/large/008i3skNgy1gy7p44j5y0g31360kyb29.gif)
+![view_token](https://tva1.sinaimg.cn/large/008i3skNgy1gz4mcq2brhg30te0ko4ly.gif)
 
 - Click `load` to load character from NFT by `chain_name` and  `contract_address`!
 
-// TODO
+![image-20220207075805374](https://tva1.sinaimg.cn/large/008i3skNgy1gz4mauepx4j31mo0u0n3t.jpg)
 
 ### 3.2 Full flow of On-chain data source -> Game maps
 

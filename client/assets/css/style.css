@@ -190,7 +190,7 @@ progress {
   align-items: center;
 }
 
-[class^="dialog-action-"] {
+[class^='dialog-action-'] {
   flex: 1;
   border: 1px solid;
   padding: 0.4em 0.4em;
@@ -200,7 +200,6 @@ progress {
 
 /* 角色 NFT */
 #character-nft .dropdown-option {
-
 }
 
 #character-nft .character-avatar {
@@ -226,4 +225,14 @@ progress {
 #back,
 #generate {
   margin-bottom: 0;
+}
+
+#hero-name {
+  position: absolute;
+  top: -1.25vw;
+  left: -5vw;
+  width: 12.5vw;
+  text-align: center;
+  color: #3c4450;
+  font-weight: bold;
 }

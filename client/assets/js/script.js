@@ -534,7 +534,7 @@ const loadChainInfo = async () => {
     chainsDropDown.appendChild(newNode);
   }
   chainsDropDown.removeChild(chainsChildren);
-  
+
   const contractsDropDown = document.querySelector('#contracts');
   const contractsChildren = contractsDropDown.children[0];
   let contract_addrs = chains[0].contract_addrs;
@@ -576,6 +576,7 @@ const loadCharacterNFT = async () => {
 
   document.querySelector('#character-nft .nft-info').classList.remove('hidden');
   document.querySelector('#character-nft .nft-info .character-badge').innerText = characterNFTs.badges[0];
+  document.getElementById('hero-name').innerText = characterNFTs.badges[0]
   document.querySelector('.character-avatar img').src = './assets/img/meme/' + characterNFTs.badges[0] + '.png';
   document.querySelector('#character-nft .nft-info .character-description').innerText = characterNFTDescriptions[characterNFTs.badges[0]];
 }

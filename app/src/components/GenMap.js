@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { setProgress } from '../store/actions';
+import { setProgress, setPage } from '../store/actions';
 import { useDispatch } from 'react-redux';
 
 export default function GenMap() {
@@ -12,6 +12,7 @@ export default function GenMap() {
   const generate = () => {
     console.log('generate');
     dispatch(setProgress(25));
+    dispatch(setPage(2));
   }
   return (
     <div>

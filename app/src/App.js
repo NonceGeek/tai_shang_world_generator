@@ -1,9 +1,9 @@
+import { MapGenerator } from "./views";
+
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        taishang
-      </header>
+      <MapGenerator />
     </div>
   );
 }

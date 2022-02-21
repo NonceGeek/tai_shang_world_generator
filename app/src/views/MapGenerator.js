@@ -1,4 +1,4 @@
-import { GenMap, MintMap, LoadNFT } from "../components";
+import { GenMap, ViewMap, MintMap, LoadNFT } from "../components";
 
 function App() {
   return (
@@ -7,7 +7,7 @@ function App() {
       {/* <!-- Inputs --> */}
       <div style={{ width: 'calc(20% - 1rem)', maxHeight: '100vh', marginLeft: '10px'}}>
         <GenMap />
-        {/* <ViewMap /> */}
+        <ViewMap />
         {/* <Back /> */}
         <MintMap />
         <LoadNFT />

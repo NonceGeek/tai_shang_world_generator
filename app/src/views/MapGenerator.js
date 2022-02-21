@@ -1,4 +1,4 @@
-import { LoadNFT } from "../components";
+import { MintMap, LoadNFT } from "../components";
 
 function App() {
   return (
@@ -9,7 +9,7 @@ function App() {
         {/* <Input /> */}
         {/* <ViewMap /> */}
         {/* <Back /> */}
-        {/* <Mint /> */}
+        <MintMap />
         <LoadNFT />
       </div>
       {/* <ProgressBar /> */}

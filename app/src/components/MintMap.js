@@ -1,4 +1,4 @@
-export default function Mint() {
+export default function MintMap() {
   const mintMap = async () => {
     const mintUrl = 'https://polygonscan.com/address/0x9c0C846705E95632512Cc8D09e24248AbFd6D679#writeContract';
     window.open(mintUrl, '_blank').focus();

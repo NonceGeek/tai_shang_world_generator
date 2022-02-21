@@ -1,6 +1,9 @@
 import { useState } from 'react';
+import { setProgress } from '../store/actions';
+import { useDispatch } from 'react-redux';
 
 export default function GenMap() {
+  let dispatch = useDispatch();
   let [mapState, setMapState] = useState({chainSource: '', blockNumber: '', rule: 'RuleA'});
   const handleChainSource = (e) => setMapState({...mapState, chainSource: e.target.value});
   const handleBlockNumber = (e) => setMapState({...mapState, blockNumber: e.target.value});
@@ -8,6 +11,7 @@ export default function GenMap() {
 
   const generate = () => {
     console.log('generate');
+    dispatch(setProgress(25));
   }
   return (
     <div>

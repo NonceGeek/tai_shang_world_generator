@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react';
-import { lastBlockNumURL } from '../constants';
 import { useSelector } from 'react-redux';
-const axios = require('axios');
 
 
 export default function Map() {
@@ -52,7 +50,7 @@ export default function Map() {
       className = `unwalkable ${sprite}`;
       img = <img src={require(`../assets/img/block/${sprite}.png`)} alt={sprite} />
     }
-    return <div className={`map-block flex walkable ${className} ${blockType}`} key={key}>{img}</div>
+    return <div className={`map-block flex ${className} ${blockType}`} key={key}>{img}</div>
   };
 
   const drawBlock = (map, i, j, type, ele_description, key) => {
@@ -65,7 +63,159 @@ export default function Map() {
 
   useEffect(() => {
     drawOriginalMap();
-  }, [])
+  }, []);
+
+  // game
+  const stepLength = 2.5;
+  let direction = null;
+  let targetPosition = null;
+  let oDiv = 'moving-block'
+
+  let [heroPosition, setHeroPosition] = useState({left: 0, top: 0});
+
+  // move moving-block when possible
+  const move = (oDiv, direction, stepLength) => {
+    // if (willCrossBorder(oDiv, map, direction, stepLength)) {
+    //   return;
+    // }
+
+    const currentPosition = getCoordinate(oDiv, stepLength);
+
+    if (willCollide(currentPosition, direction)) {
+      return;
+    }
+    let left, top;
+
+    switch (direction) {
+      case 'left':
+        left = parseFloat(heroPosition.left) - stepLength;
+        setHeroPosition({...setHeroPosition, left: left});
+        break;
+      case 'top':
+        top = parseFloat(heroPosition.top) - stepLength;
+        setHeroPosition({...setHeroPosition, top: top});
+        // scrollIfNeeded(oDiv, wrapper, 'top');
+        break;
+      case 'right':
+        left = parseFloat(heroPosition.left) + stepLength;
+        setHeroPosition({...setHeroPosition, left: left});
+        break;
+      case 'bottom':
+        top = parseFloat(heroPosition.top) + stepLength;
+        setHeroPosition({...setHeroPosition, top: top});
+        // scrollIfNeeded(oDiv, wrapper, 'bottom');
+        break;
+      default:
+        break;
+    }
+  };
+
+  const getCoordinate = (stepLength) => {
+    const x = parseFloat(heroPosition.top) / stepLength;
+    const y = parseFloat(heroPosition.left) / stepLength;
+    
+    return { x, y };
+  }
+
+  const willCollide = (currentPosition, direction) => {
+    let { x, y } = currentPosition;
+
+    if (direction === 'left') {
+      y -= 1;
+    } else if (direction === 'right') {
+      y += 1;
+    } else if (direction === 'top') {
+      x -= 1;
+    } else if (direction === 'bottom') {
+      x += 1;
+    }
+    // FIXME: if !unwalkable => walkable
+    console.log(mapData);
+    return !withinRange(mapData.map[x][y], mapData.ele_description.walkable)
+    // return document
+    //   .querySelectorAll('.map-row')[x]
+    //   .children.item(y)
+    //   .classList.contains('unwalkable')
+  }
+
+  const interact = async (oDiv, direction) => {
+  }
+
+  useEffect(() => {
+    const onKeyDown = (ev) => {
+      // var ev = ev || event;
+      var keyCode = ev.keyCode;
+  
+      switch (keyCode) {
+        case 37:
+          ev.preventDefault();
+          direction = 'left';
+          move(oDiv, direction, stepLength);
+          break;
+        case 38:
+          ev.preventDefault();
+          direction = 'top';
+          move(oDiv, direction, stepLength);
+          break;
+        case 39:
+          ev.preventDefault();
+          direction = 'right';
+          move(oDiv, direction, stepLength);
+          break;
+        case 40:
+          ev.preventDefault();
+          direction = 'bottom';
+          move(oDiv, direction, stepLength);
+          break;
+        case 32:
+          ev.preventDefault();
+          interact(oDiv, direction);
+          break;
+        case 33: // PageUp
+        case 34: // PageDown
+        case 35: // End
+        case 36: // Home
+          ev.preventDefault();
+      }
+    };
+
+    const onKeyUp = (ev) => {
+      // var ev = ev || event;
+      var keyCode = ev.keyCode;
+  
+      switch (keyCode) {
+        case 37:
+          ev.preventDefault();
+          direction = 'left';
+          break;
+        case 38:
+          ev.preventDefault();
+          direction = 'top';
+          break;
+        case 39:
+          ev.preventDefault();
+          direction = 'right';
+          break;
+        case 40:
+          ev.preventDefault();
+          direction = 'bottom';
+          break;
+        case 32:
+          ev.preventDefault();
+          break;
+        default:
+          ev.preventDefault();
+      }
+    };
+
+    document.addEventListener('keydown', onKeyDown);
+    document.addEventListener('keyup', onKeyUp);
+
+    return () => {
+        document.removeEventListener('keydown', onKeyDown);
+        document.removeEventListener('keyup', onKeyUp);
+    }
+  }, []);
 
   return (
     // <!-- THE map -->
@@ -79,7 +229,7 @@ export default function Map() {
         })}
       </div>
       <div id="map-container" className="">
-        <div id="moving-block" className="" style={{ left: '0vw', top: '0vw' }}>
+        <div id="moving-block" className="" style={{ left: `${heroPosition.left}vw`, top: `${heroPosition.top}vw` }}>
           <img src={require('../assets/img/block/hero.gif')} alt="" />
         </div>
         <div id="map">

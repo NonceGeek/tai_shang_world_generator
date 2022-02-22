@@ -1,16 +1,17 @@
 import { useState, useEffect } from 'react';
 import { setProgress, setPage } from '../store/actions';
-import { useDispatch } from 'react-redux';
-import { lastBlockNumURL } from '../constants';
+import { useDispatch, useSelector } from 'react-redux';
+import { lastBlockNumURL, genMapURL } from '../constants';
+import { setMapData, setMapSeed } from "../store/actions";
 import axios from "axios";
 
 
 export default function GenMap() {
   let dispatch = useDispatch();
-  let [mapState, setMapState] = useState({chainSource: '', blockNumber: '', rule: 'RuleA'});
-  const handleChainSource = (e) => setMapState({...mapState, chainSource: e.target.value});
-  const handleBlockNumber = (e) => setMapState({...mapState, blockNumber: e.target.value});
-  const handleRuleChange = (e) => setMapState({...mapState, rule: e.target.value});
+  let mapSeed = useSelector(state => state.mapSeed);
+  const handleChainSource = (e) => dispatch(setMapSeed({...mapSeed, chainSource: e.target.value}));
+  const handleBlockNumber = (e) => dispatch(setMapSeed({...mapSeed, blockNumber: e.target.value}));
+  const handleRuleChange = (e) => dispatch(setMapSeed({...mapSeed, rule: e.target.value}));
 
   // get highest block now
   const getNewestBlockNumber = async () => {
@@ -38,32 +39,16 @@ export default function GenMap() {
       return parseInt(blockNumber);
     }
     let newestBlockNumberString = String(newestBlockNumber);
-    let newestBlockNumberStringIndex = 0;
-    setMapState({...mapState, blockNumber: newestBlockNumberString});
-    // let num = ''
-    // setInterval(() => {
-    //   num += newestBlockNumberString.charAt(
-    //     newestBlockNumberStringIndex,
-    //   );
-    //   setMapState({...mapState, blockNumber: num});
-    //   newestBlockNumberStringIndex++;
-    // }, 50);
-
-    // blockNumberNode.focus();
+    dispatch(setMapSeed({...mapSeed, blockNumber: newestBlockNumberString}));
+    // TODO: 1. 动画；2. 聚焦
     return newestBlockNumber;
   };
 
   // get data source setting
   const getDataSourceSetting = async () => {
     let dataSourceDefault = 'a_block';
-    let dataSourceIndex = 0;
-    let source = '';
-    setMapState({...mapState, chainSource: dataSourceDefault});
-    // setInterval(() => {
-    //   source += dataSourceDefault.charAt(dataSourceIndex);
-    //   setMapState({...mapState, chainSource: source});
-    //   dataSourceIndex++;
-    // }, 50);
+    dispatch(setMapSeed({...mapSeed, chainSource: dataSourceDefault}));
+    // TODO: 动画
     return dataSourceDefault;
   };
 
@@ -78,16 +63,78 @@ export default function GenMap() {
     return rules;
   };
 
-  const generate = () => {
-    console.log('generate');
-    dispatch(setProgress(25));
+  // handle setting source and rules error, pop alert if returns true
+  const isSettingError = async (mapSetting) => {
+    if (mapSetting.rules.length === 0 || mapSetting.dataSource !== 'a_block') {
+      // alert.classList.remove('opacity-0');
+      // progress.style.display = 'none';
+      // setTimeout(() => {
+      //   alert.classList.add('opacity-0');
+      // }, 3000);
+      return true;
+    } else {
+      // alert.classList.add('opacity-0');
+      return false;
+    }
+  };
+
+  // get generation setting from page
+  const generationSetting = async () => {
+    let blockNumber = await getBlockNumberSetting(mapSeed.blockNumber);
+    let dataSource = await getDataSourceSetting();
+    // let rules = await getRulesSetting(rulesNodes);
+    // startProgress(85);
+
+    // mintData.source = dataSource;
+
+    return {
+      blockNumber: blockNumber,
+      dataSource: dataSource,
+      rules: ['ruleA', 'ruleB'],
+    };
+  };
+
+  // post generation setting
+  const generateMap = async () => {
+    // progress.style.display = 'block';
+    const mapSetting = await generationSetting();
+    if (await isSettingError(mapSetting)) {
+      // drawOriginalMap();
+      return;
+    }
+    // hideViewArea
     dispatch(setPage(2));
-  }
+
+    const params = new URLSearchParams({
+      source: mapSetting.dataSource,
+    }).toString();
+    const url = genMapURL + '?' + params;
+    const data = {
+      block_number: mapSetting.blockNumber,
+      // only rule 1 now
+      // rule: mapSetting.rules[0],
+      rule: mapSeed.rule,
+    };
+
+    // mintData.block_number = data.block_number;
+    // mintData.rule = data.rule;
+
+    const response = await axios.post(url, data).catch((err) => {
+      console.log(err);
+      // clearProgress();
+    });
+    const responseData = response.data;
+    // console.log(responseData);
+    dispatch(setMapData(responseData.result));
+    // map.style.opacity = 0;
+
+  };
 
   useEffect(() => {
     getBlockNumberSetting();
     getDataSourceSetting();
   }, [])
+
   return (
     <div>
       {/* <!-- Generate map inputs --> */}
@@ -98,7 +145,7 @@ export default function GenMap() {
           placeholder="Block number #"
           className="input input-bordered mx-10 my-5"
           id="block-number"
-          value={ mapState.blockNumber }
+          value={ mapSeed.blockNumber }
           onChange={ handleBlockNumber }
         />
         {/* <!-- Chain source input --> */}
@@ -107,7 +154,7 @@ export default function GenMap() {
           placeholder="Data source @"
           className="input input-bordered mx-10 my-5"
           id="data-source"
-          value={ mapState.chainSource }
+          value={ mapSeed.chainSource }
           onChange={ handleChainSource }
         />
         {/* <!-- Rules selector --> */}
@@ -123,7 +170,7 @@ export default function GenMap() {
               value="RuleA"
               className="rules checkbox checkbox-primary"
               id="RuleA"
-              checked={ mapState.rule === 'RuleA' }
+              checked={ mapSeed.rule === 'RuleA' }
               onChange={ handleRuleChange }
             />
           </label>
@@ -135,13 +182,13 @@ export default function GenMap() {
               value="RuleB"
               className="rules checkbox checkbox-primary"
               id="RuleB"
-              checked={ mapState.rule === 'RuleB' }
+              checked={ mapSeed.rule === 'RuleB' }
               onChange={ handleRuleChange }
             />
           </label>
         </div>
         {/* <!-- Submit button --> */}
-        <button className="btn btn-primary mx-10 my-5" id="generate" onClick={generate}>
+        <button className="btn btn-primary mx-10 my-5" id="generate" onClick={generateMap}>
           GENERATE!
         </button>
       </div>

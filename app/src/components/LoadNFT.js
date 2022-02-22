@@ -104,7 +104,7 @@ export default function LoadNFT() {
         <div className="flex flex-col mx-5 my-3 p-5 border nft-info">
           <div className="character-badge">{characterNFTs.badges[0]}</div>
           <div className="character-avatar my-2 w-full">
-            <img src={`../assets/img/meme/${characterNFTs.badges[0]}.png`} alt="avatar" />
+            <img src={require(`../assets/img/meme/${characterNFTs.badges[0]}.png`)} alt="avatar" />
           </div>
           <div className="character-description">{characterNFTDescriptions[characterNFTs.badges[0]]}</div>
         </div>

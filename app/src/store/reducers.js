@@ -28,7 +28,7 @@ function mapData (state = defaultState.mapData, action) {
   }
 }
 
-function mapSeed (state = defaultState.mapData, action) {
+function mapSeed (state = defaultState.mapSeed, action) {
   switch (action.type) {
     case 'SET_MAP_SEED':
       return action.data

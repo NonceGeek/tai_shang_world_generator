@@ -8,7 +8,7 @@ export default {
     ele_description: {}
   },
   mapSeed: {
-    chainSource: '',
+    chainSource: 'a_block',
     blockNumber: '',
     rule: 'RuleA'
   }

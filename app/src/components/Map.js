@@ -132,7 +132,7 @@ export default function Map() {
     } else if (direction === 'top') {
       return heroPosition.top - stepLength < 0;
     } else if (direction === 'bottom') {
-      return heroPosition.top + 2 * stepLength > stepLength * rowNumber;
+      return heroPosition.top + 2 * stepLength > stepLength * mapData.map.length;
     }
   };
 

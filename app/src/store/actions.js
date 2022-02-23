@@ -22,3 +22,9 @@ export function setMapSeed (data) {
     dispatch({ type: 'SET_MAP_SEED', data: data })
   }
 }
+
+export function setDialog (data) {
+  return (dispatch, getState) => {
+    dispatch({ type: 'SET_DIALOG', data: data })
+  }
+}

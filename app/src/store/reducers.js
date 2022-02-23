@@ -37,9 +37,19 @@ function mapSeed (state = defaultState.mapSeed, action) {
   }
 }
 
+function dialog (state = defaultState.dialog, action) {
+  switch (action.type) {
+    case 'SET_DIALOG':
+      return action.data
+    default:
+      return state
+  }
+}
+
 export default combineReducers({
   progress,
   page,
   mapData,
   mapSeed,
+  dialog,
 })

@@ -1,4 +1,4 @@
-import { Map, GenMap, ViewMap, MintMap, LoadNFT, Back, ProgressBar } from "../components";
+import { Map, GenMap, ViewMap, MintMap, LoadNFT, Back, ProgressBar, Dialog } from "../components";
 import { useSelector } from "react-redux";
 
 function App() {
@@ -22,6 +22,7 @@ function App() {
           </div>
         }
       </div>
+      <Dialog />
       <ProgressBar />
     </div>
   );

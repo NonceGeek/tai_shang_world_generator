@@ -11,5 +11,11 @@ export default {
     chainSource: 'a_block',
     blockNumber: '',
     rule: 'RuleA'
-  }
+  },
+  dialog: {
+    display: false,
+    content: '',
+    yesContent: '',
+    noContent: ''
+  },
 }

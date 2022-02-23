@@ -1,13 +1,21 @@
-import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useEffect, useState, useRef, useMemo } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { setDialog } from "../store/actions";
+import axios from 'axios';
+import { marked } from 'marked';
 
 
 export default function Map() {
+  let dispatch = useDispatch();
   const treasureCount = 2;
   const spriteCount = 5;
 
   let [rowNumber, setRowNumber] = useState(1);
+  let [unboxState, setUnboxState] = useState({});
   let mapData = useSelector(state => state.mapData);
+  let mapSeed = useSelector(state => state.mapSeed);
+  let dialog = useSelector(state => state.dialog);
+
   // fill screen with rows of block
   const calcOriginalMapRowNumber = function (height, width) {
     // subtract the p tag height
@@ -32,6 +40,8 @@ export default function Map() {
       return value >= arr[0] && value <= arr[1];
     }
   };
+  const memoizedValue = useMemo(() => Math.floor(Math.random() * treasureCount + 1), [treasureCount]);
+  const memoizedValue2 = useMemo(() => Math.floor(Math.random() * spriteCount + 1), [spriteCount]);
 
   const setBlockType = (coordinate, ele_description, blockType, key) => {
     let img = '';
@@ -42,11 +52,12 @@ export default function Map() {
       className = 'unwalkable';
       img = <img src={require('../assets/img/block/unwalkable.png')} alt='unwalkable' />;
     } else if (withinRange(coordinate, ele_description.object)) {
-      const object = 'treasure-locked-' + Math.floor(Math.random() * treasureCount + 1);
+      let lockState = unboxState[`${coordinate.x}-${coordinate.y}`] === true ? 'unlocked' : 'locked';
+      const object = `treasure-${lockState}-${memoizedValue}`;
       className = `unwalkable ${object}`;
       img = <img src={require(`../assets/img/block/${object}.png`)} alt={object} />
     } else if (withinRange(coordinate, ele_description.sprite)) {
-      const sprite = 'sprite' + Math.floor(Math.random() * spriteCount + 1);
+      const sprite = 'sprite' + memoizedValue2;
       className = `unwalkable ${sprite}`;
       img = <img src={require(`../assets/img/block/${sprite}.png`)} alt={sprite} />
     }
@@ -63,56 +74,101 @@ export default function Map() {
 
   useEffect(() => {
     drawOriginalMap();
-  }, []);
+  });
 
-  // game
+  // -------------------- Game Logic --------------------
   const stepLength = 2.5;
   let direction = null;
   let targetPosition = null;
-  let oDiv = 'moving-block'
+  const wrapperRef = useRef(null);
 
-  let [heroPosition, setHeroPosition] = useState({left: 0, top: 0});
+  const [heroPosition, setHeroPosition] = useState({left: 0, top: 0});
 
   // move moving-block when possible
-  const move = (oDiv, direction, stepLength) => {
-    // if (willCrossBorder(oDiv, map, direction, stepLength)) {
-    //   return;
-    // }
-
-    const currentPosition = getCoordinate(oDiv, stepLength);
-
+  const move = (direction, stepLength) => {
+    if (willCrossBorder(direction, stepLength)) {
+      console.log('will cross border');
+      return;
+    }
+    const currentPosition = getCoordinate(stepLength);
     if (willCollide(currentPosition, direction)) {
+      console.log("collide");
       return;
     }
     let left, top;
-
     switch (direction) {
       case 'left':
-        left = parseFloat(heroPosition.left) - stepLength;
-        setHeroPosition({...setHeroPosition, left: left});
+        left = heroPosition.left - stepLength;
+        setHeroPosition({...heroPosition, left: left});
         break;
       case 'top':
-        top = parseFloat(heroPosition.top) - stepLength;
-        setHeroPosition({...setHeroPosition, top: top});
-        // scrollIfNeeded(oDiv, wrapper, 'top');
+        top = heroPosition.top - stepLength;
+        setHeroPosition({...heroPosition, top: top});
+        scrollIfNeeded('top');
         break;
       case 'right':
-        left = parseFloat(heroPosition.left) + stepLength;
-        setHeroPosition({...setHeroPosition, left: left});
+        left = heroPosition.left + stepLength;
+        setHeroPosition({...heroPosition, left: left});
         break;
       case 'bottom':
-        top = parseFloat(heroPosition.top) + stepLength;
-        setHeroPosition({...setHeroPosition, top: top});
-        // scrollIfNeeded(oDiv, wrapper, 'bottom');
+        top = heroPosition.top + stepLength;
+        setHeroPosition({...heroPosition, top: top});
+        scrollIfNeeded('bottom');
         break;
       default:
         break;
     }
+    
+  };
+
+  // check if moving-block will be out of map
+  const willCrossBorder = (direction, stepLength) => {
+    if (direction === 'left') {
+      return heroPosition.left - stepLength < 0;
+    } else if (direction === 'right') {
+      // FIXME
+      // return heroPosition.left + oDiv.clientWidth + stepLength > map.clientWidth;
+      return heroPosition.left + 2 * stepLength > stepLength * 32;
+    } else if (direction === 'top') {
+      return heroPosition.top - stepLength < 0;
+    } else if (direction === 'bottom') {
+      return heroPosition.top + 2 * stepLength > stepLength * rowNumber;
+    }
+  };
+
+  const scrollSmoothly = (scrollLength, scrollStep) => {
+    const scrollInterval = setInterval(() => {
+      wrapperRef.current.scrollBy(0, scrollStep);
+      scrollLength -= scrollStep;
+      if (scrollLength === 0) {
+        clearInterval(scrollInterval);
+      }
+    });
+  };
+
+  // const executeScroll = () => wrapperRef.current.scrollIntoView();
+
+  // scroll map when part of moving-block is out of wrapper
+  const scrollIfNeeded = (direction) => {
+    scrollSmoothly(stepLength, 1);
+    // const scrollLength = parseInt(wrapper.clientHeight / 3);
+    // if (
+    //   direction === 'bottom' &&
+    //   oDiv.getBoundingClientRect().bottom >
+    //     wrapper.getBoundingClientRect().bottom
+    // ) {
+    //   scrollSmoothly(scrollLength, 1);
+    // } else if (
+    //   direction === 'top' &&
+    //   oDiv.getBoundingClientRect().top < wrapper.getBoundingClientRect().top
+    // ) {
+    //   scrollSmoothly(-scrollLength, -1);
+    // }
   };
 
   const getCoordinate = (stepLength) => {
-    const x = parseFloat(heroPosition.top) / stepLength;
-    const y = parseFloat(heroPosition.left) / stepLength;
+    const x = heroPosition.top / stepLength;
+    const y = heroPosition.left / stepLength;
     
     return { x, y };
   }
@@ -129,16 +185,95 @@ export default function Map() {
     } else if (direction === 'bottom') {
       x += 1;
     }
-    // FIXME: if !unwalkable => walkable
-    console.log(mapData);
+    // FIXME: if !unwalkable => walkable?
     return !withinRange(mapData.map[x][y], mapData.ele_description.walkable)
-    // return document
-    //   .querySelectorAll('.map-row')[x]
-    //   .children.item(y)
-    //   .classList.contains('unwalkable')
   }
 
-  const interact = async (oDiv, direction) => {
+  const interact = async (direction) => {
+    if (!direction) {
+      return;
+    }
+
+    const currentPosition = getCoordinate(stepLength);
+    switch (direction) {
+      case 'left':
+        targetPosition = {
+          x: currentPosition.x,
+          y: currentPosition.y - 1,
+        }
+        break;
+      case 'right':
+        targetPosition = {
+          x: currentPosition.x,
+          y: currentPosition.y + 1,
+        }
+        break;
+      case 'top':
+        targetPosition = {
+          x: currentPosition.x - 1,
+          y: currentPosition.y,
+        }
+        break;
+      case 'bottom':
+        targetPosition = {
+          x: currentPosition.x + 1,
+          y: currentPosition.y,
+        }
+        break;
+      default:
+        break;
+    }
+    const targetBlock = mapData.map[targetPosition.x][targetPosition.y];
+    if (withinRange(targetBlock, mapData.ele_description.sprite)) {
+      await interactNpc(targetPosition);
+    } else if (withinRange(targetBlock, mapData.ele_description.object)) {
+      openTreasureBox(targetPosition);
+    }
+  }
+
+  const interactNpc = async (targetPosition) => {
+    const interactResponse = await getInteractResponse(targetPosition, mapSeed.blockNumber);
+
+    if (interactResponse.error_code === 0) {
+      const dialogContent = interactResponse.result.event.payload.first;
+      showNpcDialog(dialogContent);
+    }
+  }
+
+  const showNpcDialog = (dialogContent) => {
+    marked.setOptions({
+      gfm: true,
+      breaks: true,
+    })
+    dispatch(setDialog({display: true, content: marked.parse(dialogContent.text), yesContent: dialogContent.btn.yes, noContent: dialogContent.btn.no}));
+  }
+
+  const openTreasureBox = (targetPosition) => {
+    let key = `${targetPosition.x}-${targetPosition.y}`;
+    let _unboxState = {...unboxState};
+    _unboxState[key] = true;
+    setUnboxState(_unboxState);
+    // FIXME: use data to change element
+    const treasureBox = document
+      .querySelectorAll('.map-row')[targetPosition.x]
+      .children.item(targetPosition.y);
+
+    treasureBox.className = treasureBox.className.replace('treasure-locked', 'treasure-unlocked');
+    treasureBox.children[0].src = require('../assets/img/block/treasure-unlocked-1.png');
+  }
+
+  const getInteractResponse = async (targetPosition, blockNumber) => {
+    const { x, y } = targetPosition;
+    
+    let interactApi = `https://map.noncegeek.com/tai_shang_world_generator/api/v1/interact?x=${y}&y=${x}&block_height=${blockNumber}`;
+
+    let interactResponse = await axios
+      .get(interactApi)
+      .catch((err) => {
+        console.log(err);
+      });
+
+    return interactResponse.data;
   }
 
   useEffect(() => {
@@ -150,26 +285,26 @@ export default function Map() {
         case 37:
           ev.preventDefault();
           direction = 'left';
-          move(oDiv, direction, stepLength);
+          move(direction, stepLength);
           break;
         case 38:
           ev.preventDefault();
           direction = 'top';
-          move(oDiv, direction, stepLength);
+          move(direction, stepLength);
           break;
         case 39:
           ev.preventDefault();
           direction = 'right';
-          move(oDiv, direction, stepLength);
+          move(direction, stepLength);
           break;
         case 40:
           ev.preventDefault();
           direction = 'bottom';
-          move(oDiv, direction, stepLength);
+          move(direction, stepLength);
           break;
         case 32:
           ev.preventDefault();
-          interact(oDiv, direction);
+          interact(direction);
           break;
         case 33: // PageUp
         case 34: // PageDown
@@ -215,11 +350,11 @@ export default function Map() {
         document.removeEventListener('keydown', onKeyDown);
         document.removeEventListener('keyup', onKeyUp);
     }
-  }, []);
+  }, [mapData, heroPosition]);
 
   return (
     // <!-- THE map -->
-    <div id="map-wrapper">
+    <div id="map-wrapper" ref={wrapperRef}>
       {/* <!-- <p id="poem">一花一世界, 一叶一菩提.</p> --> */}
       <div id="original-map" hidden={mapData.map.length !== 0}>
         {Array.from(Array(rowNumber).keys()).map((row, rowId) => {
@@ -228,8 +363,8 @@ export default function Map() {
           </div>)
         })}
       </div>
-      <div id="map-container" className="">
-        <div id="moving-block" className="" style={{ left: `${heroPosition.left}vw`, top: `${heroPosition.top}vw` }}>
+      <div id="map-container">
+        <div id="moving-block" style={{ left: `${heroPosition.left}vw`, top: `${heroPosition.top}vw` }}>
           <img src={require('../assets/img/block/hero.gif')} alt="" />
         </div>
         <div id="map">

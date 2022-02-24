@@ -9,20 +9,40 @@ import axios from "axios";
 export default function GenMap() {
   let dispatch = useDispatch();
   let mapSeed = useSelector(state => state.mapSeed);
+  let progress = useSelector(state => state.progress);
   const handleChainSource = (e) => dispatch(setMapSeed({...mapSeed, chainSource: e.target.value}));
   const handleBlockNumber = (e) => dispatch(setMapSeed({...mapSeed, blockNumber: e.target.value}));
   const handleRuleChange = (e) => dispatch(setMapSeed({...mapSeed, rule: e.target.value}));
 
+  const startProgress = (maxProgress) => {
+    // dispatch(setProgress({...progress, display: true}));
+    if (maxProgress === 0) {
+      progress.value = 0;
+    }
+    let timer = setInterval(() => {
+      progress.value++;
+      dispatch(setProgress({display: true, value: progress.value}));
+      if (progress.value >= maxProgress) {
+        if (maxProgress === 100) {
+          setTimeout(dispatch(setProgress({display: false, value: 0})), 1000);
+        }
+        clearInterval(timer);
+      }
+    }, 35);
+  };
+
+  const clearProgress = () => {
+    dispatch(setProgress({display: false, value: 0}));
+  };
+
   // get highest block now
   const getNewestBlockNumber = async () => {
-    // startProgress(40);
     let newestBlockNumberResponse = await axios
       .get(
         lastBlockNumURL,
       )
       .catch((err) => {
         console.log(err);
-        // stopAndClearProgress();
       });
     window.blockHeight = newestBlockNumberResponse.data.result.last_block_num;
     return window.blockHeight;
@@ -67,7 +87,6 @@ export default function GenMap() {
   const isSettingError = async (mapSetting) => {
     if (mapSetting.rules.length === 0 || mapSetting.dataSource !== 'a_block') {
       // alert.classList.remove('opacity-0');
-      // progress.style.display = 'none';
       // setTimeout(() => {
       //   alert.classList.add('opacity-0');
       // }, 3000);
@@ -83,8 +102,6 @@ export default function GenMap() {
     let blockNumber = await getBlockNumberSetting(mapSeed.blockNumber);
     let dataSource = await getDataSourceSetting();
     // let rules = await getRulesSetting(rulesNodes);
-    // startProgress(85);
-
     // mintData.source = dataSource;
 
     return {
@@ -94,16 +111,21 @@ export default function GenMap() {
     };
   };
 
+  const drawOriginalMap = async () => {
+    dispatch(setMapData({type: '', ele_description: {}, map: []}));
+  }
+
   // post generation setting
   const generateMap = async () => {
+    startProgress(0);
     // progress.style.display = 'block';
     const mapSetting = await generationSetting();
+    startProgress(40);
     if (await isSettingError(mapSetting)) {
-      // drawOriginalMap();
+      drawOriginalMap();
+      clearProgress();
       return;
     }
-    // hideViewArea
-    dispatch(setPage(2));
 
     const params = new URLSearchParams({
       source: mapSetting.dataSource,
@@ -121,13 +143,20 @@ export default function GenMap() {
 
     const response = await axios.post(url, data).catch((err) => {
       console.log(err);
-      // clearProgress();
+      clearProgress();
+      return;
     });
+    startProgress(85);
     const responseData = response.data;
     // console.log(responseData);
     dispatch(setMapData(responseData.result));
     // map.style.opacity = 0;
+    startProgress(100);
+    
+    // hideViewArea
+    dispatch(setPage(2));
 
+    clearProgress();
   };
 
   useEffect(() => {

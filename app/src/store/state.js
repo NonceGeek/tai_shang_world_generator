@@ -1,6 +1,9 @@
 
 export default {
-  progress: 0,
+  progress: {
+    value: 0,
+    display: false
+  },
   page: 1,
   mapData: {
     map: [],

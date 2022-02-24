@@ -1,19 +1,42 @@
 import { useState } from 'react';
 import { genMapURL } from '../constants';
 import { useDispatch, useSelector } from 'react-redux';
-import { setMapSeed, setMapData } from "../store/actions";
+import { setMapSeed, setMapData, setProgress } from "../store/actions";
 import axios from 'axios';
 
 export default function ViewMap() {
   let dispatch = useDispatch();
   let mapSeed = useSelector(state => state.mapData.mapSeed);
   let [mapState, setMapState] = useState({tokenId: 1, contractId: 1});
+  let progress = useSelector(state => state.progress);
   const handleTokenId = (e) => setMapState({...mapState, tokenId: e.target.value});
   const handleContractId = (e) => setMapState({...mapState, contractId: e.target.value});
+
+  const startProgress = (maxProgress) => {
+    // dispatch(setProgress({...progress, display: true}));
+    if (maxProgress === 0) {
+      progress.value = 0;
+    }
+    let timer = setInterval(() => {
+      progress.value++;
+      dispatch(setProgress({display: true, value: progress.value}));
+      if (progress.value >= maxProgress) {
+        if (maxProgress === 100) {
+          setTimeout(dispatch(setProgress({display: false, value: 0})), 1000);
+        }
+        clearInterval(timer);
+      }
+    }, 35);
+  };
+
+  const clearProgress = () => {
+    dispatch(setProgress({display: false, value: 0}));
+  };
 
   // post view setting
   const viewMap = async () => {
     // progress.style.display = 'block';
+    startProgress(85);
     const url = genMapURL;
     const data = {
       token_id: mapState.tokenId,
@@ -30,6 +53,7 @@ export default function ViewMap() {
     dispatch(setMapData(responseData.result));
     // map.style.opacity = 0;
     dispatch(setMapSeed({...mapSeed, blockNumber: responseData.result.block_height}));
+    startProgress(100);
   };
 
   return (

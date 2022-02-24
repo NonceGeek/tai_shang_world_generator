@@ -1,4 +1,4 @@
-import { Map, GenMap, ViewMap, MintMap, LoadNFT, Back, ProgressBar, Dialog } from "../components";
+import { Map, GenMap, ViewMap, MintMap, LoadNFT, Back, ProgressBar, Dialog, Alert } from "../components";
 import { useSelector } from "react-redux";
 
 function App() {
@@ -9,17 +9,18 @@ function App() {
       {/* <!-- Inputs --> */}
       <div style={{ width: 'calc(20% - 1rem)', maxHeight: '100vh', marginLeft: '10px'}}>
         { page === 1 && 
-          <span>
+          <>
             <GenMap />
             <ViewMap />
-          </span>
+          </>
         }
         { page === 2 &&
-          <div>
+          <>
             <Back />
             <MintMap />
             <LoadNFT />
-          </div>
+            <Alert />
+          </>
         }
       </div>
       <Dialog />

@@ -81,6 +81,7 @@ export default function Map() {
   let direction = null;
   let targetPosition = null;
   const wrapperRef = useRef(null);
+  const heroRef = useRef(null);
 
   const [heroPosition, setHeroPosition] = useState({left: 0, top: 0});
 
@@ -137,6 +138,7 @@ export default function Map() {
   };
 
   const scrollSmoothly = (scrollLength, scrollStep) => {
+    console.log('scrollSmoothly');
     const scrollInterval = setInterval(() => {
       wrapperRef.current.scrollBy(0, scrollStep);
       scrollLength -= scrollStep;
@@ -146,24 +148,22 @@ export default function Map() {
     });
   };
 
-  // const executeScroll = () => wrapperRef.current.scrollIntoView();
-
   // scroll map when part of moving-block is out of wrapper
   const scrollIfNeeded = (direction) => {
-    scrollSmoothly(stepLength, 1);
-    // const scrollLength = parseInt(wrapper.clientHeight / 3);
-    // if (
-    //   direction === 'bottom' &&
-    //   oDiv.getBoundingClientRect().bottom >
-    //     wrapper.getBoundingClientRect().bottom
-    // ) {
-    //   scrollSmoothly(scrollLength, 1);
-    // } else if (
-    //   direction === 'top' &&
-    //   oDiv.getBoundingClientRect().top < wrapper.getBoundingClientRect().top
-    // ) {
-    //   scrollSmoothly(-scrollLength, -1);
-    // }
+    const scrollLength = parseInt(wrapperRef.current.clientHeight / 3);
+    if (
+      direction === 'bottom' &&
+      heroRef.current.getBoundingClientRect().bottom >
+      wrapperRef.current.getBoundingClientRect().bottom
+    ) {
+      scrollSmoothly(scrollLength, 1);
+    } else if (
+      direction === 'top' &&
+      heroRef.current.getBoundingClientRect().top < 
+      wrapperRef.current.getBoundingClientRect().top
+    ) {
+      scrollSmoothly(-scrollLength, -1);
+    }
   };
 
   const getCoordinate = (stepLength) => {
@@ -363,8 +363,8 @@ export default function Map() {
           </div>)
         })}
       </div>
-      <div id="map-container">
-        <div id="moving-block" style={{ left: `${heroPosition.left}vw`, top: `${heroPosition.top}vw` }}>
+      <div id="map-container" style={{ height: '100%' }}>
+        <div id="moving-block" ref={heroRef} style={{ left: `${heroPosition.left}vw`, top: `${heroPosition.top}vw` }}>
           <img src={require('../assets/img/block/hero.gif')} alt="" />
         </div>
         <div id="map">

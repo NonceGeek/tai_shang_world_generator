@@ -12,6 +12,7 @@ function App() {
           <>
             <GenMap />
             <ViewMap />
+            <Alert />
           </>
         }
         { page === 2 &&

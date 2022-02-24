@@ -28,3 +28,9 @@ export function setDialog (data) {
     dispatch({ type: 'SET_DIALOG', data: data })
   }
 }
+
+export function setAlert (data) {
+  return (dispatch, getState) => {
+    dispatch({ type: 'SET_ALERT', data: data })
+  }
+}

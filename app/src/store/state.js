@@ -4,6 +4,10 @@ export default {
     value: 0,
     display: false
   },
+  alert: {
+    display: false,
+    message: ''
+  },
   page: 1,
   mapData: {
     map: [],

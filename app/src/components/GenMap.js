@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { setProgress, setPage } from '../store/actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { lastBlockNumURL, genMapURL } from '../constants';
-import { setMapData, setMapSeed } from "../store/actions";
+import { setMapData, setMapSeed, setAlert } from "../store/actions";
 import axios from "axios";
 
 
@@ -10,6 +10,7 @@ export default function GenMap() {
   let dispatch = useDispatch();
   let mapSeed = useSelector(state => state.mapSeed);
   let progress = useSelector(state => state.progress);
+  let alert = useSelector(state => state.alert);
   const handleChainSource = (e) => dispatch(setMapSeed({...mapSeed, chainSource: e.target.value}));
   const handleBlockNumber = (e) => dispatch(setMapSeed({...mapSeed, blockNumber: e.target.value}));
   const handleRuleChange = (e) => dispatch(setMapSeed({...mapSeed, rule: e.target.value}));
@@ -86,13 +87,13 @@ export default function GenMap() {
   // handle setting source and rules error, pop alert if returns true
   const isSettingError = async (mapSetting) => {
     if (mapSetting.rules.length === 0 || mapSetting.dataSource !== 'a_block') {
-      // alert.classList.remove('opacity-0');
-      // setTimeout(() => {
-      //   alert.classList.add('opacity-0');
-      // }, 3000);
+      dispatch(setAlert({...alert, display: true}));
+      setTimeout(() => {
+        dispatch(setAlert({...alert, display: false}));
+      }, 3000);
       return true;
     } else {
-      // alert.classList.add('opacity-0');
+      dispatch(setAlert({...alert, display: false}));
       return false;
     }
   };
@@ -118,7 +119,6 @@ export default function GenMap() {
   // post generation setting
   const generateMap = async () => {
     startProgress(0);
-    // progress.style.display = 'block';
     const mapSetting = await generationSetting();
     startProgress(40);
     if (await isSettingError(mapSetting)) {
@@ -165,7 +165,7 @@ export default function GenMap() {
   }, [])
 
   return (
-    <div>
+    <>
       {/* <!-- Generate map inputs --> */}
       <div className="form-control flex" id="inputs">
         {/* <!-- Block number input --> */}
@@ -221,6 +221,6 @@ export default function GenMap() {
           GENERATE!
         </button>
       </div>
-    </div>
+    </>
   );
 }

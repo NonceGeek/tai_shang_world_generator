@@ -46,10 +46,20 @@ function dialog (state = defaultState.dialog, action) {
   }
 }
 
+function alert (state = defaultState.alert, action) {
+  switch (action.type) {
+    case 'SET_ALERT':
+      return action.data
+    default:
+      return state
+  }
+}
+
 export default combineReducers({
   progress,
   page,
   mapData,
   mapSeed,
   dialog,
+  alert,
 })

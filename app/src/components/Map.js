@@ -14,7 +14,7 @@ export default function Map() {
   let [unboxState, setUnboxState] = useState({});
   let mapData = useSelector(state => state.mapData);
   let mapSeed = useSelector(state => state.mapSeed);
-  let dialog = useSelector(state => state.dialog);
+  let hero = useSelector(state => state.hero);
 
   // fill screen with rows of block
   const calcOriginalMapRowNumber = function (height, width) {
@@ -386,6 +386,7 @@ export default function Map() {
       </div>
       <div id="map-container" ref={mapContainerRef}>
         <div id="moving-block" hidden={mapData.map.length === 0} ref={heroRef} style={{ left: `${heroPosition.left}vw`, top: `${heroPosition.top}vw` }}>
+          <div id="hero-name">{hero.name}</div>
           <img src={require('../assets/img/block/hero.gif')} alt="" />
         </div>
         <div id="map">

@@ -253,3 +253,13 @@ progress {
 #generate {
   margin-bottom: 0;
 }
+
+#hero-name {
+  position: absolute;
+  top: -1.25vw;
+  left: -5vw;
+  width: 12.5vw;
+  text-align: center;
+  color: #3c4450;
+  font-weight: bold;
+}

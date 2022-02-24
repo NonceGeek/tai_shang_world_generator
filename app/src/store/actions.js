@@ -34,3 +34,9 @@ export function setAlert (data) {
     dispatch({ type: 'SET_ALERT', data: data })
   }
 }
+
+export function setHero (data) {
+  return (dispatch, getState) => {
+    dispatch({ type: 'SET_HERO', data: data })
+  }
+}

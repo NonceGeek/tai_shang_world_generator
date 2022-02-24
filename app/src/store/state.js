@@ -25,4 +25,8 @@ export default {
     yesContent: '',
     noContent: ''
   },
+  hero: {
+    name: '',
+    position: {left: 0, top: 0}
+  }
 }

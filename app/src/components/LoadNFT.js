@@ -1,11 +1,15 @@
 import { useEffect, useState } from "react";
 import { loadChainURL, loadCharacterURL } from "../constants";
 import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { setHero } from "../store/actions";
 
 export default function LoadNFT() {
+  let dispatch = useDispatch();
   let [chainsData, setChainsData] = useState([]);
   let [chains, setChains] = useState([]);
   let [characterNFTs, setCharacterNFTs] = useState({});
+  let hero = useSelector(state => state.hero);
   let [contracts, setContracts] = useState([]);
   const [nftState, setNftState] = useState({ chainName: '', contractAddr: '', tokenId: '' });
 
@@ -70,6 +74,7 @@ export default function LoadNFT() {
       return;
     }
     setCharacterNFTs(responseData.result.character_info);
+    dispatch(setHero({...hero, name: responseData.result.character_info?.badges[0]}));
   }
 
   return (

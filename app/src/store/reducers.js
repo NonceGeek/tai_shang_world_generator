@@ -55,6 +55,15 @@ function alert (state = defaultState.alert, action) {
   }
 }
 
+function hero (state = defaultState.hero, action) {
+  switch (action.type) {
+    case 'SET_HERO':
+      return action.data
+    default:
+      return state
+  }
+}
+
 export default combineReducers({
   progress,
   page,
@@ -62,4 +71,5 @@ export default combineReducers({
   mapSeed,
   dialog,
   alert,
+  hero,
 })

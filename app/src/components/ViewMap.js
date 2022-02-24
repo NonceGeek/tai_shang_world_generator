@@ -45,7 +45,8 @@ export default function ViewMap() {
 
     const response = await axios.post(url, data).catch((err) => {
       console.log(err);
-      // clearProgress();
+      clearProgress();
+      return;
     });
 
     const responseData = response.data;

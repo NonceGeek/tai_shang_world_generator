@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { setProgress, setPage } from '../store/actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { lastBlockNumURL, genMapURL } from '../constants';
@@ -71,17 +71,6 @@ export default function GenMap() {
     dispatch(setMapSeed({...mapSeed, chainSource: dataSourceDefault}));
     // TODO: 动画
     return dataSourceDefault;
-  };
-
-  // get rules settings
-  const getRulesSetting = async (rulesNodes) => {
-    let rules = [];
-    for (let rulesNode of rulesNodes) {
-      if (rulesNode.checked) {
-        rules.push(rulesNode.id);
-      }
-    }
-    return rules;
   };
 
   // handle setting source and rules error, pop alert if returns true

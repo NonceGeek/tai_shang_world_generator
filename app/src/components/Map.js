@@ -40,24 +40,45 @@ export default function Map() {
       return value >= arr[0] && value <= arr[1];
     }
   };
-  const memoizedValue = useMemo(() => Math.floor(Math.random() * treasureCount + 1), [treasureCount]);
-  const memoizedValue2 = useMemo(() => Math.floor(Math.random() * spriteCount + 1), [spriteCount]);
 
-  const setBlockType = (coordinate, ele_description, blockType, key) => {
+  const initialRandomState = () => {
+    
+    if (mapData.map.length === 0) {
+      return {}
+    }
+    let randomState = {}
+    // console.log(mapData.map[0]);
+    for (let i = 0; i < mapData.map.length; i++) {
+      for (let j = 0; j < 32; j++) {
+        let key = `${i}-${j}`;
+        if (withinRange(mapData.map[i][j], mapData.ele_description.object)){
+          randomState[key] = Math.floor(Math.random() * treasureCount + 1)
+        } else if (withinRange(mapData.map[i][j], mapData.ele_description.sprite)) {
+          randomState[key] = Math.floor(Math.random() * spriteCount + 1)
+        }
+      }
+    }
+    // setRandomState(randomState);
+    return randomState;
+  }
+
+  let randomState1 = useMemo(() => initialRandomState(), [mapData]);
+  const setBlockType = (map, x, y, ele_description, blockType, key) => {
     let img = '';
     let className = '';
-    if (withinRange(coordinate, ele_description.walkable)) {
+    if (withinRange(map[x][y], ele_description.walkable)) {
       className = 'walkable';
-    } else if (withinRange(coordinate, ele_description.unwalkable)) {
+    } else if (withinRange(map[x][y], ele_description.unwalkable)) {
       className = 'unwalkable';
       img = <img src={require('../assets/img/block/unwalkable.png')} alt='unwalkable' />;
-    } else if (withinRange(coordinate, ele_description.object)) {
-      let lockState = unboxState[`${coordinate.x}-${coordinate.y}`] === true ? 'unlocked' : 'locked';
-      const object = `treasure-${lockState}-${memoizedValue}`;
+    } else if (withinRange(map[x][y], ele_description.object)) {
+      let lockState = unboxState[`${x}-${y}`] === true ? 'unlocked' : 'locked';
+      let randomStateKey = randomState1[`${x}-${y}`];
+      const object = `treasure-${lockState}-${randomStateKey}`;
       className = `unwalkable ${object}`;
       img = <img src={require(`../assets/img/block/${object}.png`)} alt={object} />
-    } else if (withinRange(coordinate, ele_description.sprite)) {
-      const sprite = 'sprite' + memoizedValue2;
+    } else if (withinRange(map[x][y], ele_description.sprite)) {
+      const sprite = 'sprite' + randomState1[`${x}-${y}`];
       className = `unwalkable ${sprite}`;
       img = <img src={require(`../assets/img/block/${sprite}.png`)} alt={sprite} />
     }
@@ -69,7 +90,7 @@ export default function Map() {
     if (['ice', 'sand', 'green'].includes(type)) {
       blockType = type;
     }
-    return setBlockType(map[i][j], ele_description, blockType, key);
+    return setBlockType(map, i, j, ele_description, blockType, key);
   }
 
   useEffect(() => {

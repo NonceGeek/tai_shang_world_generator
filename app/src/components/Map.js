@@ -29,7 +29,7 @@ export default function Map() {
   const drawOriginalMap = function () {
     const { innerWidth: width, innerHeight: height } = window;
     let row = calcOriginalMapRowNumber(height, width);
-    row = parseInt(row);
+    row = parseInt(row) + 1;
     setRowNumber(row);
   };
 
@@ -101,7 +101,7 @@ export default function Map() {
   const stepLength = 2.5;
   let direction = null;
   let targetPosition = null;
-  const wrapperRef = useRef(null);
+  const mapContainerRef = useRef(null);
   const heroRef = useRef(null);
 
   const [heroPosition, setHeroPosition] = useState({left: 0, top: 0});
@@ -159,9 +159,8 @@ export default function Map() {
   };
 
   const scrollSmoothly = (scrollLength, scrollStep) => {
-    console.log('scrollSmoothly');
     const scrollInterval = setInterval(() => {
-      wrapperRef.current.scrollBy(0, scrollStep);
+      mapContainerRef.current.scrollBy(0, scrollStep);
       scrollLength -= scrollStep;
       if (scrollLength === 0) {
         clearInterval(scrollInterval);
@@ -171,17 +170,18 @@ export default function Map() {
 
   // scroll map when part of moving-block is out of wrapper
   const scrollIfNeeded = (direction) => {
-    const scrollLength = parseInt(wrapperRef.current.clientHeight / 3);
+    const scrollLength = parseInt(mapContainerRef.current.clientHeight / 3);
     if (
       direction === 'bottom' &&
       heroRef.current.getBoundingClientRect().bottom >
-      wrapperRef.current.getBoundingClientRect().bottom
+      mapContainerRef.current.getBoundingClientRect().bottom
     ) {
+      
       scrollSmoothly(scrollLength, 1);
     } else if (
       direction === 'top' &&
       heroRef.current.getBoundingClientRect().top < 
-      wrapperRef.current.getBoundingClientRect().top
+      mapContainerRef.current.getBoundingClientRect().top
     ) {
       scrollSmoothly(-scrollLength, -1);
     }
@@ -375,7 +375,7 @@ export default function Map() {
 
   return (
     // <!-- THE map -->
-    <div id="map-wrapper" ref={wrapperRef}>
+    <div id="map-wrapper" >
       {/* <!-- <p id="poem">一花一世界, 一叶一菩提.</p> --> */}
       <div id="original-map" hidden={mapData.map.length !== 0}>
         {Array.from(Array(rowNumber).keys()).map((row, rowId) => {
@@ -384,8 +384,8 @@ export default function Map() {
           </div>)
         })}
       </div>
-      <div id="map-container" style={{ height: '100%' }}>
-        <div id="moving-block" ref={heroRef} style={{ left: `${heroPosition.left}vw`, top: `${heroPosition.top}vw` }}>
+      <div id="map-container" ref={mapContainerRef}>
+        <div id="moving-block" hidden={mapData.map.length === 0} ref={heroRef} style={{ left: `${heroPosition.left}vw`, top: `${heroPosition.top}vw` }}>
           <img src={require('../assets/img/block/hero.gif')} alt="" />
         </div>
         <div id="map">

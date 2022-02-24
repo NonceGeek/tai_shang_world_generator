@@ -170,6 +170,7 @@ export default function GenMap() {
       <div className="form-control flex" id="inputs">
         {/* <!-- Block number input --> */}
         <input
+          autoFocus
           type="text"
           placeholder="Block number #"
           className="input input-bordered mx-10 my-5"

@@ -35,6 +35,13 @@ body {
   position: relative;
 }
 
+#root {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  position: relative;
+}
+
 ::-webkit-scrollbar {
   display: none;
 }

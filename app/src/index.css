@@ -133,20 +133,20 @@ body {
 }
 
 /* 右侧及底部 */
-p {
+/* p {
   height: 11vh;
   line-height: 11vh;
   text-align: center;
   font-family: 'ZCOOL XiaoWei', serif;
   font-size: 2.5vw;
-}
+} */
 
 progress {
   transition: 1s ease-in-out;
 }
 
 .form-control {
-  margin: 8vh 0 3vh 0;
+  margin: 1vh 0 3vh 0;
   flex-direction: column;
   justify-content: space-between;
 }
@@ -164,7 +164,7 @@ progress {
 
 #original-map,
 #map-container {
-  margin-top: 10.5vh;
+  margin-top: 1vh;
 }
 
 /* 对话框 */

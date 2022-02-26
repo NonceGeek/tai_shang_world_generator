@@ -33,16 +33,21 @@ export default function Header() {
     const signature = await signMessage("I authorize signing from this device")
     dispatch(setAccount({...account, loggedIn: true}));
     localStorage.setItem('account.signature', JSON.stringify(signature));
-    
-    // const user = await axios.get("/api/auth?address=" + account.address)
-    //   .then((res) => res.json());
+  })
 
-    // const data = axios.post("/api/verify", {
-    //   address: account.address,
-    //   signature: await signMessage(user.message),
-    // }).then((res) => res.json());
-    // // set login status
-    // dispatch(setAccount({...account, loggedIn: data.authenticated}));
+  const signinWithSignatureFromServer = useCallback(async () => {
+    // signin with signature from server
+    
+    const user = await axios.get("/api/auth?address=" + account.address)
+      .then((res) => res.json());
+    const signature = await signMessage(user.message);
+    const data = axios.post("/api/verify", {
+      address: account.address,
+      signature: signature,
+    }).then((res) => res.json());
+    // set login status
+    dispatch(setAccount({...account, loggedIn: data.authenticated}));
+    localStorage.setItem('account.signature', JSON.stringify(signature));
   })
 
   const toggleSingin = () => {

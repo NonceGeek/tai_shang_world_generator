@@ -30,8 +30,9 @@ export default function Header() {
 
   const signinWithSignature = useCallback(async () => {
     // signin with signature
-    await signMessage("I authorize signing from this device")
+    const signature = await signMessage("I authorize signing from this device")
     dispatch(setAccount({...account, loggedIn: true}));
+    localStorage.setItem('account.signature', JSON.stringify(signature));
     
     // const user = await axios.get("/api/auth?address=" + account.address)
     //   .then((res) => res.json());
@@ -45,11 +46,16 @@ export default function Header() {
   })
 
   const toggleSingin = () => {
+    let signature = localStorage.getItem("account.signature");
+    if (signature) {
+      return;
+    }
     dispatch(setDialog({
       display: true,
       content: "Skip approving every interaction with your wallet by allowing TaiShangWorldGenerator to remember you.",
       yesContent: "Remember me",
-      onYes: signinWithSignature
+      onYes: signinWithSignature,
+      noContent: "Cancel",
     }));
   }
 

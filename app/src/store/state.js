@@ -23,10 +23,17 @@ export default {
     display: false,
     content: '',
     yesContent: '',
-    noContent: ''
+    noContent: '',
+    onYes: null,
+    onNo: null
   },
   hero: {
     name: '',
     position: {left: 0, top: 0}
+  },
+  account: {
+    address: '',
+    connected: false,
+    loggedIn: false
   }
 }

@@ -2,31 +2,71 @@ import { useCallback, useState, useEffect } from 'react';
 import { Web3ModalSetup } from '../helpers';
 import Blockies from "react-blockies";
 import { providers } from "ethers";
-
+import axios from "axios";
+import { useDispatch, useSelector } from 'react-redux';
+import { setDialog, setAccount } from '../store/actions';
 
 export default function Header() {
+  let dispatch = useDispatch();
+
+  let account = useSelector(state => state.account);
   const web3Modal = Web3ModalSetup();
   const [injectedProvider, setInjectedProvider] = useState();
-  const [address, setAddress] = useState('');
-  const [connected, setConnected] = useState(false);
+  const [web3Provider, serWeb3Provider] = useState();
 
   const logoutOfWeb3Modal = async () => {
     await web3Modal.clearCachedProvider();
     if (injectedProvider && injectedProvider.provider && typeof injectedProvider.provider.disconnect == "function") {
       await injectedProvider.provider.disconnect();
     }
-    setConnected(false);
+    dispatch(setAccount({connected: false, loggedIn: false, address: ''}));
   };
 
-  const loadWeb3Modal = useCallback(async () => {
-    // console.log('loadWeb3Modal');
-    const provider = await web3Modal.connect();
+  const signMessage = async (message) => {
+    let signer = web3Provider.getSigner();
+    let signature = await signer.signMessage(message);
+    return signature;
+  }
+
+  const signinWithSignature = useCallback(async () => {
+    // signin with signature
+    await signMessage("I authorize signing from this device")
     
+    // const user = await axios.get("/api/auth?address=" + account.address)
+    //   .then((res) => res.json());
+
+    // const data = axios.post("/api/verify", {
+    //   address: account.address,
+    //   signature: await signMessage(user.message),
+    // }).then((res) => res.json());
+    // // set login status
+    // dispatch(setAccount({...account, loggedIn: data.authenticated}));
+  })
+
+  const toggleSingin = () => {
+    dispatch(setDialog({
+      display: true,
+      content: "Skip approving every interaction with your wallet by allowing TaiShangWorldGenerator to remember you.",
+      yesContent: "Remember me",
+      onYes: signinWithSignature
+    }));
+  }
+
+  const loadWeb3Modal = useCallback(async () => {
+    
+    const provider = await web3Modal.connect();
     const web3Provider = new providers.Web3Provider(provider)
     const signer = web3Provider.getSigner();
-    const address = await signer.getAddress()
-    setAddress(address);
-    setConnected(true);
+    const address = await signer.getAddress();
+  
+    serWeb3Provider(web3Provider);
+
+    dispatch(setAccount({...account, address: address, connected: true}));
+
+    // toggle login modal
+    if (!account.loggedIn) {
+      toggleSingin();
+    }
     
     const network = await web3Provider.getNetwork()
     setInjectedProvider(web3Provider);
@@ -52,11 +92,11 @@ export default function Header() {
       logoutOfWeb3Modal();
     });
     // eslint-disable-next-line
-  }, [setInjectedProvider, connected]);
+  }, [setInjectedProvider, account.connected]);
 
   useEffect(() => {
     if (web3Modal.cachedProvider) {
-      setConnected(true);
+      dispatch(setAccount({...account, connected: true}));
       loadWeb3Modal();
     }
   }, [loadWeb3Modal]);
@@ -72,10 +112,10 @@ export default function Header() {
     <div id="header">
       <div id='logo'></div>
       <div id="account" className='my-5'>
-        { connected && web3Modal && web3Modal.cachedProvider ? (
+        { account.connected && web3Modal && web3Modal.cachedProvider ? (
           <>
-          <div id='avatar'><Blockies seed={address.toLowerCase()} size={16} scale={2} /></div>
-          <p>{ellipseAddress(address)}</p>
+          <div id='avatar'><Blockies seed={account.address.toLowerCase()} size={16} scale={2} /></div>
+          <p>{ellipseAddress(account.address)}</p>
           <div id='disconnect' onClick={logoutOfWeb3Modal}>Disconnect</div>
           </>
         ):(

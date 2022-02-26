@@ -1,7 +1,7 @@
 import { useCallback, useState, useEffect } from 'react';
 import { Web3ModalSetup } from '../helpers';
 import Blockies from "react-blockies";
-const { ethers } = require("ethers");
+import { providers } from "ethers";
 
 
 export default function Header() {
@@ -22,7 +22,7 @@ export default function Header() {
     // console.log('loadWeb3Modal');
     const provider = await web3Modal.connect();
     
-    const web3Provider = new ethers.providers.Web3Provider(provider)
+    const web3Provider = new providers.Web3Provider(provider)
     const signer = web3Provider.getSigner();
     const address = await signer.getAddress()
     setAddress(address);
@@ -33,12 +33,12 @@ export default function Header() {
 
     provider.on("chainChanged", chainId => {
       // console.log(`chain changed to ${chainId}! updating providers`);
-      setInjectedProvider(new ethers.providers.Web3Provider(provider));
+      setInjectedProvider(new providers.Web3Provider(provider));
     });
 
     provider.on("accountsChanged", () => {
       // console.log(`account changed!`);
-      setInjectedProvider(new ethers.providers.Web3Provider(provider));
+      setInjectedProvider(new providers.Web3Provider(provider));
     });
 
     // Subscribe to provider connection

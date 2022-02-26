@@ -31,6 +31,7 @@ export default function Header() {
   const signinWithSignature = useCallback(async () => {
     // signin with signature
     await signMessage("I authorize signing from this device")
+    dispatch(setAccount({...account, loggedIn: true}));
     
     // const user = await axios.get("/api/auth?address=" + account.address)
     //   .then((res) => res.json());

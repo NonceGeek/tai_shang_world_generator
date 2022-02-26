@@ -9,12 +9,15 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^0.26.0",
     "daisyui": "^2.0.9",
+    "ethers": "^5.5.4",
     "marked": "^4.0.12",
     "react": "^17.0.2",
+    "react-blockies": "^1.4.1",
     "react-dom": "^17.0.2",
     "react-redux": "^7.2.6",
     "react-scripts": "5.0.0",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "web3modal": "^1.9.5"
   },
   "scripts": {
     "start": "react-scripts start",

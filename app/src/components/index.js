@@ -7,3 +7,4 @@ export { default as Back } from "./Back";
 export { default as ProgressBar } from "./ProgressBar";
 export { default as LoadNFT } from "./LoadNFT";
 export { default as MintMap } from "./MintMap";
+export { default as Header } from "./Header";

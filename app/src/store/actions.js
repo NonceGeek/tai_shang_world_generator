@@ -40,3 +40,9 @@ export function setHero (data) {
     dispatch({ type: 'SET_HERO', data: data })
   }
 }
+
+export function setAccount (data) {
+  return (dispatch, getState) => {
+    dispatch({ type: 'SET_ACCOUNT', data: data })
+  }
+}

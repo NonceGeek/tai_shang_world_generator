@@ -64,6 +64,15 @@ function hero (state = defaultState.hero, action) {
   }
 }
 
+function account (state = defaultState.account, action) {
+  switch (action.type) {
+    case 'SET_ACCOUNT':
+      return action.data
+    default:
+      return state
+  }
+}
+
 export default combineReducers({
   progress,
   page,
@@ -72,4 +81,5 @@ export default combineReducers({
   dialog,
   alert,
   hero,
+  account,
 })

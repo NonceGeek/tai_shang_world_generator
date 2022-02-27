@@ -23,11 +23,8 @@ Therefore, this project decided to start from this point, on-chain data that can
 Blockchains are the product of a combination of many complex technologies. As such, the system can be viewed from many different and interesting perspectives:
 
 - A distributed consensus network with infinitely increasing nodes and no performance degradation
-
 - A Gaussian timer
-
 - A Web3 network
-
 - ……
 
 However, this project attempts to take a fresh perspective on blockchain as a **verifiable self-growing distributed data source**.

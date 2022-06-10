@@ -31,6 +31,7 @@ defmodule TaiShangWorldGeneratorWeb.Router do
     pipe_through :api_allow_cross
 
     # event
+    get "/events", InteractorController, :get_events_by_block_height
     get "/interact", InteractorController, :interact_first_time
     post "/interact", InteractorController, :interact_second_time
 

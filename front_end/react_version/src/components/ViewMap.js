@@ -5,9 +5,15 @@ import { setMapSeed, setMapData, setProgress } from "../store/actions";
 import axios from 'axios';
 
 export default function ViewMap() {
+  const queryParams = new URLSearchParams(window.location.search);
+  const tokenId = queryParams.get('token_id');
+  const contractId = queryParams.get('contract_id');
   let dispatch = useDispatch();
   let mapSeed = useSelector(state => state.mapData.mapSeed);
-  let [mapState, setMapState] = useState({tokenId: 1, contractId: 1});
+  let [mapState, setMapState] = useState({
+    tokenId: tokenId === undefined ? 1 : tokenId,
+    contractId: contractId === undefined ? 1 : contractId
+  });
   let progress = useSelector(state => state.progress);
   const handleTokenId = (e) => setMapState({...mapState, tokenId: e.target.value});
   const handleContractId = (e) => setMapState({...mapState, contractId: e.target.value});

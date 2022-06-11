@@ -13,7 +13,7 @@ export default function GenMap() {
   let alert = useSelector(state => state.alert);
   const handleChainSource = (e) => dispatch(setMapSeed({...mapSeed, chainSource: e.target.value}));
   const handleBlockNumber = (e) => dispatch(setMapSeed({...mapSeed, blockNumber: e.target.value}));
-  const handleRuleChange = (e) => dispatch(setMapSeed({...mapSeed, rule: e.target.value}));
+  const handleRuleChange = (e) => dispatch(setMapSeed({...mapSeed, type: e.target.value}));
   const startProgress = (maxProgress) => {
     // dispatch(setProgress({...progress, display: true}));
     if (maxProgress === 0) {

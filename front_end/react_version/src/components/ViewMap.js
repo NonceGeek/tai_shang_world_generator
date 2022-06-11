@@ -95,6 +95,10 @@ export default function ViewMap() {
       clearProgress();
       return;
     });
+    if (response === undefined) {
+      clearProgress();
+      return;
+    }
     // decode base64 encoded json
     const payloadJson = response.slice("data:application/json;base64,".length);
     const jsonData = JSON.parse(decode(payloadJson));

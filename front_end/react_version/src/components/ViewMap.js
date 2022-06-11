@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { genMapURL, CONTRACT_ADDRESS } from '../constants';
+import { genMapURL, MAP_CONTRACT_ADDRESS } from '../constants';
 import { useDispatch, useSelector } from 'react-redux';
 import { setMapSeed, setMapData, setProgress, setPage } from "../store/actions";
 import { ethers, providers } from 'ethers';
@@ -17,7 +17,7 @@ export default function ViewMap() {
   let mapSeed = useSelector(state => state.mapData.mapSeed);
   let [mapState, setMapState] = useState({
     tokenId: tokenId === null ? 1 : tokenId,
-    contractId: contractId === null ? CONTRACT_ADDRESS : contractId
+    contractId: contractId === null ? MAP_CONTRACT_ADDRESS : contractId
   });
 
   // let [blockHeight, setBlockHeight] = useState(0);

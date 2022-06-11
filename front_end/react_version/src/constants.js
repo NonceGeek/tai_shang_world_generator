@@ -6,4 +6,4 @@ export const loadChainURL = baseURL + '/character/get_info'
 export const loadCharacterURL = baseURL + '/character/load_character'
 export const eventsURL = baseURL + '/events'
 
-export const CONTRACT_ADDRESS = '0xfc776c74F4f992c0C9064EFe05b56a4a0370258B'
+export const MAP_CONTRACT_ADDRESS = '0xfc776c74F4f992c0C9064EFe05b56a4a0370258B'

@@ -95,7 +95,6 @@ export default function ViewMap() {
       clearProgress();
       return;
     });
-    console.log(response)
     // decode base64 encoded json
     const payloadJson = response.slice("data:application/json;base64,".length);
     const jsonData = JSON.parse(decode(payloadJson));
@@ -154,7 +153,6 @@ export default function ViewMap() {
     // map.style.opacity = 0;
     dispatch(setMapSeed({...mapSeed, blockNumber: blockHeight, type: mapType}));
     startProgress(100);
-    dispatch(setPage(2));
   };
 
   return (

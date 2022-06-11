@@ -1,4 +1,3 @@
-
 export default {
   progress: {
     value: 0,

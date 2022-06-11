@@ -394,6 +394,7 @@ export default function Map() {
     // <!-- THE map -->
     <div id="map-wrapper" >
       {/* <!-- <p id="poem">一花一世界, 一叶一菩提.</p> --> */}
+      {mapData.map && <div style={{textAlign: 'center'}}>Hero position: ({heroPosition.left / 2.5}, {heroPosition.top / 2.5})</div>}
       <div id="original-map" hidden={mapData.map.length !== 0}>
         {Array.from(Array(rowNumber).keys()).map((row, rowId) => {
           return (<div className='original-map-row flex' key={rowId}>

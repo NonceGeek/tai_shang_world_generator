@@ -1,13 +1,19 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { genMapURL } from '../constants';
 import { useDispatch, useSelector } from 'react-redux';
 import { setMapSeed, setMapData, setProgress } from "../store/actions";
 import axios from 'axios';
 
 export default function ViewMap() {
+  const queryParams = new URLSearchParams(window.location.search);
+  const tokenId = queryParams.get('token_id');
+  const contractId = queryParams.get('contract_id');
   let dispatch = useDispatch();
   let mapSeed = useSelector(state => state.mapData.mapSeed);
-  let [mapState, setMapState] = useState({tokenId: 1, contractId: 1});
+  let [mapState, setMapState] = useState({
+    tokenId: tokenId === undefined ? 1 : tokenId,
+    contractId: contractId === undefined ? 1 : contractId
+  });
   let progress = useSelector(state => state.progress);
   const handleTokenId = (e) => setMapState({...mapState, tokenId: e.target.value});
   const handleContractId = (e) => setMapState({...mapState, contractId: e.target.value});
@@ -28,6 +34,13 @@ export default function ViewMap() {
       }
     }, 35);
   };
+
+  useEffect(() => {
+    if (tokenId || contractId) {
+      console.log(tokenId, contractId);
+      viewMap()
+    }
+  }, [])
 
   const clearProgress = () => {
     dispatch(setProgress({display: false, value: 0}));
@@ -50,7 +63,7 @@ export default function ViewMap() {
     });
 
     const responseData = response.data;
-    console.log(responseData);
+    // console.log(responseData);
     dispatch(setMapData(responseData.result));
     // map.style.opacity = 0;
     dispatch(setMapSeed({...mapSeed, blockNumber: responseData.result.block_height}));

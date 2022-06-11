@@ -13,7 +13,7 @@ export default function GenMap() {
   let alert = useSelector(state => state.alert);
   const handleChainSource = (e) => dispatch(setMapSeed({...mapSeed, chainSource: e.target.value}));
   const handleBlockNumber = (e) => dispatch(setMapSeed({...mapSeed, blockNumber: e.target.value}));
-  const handleRuleChange = (e) => dispatch(setMapSeed({...mapSeed, rule: e.target.value}));
+  const handleRuleChange = (e) => dispatch(setMapSeed({...mapSeed, type: e.target.value}));
   const startProgress = (maxProgress) => {
     // dispatch(setProgress({...progress, display: true}));
     if (maxProgress === 0) {
@@ -96,7 +96,7 @@ export default function GenMap() {
     return {
       blockNumber: blockNumber,
       dataSource: dataSource,
-      rules: ['event', 'gallery'],
+      types: ['event', 'gallery'],
       // rules: ['ruleA', 'ruleB'],
     };
   };
@@ -124,12 +124,13 @@ export default function GenMap() {
       block_number: mapSetting.blockNumber,
       // only rule 1 now
       // rule: mapSetting.rules[0],
-      // rule: mapSeed.rule,
-      type: mapSeed.type
+      type: mapSeed.type,
+      source: mapSetting.dataSource
     };
 
     // mintData.block_number = data.block_number;
     // mintData.rule = data.rule;
+    console.log(data);
 
     const response = await axios.post(url, data).catch((err) => {
       console.log(err);

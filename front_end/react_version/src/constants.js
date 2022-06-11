@@ -7,3 +7,4 @@ export const loadCharacterURL = baseURL + '/character/load_character'
 export const eventsURL = baseURL + '/events'
 
 export const MAP_CONTRACT_ADDRESS = '0xfc776c74F4f992c0C9064EFe05b56a4a0370258B'
+export const PROFILE_CONTRACT_ADDRESS = '0x50DaF90fc4570dF816e6A85a066fd0D375f209C0'

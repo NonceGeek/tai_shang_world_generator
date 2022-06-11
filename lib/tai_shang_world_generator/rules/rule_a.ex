@@ -1,4 +1,5 @@
 defmodule TaiShangWorldGenerator.Rule.RuleA do
+  # for event
   alias TaiShangWorldGenerator.MapTranslator.Behaviour, as: MapTranslatorBehaviour
   @map_type ["sand", "green", "ice"]
   @ele_description %{

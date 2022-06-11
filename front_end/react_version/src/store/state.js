@@ -17,7 +17,7 @@ export default {
   mapSeed: {
     chainSource: 'a_block',
     blockNumber: '',
-    rule: 'RuleA'
+    type: 'event'
   },
   dialog: {
     display: false,

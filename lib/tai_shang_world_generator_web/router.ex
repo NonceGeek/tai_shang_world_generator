@@ -38,6 +38,7 @@ defmodule TaiShangWorldGeneratorWeb.Router do
     # map
     post "/gen_map", GeneratorController, :gen
 
+    # get "/get_map", GeneratorController, :get_map
     #nft
     post "/mint", NFTMinterController, :mint
     get  "/character/load_character", NFTLoaderController, :load_character

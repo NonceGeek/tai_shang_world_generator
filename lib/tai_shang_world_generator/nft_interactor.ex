@@ -6,7 +6,8 @@ defmodule TaiShangWorldGenerator.NftInteractor do
   """
   alias Utils.Ethereum.Transaction
   alias Ethereumex.HttpClient
-  alias Utils.{TypeTranslator, URIHandler}
+  alias Utils.{TypeTranslator, URIHandler, Constants}
+  require Logger
 
   @func %{
     token_uri: "tokenURI(uint256)", # token_id
@@ -19,19 +20,19 @@ defmodule TaiShangWorldGenerator.NftInteractor do
   # | Write Funcs |
   # +-------------+
 
-  # TODO
-  def claim(chain, priv, from, contract_addr, receiver_addr, uri) do
-    {:ok, addr_bytes} = TypeTranslator.hex_to_bytes(receiver_addr)
+  # # TODO
+  # def claim(chain, priv, from, contract_addr, receiver_addr, uri) do
+  #   {:ok, addr_bytes} = TypeTranslator.hex_to_bytes(receiver_addr)
 
-    str_data =
-      get_data(
-        @func.claim,
-        [addr_bytes, uri]
-      )
+  #   str_data =
+  #     get_data(
+  #       @func.claim,
+  #       [addr_bytes, uri]
+  #     )
 
 
-    send_raw_tx(chain, priv, from, contract_addr, str_data)
-  end
+  #   send_raw_tx(chain, priv, from, contract_addr, str_data)
+  # end
 
   # +------------+
   # | Read Funcs |
@@ -40,36 +41,41 @@ defmodule TaiShangWorldGenerator.NftInteractor do
   @doc """
     return a map that is decoded
   """
-  def token_uri(contract_addr, token_id, opts \\ []) do
-    IO.puts inspect token_id
+  def token_uri(contract_addr, token_id, endpoint \\ nil) do
+    Logger.info("token_uri: #{token_id}")
     data =
       get_data(
         @func.token_uri,
         [token_id]
       )
 
-    {:ok, uri} =
-      Ethereumex.HttpClient.eth_call(%{
-        data: data,
-        to: contract_addr
-      }, "latest", opts)
+    {:ok, uri} = eth_call(data, contract_addr, endpoint)
     uri
     |> TypeTranslator.data_to_str()
     |> parse_nft()
   end
 
-  @spec get_block_height_for_token(String.t(), integer()) :: integer()
-  def get_block_height_for_token(contract_addr, token_id) do
+  def get_block_height_for_token(contract_addr, token_id, endpoint \\ nil) do
     data = get_data(@func.block_height, [token_id])
 
-    {:ok, block_height_hex} =
-      Ethereumex.HttpClient.eth_call(%{
-        data: data,
-        to: contract_addr
-      })
-
+    {:ok, block_height_hex} = eth_call(data, contract_addr, endpoint)
     TypeTranslator.data_to_int(block_height_hex)
   end
+
+  def eth_call(data, contract_addr, endpoint) do
+    url = get_url(endpoint)
+    Ethereumex.HttpClient.eth_call(%{
+      data: data,
+      to: contract_addr
+    },
+    "latest",
+    [url: url, request_timeout: 3000]
+    )
+  end
+
+  def get_url(nil), do: Constants.get_env(:venechain_url)
+  def get_url(endpoint), do: endpoint
+
 
 
   # +-------------+

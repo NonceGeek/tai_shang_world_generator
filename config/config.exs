@@ -8,11 +8,17 @@
 import Config
 
 config :tai_shang_world_generator,
-  ecto_repos: [TaiShangWorldGenerator.Repo]
+  ecto_repos: [TaiShangWorldGenerator.Repo],
+
+  # default_contract_addr: "0x9c0C846705E95632512Cc8D09e24248AbFd6D679" # tai-shang-map-generator contract on polygon
+  venechain_url: "http://124.251.110.211:6791", # venachain network
+  default_contract_addr: "0xfc776c74F4f992c0C9064EFe05b56a4a0370258B" # tai-shang-map-NFT contract
 
 config :ethereumex,
-  url: "https://polygon-rpc.com", # matic mainnet
-  default_contract_addr: "0x9c0C846705E95632512Cc8D09e24248AbFd6D679" # tai-shang-map-generator contract
+  url: "https://polygon-rpc.com" # matic mainnet
+
+
+
   # url: "https://rpc-mumbai.maticvigil.com" # matic testnet
 # Configures the endpoint
 config :tai_shang_world_generator, TaiShangWorldGeneratorWeb.Endpoint,

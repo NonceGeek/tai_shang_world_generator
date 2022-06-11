@@ -2,17 +2,22 @@ defmodule TaiShangWorldGeneratorWeb.GeneratorController do
   alias TaiShangWorldGenerator.{BlockchainFetcher, MapTranslator}
   alias TaiShangWorldGenerator.NftInteractor
   alias TaiShangWorldGeneratorWeb.ResponseMod
-  alias Utils.TypeTranslator
+  alias Utils.{Constants, TypeTranslator}
 
   use TaiShangWorldGeneratorWeb, :controller
 
-  @default_contract_addr "0x9c0C846705E95632512Cc8D09e24248AbFd6D679"
+
   @default_rule "RuleA"
 
   def gen(conn, params) do
     params_atom =  ExStructTranslator.to_atom_struct(params)
     do_gen(conn, params_atom)
   end
+
+  # def get_map(conn, params) do
+  #   params_atom =  ExStructTranslator.to_atom_struct(params)
+  #   do_get(conn, params_atom)
+  # end
 
   def do_gen(conn, %{
     source: "a_block",
@@ -24,12 +29,27 @@ defmodule TaiShangWorldGeneratorWeb.GeneratorController do
   end
 
   def do_gen(conn, %{
+    source: "a_block",
+    block_number: block_num,
+    type: type
+  }) do
+    payload =
+      case type do
+        "gallery" ->
+          MapTranslator.get_map_by_block_num_and_rule_name(block_num, "RuleDefaultGallery")
+        "event" ->
+          MapTranslator.get_map_by_block_num_and_rule_name(block_num, "RuleDefaultEvent")
+      end
+    json(conn, ResponseMod.get_res(payload, :ok))
+  end
+
+  def do_gen(conn, %{
     contract_id: contract_id,
     token_id: token_id
   }) do
     block_height =
       NftInteractor.get_block_height_for_token(
-        @default_contract_addr,
+        Constants.get_env(:default_contract_addr),
         token_id
       )
     abstract_map =

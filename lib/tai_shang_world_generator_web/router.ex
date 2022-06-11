@@ -31,12 +31,14 @@ defmodule TaiShangWorldGeneratorWeb.Router do
     pipe_through :api_allow_cross
 
     # event
+    get "/events", InteractorController, :get_events_by_block_height
     get "/interact", InteractorController, :interact_first_time
     post "/interact", InteractorController, :interact_second_time
 
     # map
     post "/gen_map", GeneratorController, :gen
 
+    # get "/get_map", GeneratorController, :get_map
     #nft
     post "/mint", NFTMinterController, :mint
     get  "/character/load_character", NFTLoaderController, :load_character

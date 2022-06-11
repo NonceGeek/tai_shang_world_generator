@@ -97,7 +97,8 @@ export default function GenMap() {
     return {
       blockNumber: blockNumber,
       dataSource: dataSource,
-      rules: ['ruleA', 'ruleB'],
+      types: ['event', 'gallery'],
+      // rules: ['ruleA', 'ruleB'],
     };
   };
 
@@ -176,8 +177,38 @@ export default function GenMap() {
           value={ mapSeed.chainSource }
           onChange={ handleChainSource }
         />
+        {/* <!-- Type selector --> */}
+        <div className="mx-10 my-5 rule-border" id="types">
+          <label className="label my-2">
+            <span className="label-text" style={{ marginLeft: '1.25rem' }}>Type:</span>
+          </label>
+          <label className="cursor-pointer label mx-5 my-1">
+            <span className="label-text">Event</span>
+            <input
+              type="radio"
+              name="type"
+              value="event"
+              className="types checkbox checkbox-primary"
+              id="event"
+              checked={ mapSeed.type === 'event' }
+              onChange={ handleRuleChange }
+            />
+          </label>
+          <label className="cursor-pointer label mx-5 my-1">
+            <span className="label-text">Gallery</span>
+            <input
+              type="radio"
+              name="type"
+              value="gallery"
+              className="types checkbox checkbox-primary"
+              id="gallery"
+              checked={ mapSeed.type === 'gallery' }
+              onChange={ handleRuleChange }
+            />
+          </label>
+        </div>
         {/* <!-- Rules selector --> */}
-        <div className="mx-10 my-5 rule-border" id="rules">
+        {/* <div className="mx-10 my-5 rule-border" id="rules">
           <label className="label my-2">
             <span className="label-text" style={{ marginLeft: '1.25rem' }}>Rules:</span>
           </label>
@@ -205,7 +236,7 @@ export default function GenMap() {
               onChange={ handleRuleChange }
             />
           </label>
-        </div>
+        </div> */}
         {/* <!-- Submit button --> */}
         <button className="btn btn-primary mx-10 my-5" id="generate" onClick={generateMap}>
           GENERATE!

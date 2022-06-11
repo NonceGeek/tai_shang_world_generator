@@ -32,7 +32,9 @@ defmodule TaiShangWorldGenerator.GameEvent do
   end
 
   def get_by_block_height(block_height) do
-    Repo.get_by(Ele, block_height: block_height)
+    Ele
+    |> where([e], e.block_height == ^block_height)
+    |> Repo.all()
   end
 
   def create(attrs \\ %{}) do

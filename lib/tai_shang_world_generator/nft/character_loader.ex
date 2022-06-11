@@ -14,7 +14,7 @@ defmodule TaiShangWorldGenerator.Nft.CharacterLoader do
     # TODO, just Mock it
     # See Parser in:
     # https://github.com/WeLightProject/tai_shang_nft_gallery/blob/main/lib/tai_shang_nft_gallery/nft/parser.ex
-    token_uri(contract_addr, token_id, [url: endpoint])
+    token_uri(contract_addr, token_id, endpoint)
   end
 
   def token_uri(contract_addr, token_id, endpoint \\ []) do

@@ -156,6 +156,11 @@ export default function ViewMap() {
     startProgress(100);
   };
 
+  const viewAndJump = async () => {
+    viewMap();
+    dispatch(setPage(2));
+  }
+
   return (
     // <!-- View map -->
     <div className="form-control flex" id="view-area">
@@ -180,7 +185,7 @@ export default function ViewMap() {
         value={ mapState.contractId }
         onChange={ handleContractId }
       />
-      <button className="btn btn-info mx-10 my-5" id="view" onClick={ viewMap }>View!</button>
+      <button className="btn btn-info mx-10 my-5" id="view" onClick={ () => {viewAndJump()} }>View!</button>
       <button className="btn btn-info mx-10 my-5" onClick={ ()=>{window.open("http://map_nft_gallery.noncegeek.com/gallery", '_blank').focus();} }>View All mapNFT</button>
     </div>
   );

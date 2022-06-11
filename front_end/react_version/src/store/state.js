@@ -13,7 +13,7 @@ export default {
     type: '',
     ele_description: {},
     events: [],
-    event_type: 'event'
+    map_type: 'event'
   },
   mapSeed: {
     chainSource: 'a_block',

@@ -96,7 +96,7 @@ export default function Map() {
     } else if (withinRange(map[x][y], ele_description.sprite)) {
       const sprite = 'sprite' + randomState1[`${x}-${y}`];
       className = `unwalkable ${sprite}`;
-      const ncp_image = mapData.event_type == 'gallery' ? 'gallery_house' : sprite;
+      const ncp_image = mapData.map_type == 'gallery' ? 'gallery_house' : sprite;
       img = <img src={require(`../assets/img/block/${ncp_image}.png`)} alt={ncp_image} />
     }
     return <div className={`map-block flex ${className} ${blockType}`} key={key}>{title}{img}</div>

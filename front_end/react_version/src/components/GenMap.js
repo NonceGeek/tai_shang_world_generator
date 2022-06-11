@@ -102,7 +102,7 @@ export default function GenMap() {
   };
 
   const drawOriginalMap = async () => {
-    dispatch(setMapData({type: '', ele_description: {}, map: [], events: [], event_type: 'event'}));
+    dispatch(setMapData({type: '', ele_description: {}, map: [], events: [], map_type: 'event'}));
   }
 
   const getEvents = async () => {
@@ -155,7 +155,7 @@ export default function GenMap() {
     startProgress(85);
     const responseData = response.data;
     // console.log(responseData);
-    dispatch(setMapData({...responseData.result, events: events, event_type: mapSeed.type}));
+    dispatch(setMapData({...responseData.result, events: events, map_type: mapSeed.type}));
     // map.style.opacity = 0;
     startProgress(100);
     

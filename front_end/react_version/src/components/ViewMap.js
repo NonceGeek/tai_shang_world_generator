@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { genMapURL } from '../constants';
 import { useDispatch, useSelector } from 'react-redux';
-import { setMapSeed, setMapData, setProgress } from "../store/actions";
+import { setMapSeed, setMapData, setProgress, setPage } from "../store/actions";
 import { ethers, providers } from 'ethers';
 import axios from 'axios';
 import { Web3ModalSetup } from '../helpers';
@@ -20,8 +20,8 @@ export default function ViewMap() {
     contractId: contractId === undefined ? 1 : contractId
   });
 
-  let [blockHeight, setBlockHeight] = useState(0);
-  let [mapType, setMapType] = useState('event');
+  // let [blockHeight, setBlockHeight] = useState(0);
+  // let [mapType, setMapType] = useState('event');
   let progress = useSelector(state => state.progress);
   const handleTokenId = (e) => setMapState({...mapState, tokenId: e.target.value});
   const handleContractId = (e) => setMapState({...mapState, contractId: e.target.value});
@@ -89,26 +89,28 @@ export default function ViewMap() {
     ];
 
     const contract = new ethers.Contract(contractAddr, abi, signer);
-    let bh = 0, mt = '';
 
-    contract.tokenURI(tokenId).then(res => {
-      // decode base64 encoded json
-      const payloadJson = res.slice("data:application/json;base64,".length);
-      const jsonData = JSON.parse(decode(payloadJson));
-
-      setMapType(jsonData.type);
-      mt = jsonData.type;
-
-      // decode base64 encoded xml
-      const payloadXML = jsonData.image.slice("data:image/svg+xml;base64,".length);
-      var xmlData = new XMLParser().parseFromString(decode(payloadXML)); 
-
-      // get block height
-      bh = parseInt(xmlData.children[4].value.slice("block height: ".length))
-      setBlockHeight(bh)
-      return [bh, mt]
+    const response = await contract.tokenURI(tokenId).catch(err => {
+      console.log(err);
+      clearProgress();
+      return;
     });
-    return [bh, mt];
+    console.log(response)
+    // decode base64 encoded json
+    const payloadJson = response.slice("data:application/json;base64,".length);
+    const jsonData = JSON.parse(decode(payloadJson));
+
+    // setMapType(jsonData.type);
+    const mapType = jsonData.type;
+
+    // decode base64 encoded xml
+    const payloadXML = jsonData.image.slice("data:image/svg+xml;base64,".length);
+    var xmlData = new XMLParser().parseFromString(decode(payloadXML)); 
+
+    // get block height
+    const blockHeight = parseInt(xmlData.children[4].value.slice("block height: ".length))
+    // setBlockHeight(bh)
+    return [blockHeight, mapType]
   }
 
   const getEvents = async (block_height) => {
@@ -130,7 +132,7 @@ export default function ViewMap() {
     startProgress(85);
 
     const { tokenId, contractId } = mapState;
-    await getNFTTokenURI(tokenId, contractId);
+    const [blockHeight, mapType] = await getNFTTokenURI(tokenId, contractId);
     const events = await getEvents(blockHeight);
     const url = genMapURL;
     const data = {
@@ -138,7 +140,7 @@ export default function ViewMap() {
       type: mapType,
       source: 'a_block'
     };
-    console.log(data)
+    // console.log(data)
 
     const response = await axios.post(url, data).catch((err) => {
       console.log(err);
@@ -150,8 +152,9 @@ export default function ViewMap() {
     // console.log(responseData);
     dispatch(setMapData({...responseData.result, events: events, map_type: mapType}));
     // map.style.opacity = 0;
-    dispatch(setMapSeed({...mapSeed, blockNumber: blockHeight}));
+    dispatch(setMapSeed({...mapSeed, blockNumber: blockHeight, type: mapType}));
     startProgress(100);
+    dispatch(setPage(2));
   };
 
   return (

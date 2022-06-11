@@ -67,7 +67,7 @@ export default function LoadNFT() {
     loadCharacterNFT();
   }, [])
 
-  const loadProfileNFTTokenURI = async (tokenId=0, contractAddr='') => {
+  const loadProfileNFTTokenURI = async (tokenId=-1, contractAddr='') => {
 
     const web3Modal = Web3ModalSetup();
     const provider = await web3Modal.connect();
@@ -121,7 +121,7 @@ export default function LoadNFT() {
     ];
 
     const contract = new ethers.Contract(contractAddr, abi, signer);
-    if (tokenId === 0 || tokenId === '') {
+    if (tokenId === -1 || tokenId === '') {
       let index = 1;
       // try {
       //   tokenId = await contract.tokenOfOwnerByIndex(address, index);
@@ -133,7 +133,7 @@ export default function LoadNFT() {
         console.log(err);
         return;
       });
-      if (tokenId === undefined || tokenId === 0 || tokenId === '') {
+      if (tokenId === undefined || tokenId === -1 || tokenId === '') {
         console.error(`cannot get NFT from ${address}`);
         return {};
       }
@@ -142,7 +142,7 @@ export default function LoadNFT() {
       ...nftState,
       tokenId: tokenId
     });
-    console.log("tokenId", tokenId);
+    
 
     const response = await contract.tokenURI(tokenId).catch(err => {
       console.error(err);
@@ -168,8 +168,8 @@ export default function LoadNFT() {
     // }
     // console.log(nftState.tokenId, PROFILE_CONTRACT_ADDRESS)
 
-    // const profileNFT = await loadProfileNFTTokenURI(nftState.tokenId, PROFILE_CONTRACT_ADDRESS);
-    const profileNFT = await loadProfileNFTTokenURI(nftState.tokenId);
+    const profileNFT = await loadProfileNFTTokenURI(nftState.tokenId, PROFILE_CONTRACT_ADDRESS);
+    // const profileNFT = await loadProfileNFTTokenURI(nftState.tokenId);
     // const url = `${loadCharacterURL}?chain_name=${nftState.chainName}&contract_addr=${nftState.contractAddr}&token_id=${nftState.tokenId}`;
     // const response = await axios.get(url).catch((err) => {
     //   console.log(err);

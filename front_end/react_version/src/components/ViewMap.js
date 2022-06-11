@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { genMapURL } from '../constants';
 import { useDispatch, useSelector } from 'react-redux';
 import { setMapSeed, setMapData, setProgress } from "../store/actions";
@@ -35,6 +35,13 @@ export default function ViewMap() {
     }, 35);
   };
 
+  useEffect(() => {
+    if (tokenId || contractId) {
+      console.log(tokenId, contractId);
+      viewMap()
+    }
+  }, [])
+
   const clearProgress = () => {
     dispatch(setProgress({display: false, value: 0}));
   };
@@ -56,7 +63,7 @@ export default function ViewMap() {
     });
 
     const responseData = response.data;
-    console.log(responseData);
+    // console.log(responseData);
     dispatch(setMapData(responseData.result));
     // map.style.opacity = 0;
     dispatch(setMapSeed({...mapSeed, blockNumber: responseData.result.block_height}));

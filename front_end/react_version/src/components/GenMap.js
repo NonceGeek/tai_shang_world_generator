@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { setProgress, setPage } from '../store/actions';
 import { useDispatch, useSelector } from 'react-redux';
-import { lastBlockNumURL, genMapURL } from '../constants';
+import { lastBlockNumURL, genMapURL, eventsURL } from '../constants';
 import { setMapData, setMapSeed, setAlert } from "../store/actions";
 import axios from "axios";
 
@@ -102,7 +102,20 @@ export default function GenMap() {
   };
 
   const drawOriginalMap = async () => {
-    dispatch(setMapData({type: '', ele_description: {}, map: []}));
+    dispatch(setMapData({type: '', ele_description: {}, map: [], events: []}));
+  }
+
+  const getEvents = async () => {
+    const url = eventsURL + `?block_height=${mapSeed.blockNumber}`;
+
+    const response = await axios.get(url).catch((err) => {
+      console.log(err);
+      clearProgress();
+      return;
+    });
+
+    const responseData = response.data;
+    return responseData;
   }
 
   // post generation setting
@@ -115,6 +128,8 @@ export default function GenMap() {
       clearProgress();
       return;
     }
+
+    const events = await getEvents();
 
     const params = new URLSearchParams({
       source: mapSetting.dataSource,
@@ -140,7 +155,7 @@ export default function GenMap() {
     startProgress(85);
     const responseData = response.data;
     // console.log(responseData);
-    dispatch(setMapData(responseData.result));
+    dispatch(setMapData({...responseData.result, events: events}));
     // map.style.opacity = 0;
     startProgress(100);
     

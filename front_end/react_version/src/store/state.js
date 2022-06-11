@@ -11,7 +11,8 @@ export default {
   mapData: {
     map: [],
     type: '',
-    ele_description: {}
+    ele_description: {},
+    events: []
   },
   mapSeed: {
     chainSource: 'a_block',

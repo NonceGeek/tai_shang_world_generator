@@ -62,10 +62,6 @@ export default function ViewMap() {
     const signer = web3Provider.getSigner();
     const address = await signer.getAddress();
 
-    // const web3 = new Web3("http://124.251.110.211:6791");
-    // const web3 = new Web3('https://mainnet.infura.io/v3/1835809e0e6a4de38eaf1f7afb51e0ec');
-    // const contractAddress = '0x34047D5d7F4C906998e0d9Def0d2Dc3B523d8398';
-
     const abi = [
       {
         "constant": true,
@@ -185,6 +181,7 @@ export default function ViewMap() {
         onChange={ handleContractId }
       />
       <button className="btn btn-info mx-10 my-5" id="view" onClick={ viewMap }>View!</button>
+      <button className="btn btn-info mx-10 my-5" onClick={ ()=>{window.open("http://map_nft_gallery.noncegeek.com/gallery", '_blank').focus();} }>View All mapNFT</button>
     </div>
   );
 }

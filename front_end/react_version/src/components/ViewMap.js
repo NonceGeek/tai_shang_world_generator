@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { genMapURL, CONTRACT_ADDRESS } from '../constants';
+import { genMapURL, MAP_CONTRACT_ADDRESS } from '../constants';
 import { useDispatch, useSelector } from 'react-redux';
 import { setMapSeed, setMapData, setProgress, setPage } from "../store/actions";
 import { ethers, providers } from 'ethers';
@@ -17,7 +17,7 @@ export default function ViewMap() {
   let mapSeed = useSelector(state => state.mapData.mapSeed);
   let [mapState, setMapState] = useState({
     tokenId: tokenId === null ? 1 : tokenId,
-    contractId: contractId === null ? CONTRACT_ADDRESS : contractId
+    contractId: contractId === null ? MAP_CONTRACT_ADDRESS : contractId
   });
 
   // let [blockHeight, setBlockHeight] = useState(0);
@@ -62,10 +62,6 @@ export default function ViewMap() {
     const signer = web3Provider.getSigner();
     const address = await signer.getAddress();
 
-    // const web3 = new Web3("http://124.251.110.211:6791");
-    // const web3 = new Web3('https://mainnet.infura.io/v3/1835809e0e6a4de38eaf1f7afb51e0ec');
-    // const contractAddress = '0x34047D5d7F4C906998e0d9Def0d2Dc3B523d8398';
-
     const abi = [
       {
         "constant": true,
@@ -91,11 +87,12 @@ export default function ViewMap() {
     const contract = new ethers.Contract(contractAddr, abi, signer);
 
     const response = await contract.tokenURI(tokenId).catch(err => {
-      console.log(err);
+      console.error(err);
       clearProgress();
       return;
     });
     if (response === undefined) {
+      console.error(`cannot get data from contract: ${contractAddr} token: ${tokenId}`);
       clearProgress();
       return;
     }
@@ -184,6 +181,7 @@ export default function ViewMap() {
         onChange={ handleContractId }
       />
       <button className="btn btn-info mx-10 my-5" id="view" onClick={ viewMap }>View!</button>
+      <button className="btn btn-info mx-10 my-5" onClick={ ()=>{window.open("http://map_nft_gallery.noncegeek.com/gallery", '_blank').focus();} }>View All mapNFT</button>
     </div>
   );
 }

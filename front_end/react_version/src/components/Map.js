@@ -51,7 +51,7 @@ export default function Map() {
     for (let i = 0; i < mapData.map.length; i++) {
       for (let j = 0; j < 32; j++) {
         let key = `${i}-${j}`;
-        if (withinRange(mapData.map[i][j], mapData.ele_description.object)){
+        if (mapData.ele_description.object !== undefined && withinRange(mapData.map[i][j], mapData.ele_description.object)){
           randomState[key] = Math.floor(Math.random() * treasureCount + 1)
         } else if (withinRange(mapData.map[i][j], mapData.ele_description.sprite)) {
           randomState[key] = Math.floor(Math.random() * spriteCount + 1)
@@ -62,16 +62,32 @@ export default function Map() {
     return randomState;
   }
 
+  const initialEvents = () => {
+    if (mapData.events.length === 0) {
+      return {}
+    }
+    let eventsDict = {}
+    for (let i = 0; i < mapData.events.length; i++) {
+      let event = mapData.events[i];
+      let key = `${event.y}-${event.x}`;
+      eventsDict[key] = event;
+    }
+    return eventsDict;
+  }
+
   let randomState1 = useMemo(() => initialRandomState(), [mapData]);
+  let eventsState = useMemo(() => initialEvents(), [mapData]);
   const setBlockType = (map, x, y, ele_description, blockType, key) => {
     let img = '';
     let className = '';
+    const title = eventsState[`${x}-${y}`] !== undefined ? 
+      <div style={{position: 'absolute', top: `${2.5 * x - 1.25}vw`, left: `${2.5 * y+1.25}vw`, color: 'red'}}>!</div> : '';
     if (withinRange(map[x][y], ele_description.walkable)) {
       className = 'walkable';
     } else if (withinRange(map[x][y], ele_description.unwalkable)) {
       className = 'unwalkable';
       img = <img src={require('../assets/img/block/unwalkable.png')} alt='unwalkable' />;
-    } else if (withinRange(map[x][y], ele_description.object)) {
+    } else if (ele_description.object !== undefined && withinRange(map[x][y], ele_description.object)) {
       let lockState = unboxState[`${x}-${y}`] === true ? 'unlocked' : 'locked';
       let randomStateKey = randomState1[`${x}-${y}`];
       const object = `treasure-${lockState}-${randomStateKey}`;
@@ -82,7 +98,7 @@ export default function Map() {
       className = `unwalkable ${sprite}`;
       img = <img src={require(`../assets/img/block/${sprite}.png`)} alt={sprite} />
     }
-    return <div className={`map-block flex ${className} ${blockType}`} key={key}>{img}</div>
+    return <div className={`map-block flex ${className} ${blockType}`} key={key}>{title}{img}</div>
   };
 
   const drawBlock = (map, i, j, type, ele_description, key) => {

@@ -92,12 +92,12 @@ export default function Map() {
       let randomStateKey = randomState1[`${x}-${y}`];
       const object = `treasure-${lockState}-${randomStateKey}`;
       className = `unwalkable ${object}`;
-      img = <img src={require(`../assets/img/block/${object}.png`)} alt={object} />
+      img = <img src={require(`../assets/img/block/${object}.png`)} alt={object} onClick={() => onInteract(x, y)} style={{cursor: ifInRange(x, y) ? 'pointer' : ''}}/>
     } else if (withinRange(map[x][y], ele_description.sprite)) {
       const sprite = 'sprite' + randomState1[`${x}-${y}`];
       className = `unwalkable ${sprite}`;
       const ncp_image = mapData.map_type == 'gallery' ? 'gallery_house' : sprite;
-      img = <img src={require(`../assets/img/block/${ncp_image}.png`)} alt={ncp_image} />
+      img = <img src={require(`../assets/img/block/${ncp_image}.png`)} alt={ncp_image} onClick={() => onInteract(x, y)} style={{cursor: ifInRange(x, y) ? 'pointer' : ''}}/>
     }
     return <div className={`map-block flex ${className} ${blockType}`} key={key}>{title}{img}</div>
   };
@@ -225,6 +225,30 @@ export default function Map() {
     }
     // FIXME: if !unwalkable => walkable?
     return !withinRange(mapData.map[x][y], mapData.ele_description.walkable)
+  }
+
+  const ifInRange = (npcX, npcY) => {
+    const currentPosition = getCoordinate(stepLength);
+    if ((currentPosition.x === npcX && (currentPosition.y - npcY == 1 || currentPosition.y - npcY == -1))
+      || (currentPosition.y === npcY && (currentPosition.x - npcX == 1 || currentPosition.x - npcX == -1))) {
+      return true;
+    }
+    return false;
+  }
+
+  const onInteract = async (npcX, npcY) => {
+    const currentPosition = getCoordinate(stepLength);
+    // check if npc is in range
+    if ((currentPosition.x === npcX && (currentPosition.y - npcY == 1 || currentPosition.y - npcY == -1))
+      || (currentPosition.y === npcY && (currentPosition.x - npcX == 1 || currentPosition.x - npcX == -1))) {
+      // await interactNpc({x: npcX, y: npcY});
+      const targetBlock = mapData.map[npcX][npcY];
+      if (withinRange(targetBlock, mapData.ele_description.sprite)) {
+        await interactNpc({ x: npcX, y: npcY });
+      } else if (withinRange(targetBlock, mapData.ele_description.object)) {
+        openTreasureBox({ x: npcX, y: npcY });
+      }
+    }
   }
 
   const interact = async (direction) => {

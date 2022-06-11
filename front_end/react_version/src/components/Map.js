@@ -96,7 +96,8 @@ export default function Map() {
     } else if (withinRange(map[x][y], ele_description.sprite)) {
       const sprite = 'sprite' + randomState1[`${x}-${y}`];
       className = `unwalkable ${sprite}`;
-      img = <img src={require(`../assets/img/block/${sprite}.png`)} alt={sprite} />
+      const ncp_image = mapData.map_type == 'gallery' ? 'gallery_house' : sprite;
+      img = <img src={require(`../assets/img/block/${ncp_image}.png`)} alt={ncp_image} />
     }
     return <div className={`map-block flex ${className} ${blockType}`} key={key}>{title}{img}</div>
   };
@@ -393,6 +394,7 @@ export default function Map() {
     // <!-- THE map -->
     <div id="map-wrapper" >
       {/* <!-- <p id="poem">一花一世界, 一叶一菩提.</p> --> */}
+      {mapData.map && <div style={{textAlign: 'center'}}>Hero position: ({heroPosition.left / 2.5}, {heroPosition.top / 2.5})</div>}
       <div id="original-map" hidden={mapData.map.length !== 0}>
         {Array.from(Array(rowNumber).keys()).map((row, rowId) => {
           return (<div className='original-map-row flex' key={rowId}>

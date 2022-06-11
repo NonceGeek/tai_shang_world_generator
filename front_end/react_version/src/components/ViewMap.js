@@ -91,11 +91,12 @@ export default function ViewMap() {
     const contract = new ethers.Contract(contractAddr, abi, signer);
 
     const response = await contract.tokenURI(tokenId).catch(err => {
-      console.log(err);
+      console.error(err);
       clearProgress();
       return;
     });
     if (response === undefined) {
+      console.error(`cannot get data from contract: ${contractAddr} token: ${tokenId}`);
       clearProgress();
       return;
     }

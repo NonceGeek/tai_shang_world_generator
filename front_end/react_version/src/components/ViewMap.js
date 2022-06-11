@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { genMapURL } from '../constants';
+import { genMapURL, CONTRACT_ADDRESS } from '../constants';
 import { useDispatch, useSelector } from 'react-redux';
 import { setMapSeed, setMapData, setProgress, setPage } from "../store/actions";
 import { ethers, providers } from 'ethers';
@@ -11,13 +11,13 @@ import { eventsURL } from '../constants';
 
 export default function ViewMap() {
   const queryParams = new URLSearchParams(window.location.search);
-  const tokenId = queryParams.get('token_id');
+  const tokenId = queryParams.get('t_id');
   const contractId = queryParams.get('contract_id');
   let dispatch = useDispatch();
   let mapSeed = useSelector(state => state.mapData.mapSeed);
   let [mapState, setMapState] = useState({
-    tokenId: tokenId === undefined ? 1 : tokenId,
-    contractId: contractId === undefined ? 1 : contractId
+    tokenId: tokenId === null ? 1 : tokenId,
+    contractId: contractId === null ? CONTRACT_ADDRESS : contractId
   });
 
   // let [blockHeight, setBlockHeight] = useState(0);
@@ -95,6 +95,10 @@ export default function ViewMap() {
       clearProgress();
       return;
     });
+    if (response === undefined) {
+      clearProgress();
+      return;
+    }
     // decode base64 encoded json
     const payloadJson = response.slice("data:application/json;base64,".length);
     const jsonData = JSON.parse(decode(payloadJson));

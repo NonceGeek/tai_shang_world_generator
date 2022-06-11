@@ -74,7 +74,7 @@ export default function GenMap() {
 
   // handle setting source and rules error, pop alert if returns true
   const isSettingError = async (mapSetting) => {
-    if (mapSetting.rules.length === 0 || mapSetting.dataSource !== 'a_block') {
+    if (mapSetting.types.length === 0 || mapSetting.dataSource !== 'a_block') {
       dispatch(setAlert({...alert, display: true}));
       setTimeout(() => {
         dispatch(setAlert({...alert, display: false}));
@@ -96,7 +96,7 @@ export default function GenMap() {
     return {
       blockNumber: blockNumber,
       dataSource: dataSource,
-      rules: ['event', 'gallery'],
+      types: ['event', 'gallery'],
       // rules: ['ruleA', 'ruleB'],
     };
   };
@@ -124,11 +124,13 @@ export default function GenMap() {
       block_number: mapSetting.blockNumber,
       // only rule 1 now
       // rule: mapSetting.rules[0],
-      rule: mapSeed.rule,
+      type: mapSeed.type,
+      source: mapSetting.dataSource
     };
 
     // mintData.block_number = data.block_number;
     // mintData.rule = data.rule;
+    console.log(data);
 
     const response = await axios.post(url, data).catch((err) => {
       console.log(err);

@@ -119,37 +119,33 @@ export default function LoadNFT() {
         "type": "function",
       },
     ];
+    let targetTokenId = tokenId;
 
     const contract = new ethers.Contract(contractAddr, abi, signer);
-    if (tokenId === 0 || tokenId === '') {
-      let index = 1;
-      // try {
-      //   tokenId = await contract.tokenOfOwnerByIndex(address, index);
-      // } catch (err) {
-      //   console.log(err);
-      //   return {};
-      // }
-      tokenId = await contract.tokenOfOwnerByIndex(address, index).catch((err) => {
+    if (targetTokenId === 0 || targetTokenId === '') {
+      let index = 0;
+      targetTokenId = await contract.tokenOfOwnerByIndex(address, index).catch((err) => {
         console.log(err);
         return;
       });
-      if (tokenId === undefined || tokenId === 0 || tokenId === '') {
+      console.log("targetTokenId", targetTokenId)
+      if (targetTokenId === undefined || targetTokenId === 0 || targetTokenId === '') {
         console.error(`cannot get NFT from ${address}`);
         return {};
       }
     }
     setNftState({
       ...nftState,
-      tokenId: tokenId
+      tokenId: targetTokenId
     });
-    
+    console.log("targetTokenId", targetTokenId)
 
-    const response = await contract.tokenURI(tokenId).catch(err => {
+    const response = await contract.tokenURI(targetTokenId).catch(err => {
       console.error(err);
       return;
     });
     if (response === undefined) {
-      console.error(`cannot get data from contract: ${contractAddr} token: ${tokenId}`);
+      console.error(`cannot get data from contract: ${contractAddr} token: ${targetTokenId}`);
       return {};
     }
     // decode base64 encoded json

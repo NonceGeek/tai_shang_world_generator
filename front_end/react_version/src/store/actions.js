@@ -23,6 +23,12 @@ export function setMapSeed (data) {
   }
 }
 
+export function setMapNFT (data) {
+  return (dispatch, getState) => {
+    dispatch({ type: 'SET_MAP_NFT', data: data })
+  }
+}
+
 export function setDialog (data) {
   return (dispatch, getState) => {
     dispatch({ type: 'SET_DIALOG', data: data })

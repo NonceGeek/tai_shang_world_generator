@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { genMapURL, MAP_CONTRACT_ADDRESS } from '../constants';
 import { useDispatch, useSelector } from 'react-redux';
-import { setMapSeed, setMapData, setProgress, setPage } from "../store/actions";
+import { setMapSeed, setMapData, setProgress, setPage, setMapNFT } from "../store/actions";
 import { ethers, providers } from 'ethers';
 import axios from 'axios';
 import { Web3ModalSetup } from '../helpers';
@@ -153,6 +153,7 @@ export default function ViewMap() {
     dispatch(setMapData({...responseData.result, events: events, map_type: mapType}));
     // map.style.opacity = 0;
     dispatch(setMapSeed({...mapSeed, blockNumber: blockHeight, type: mapType}));
+    dispatch(setMapNFT({token_id: tokenId}))
     startProgress(100);
   };
 

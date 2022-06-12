@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { setProgress, setPage } from '../store/actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { lastBlockNumURL, genMapURL, eventsURL } from '../constants';
-import { setMapData, setMapSeed, setAlert } from "../store/actions";
+import { setMapData, setMapSeed, setAlert, setMapNFT } from "../store/actions";
 import axios from "axios";
 
 
@@ -161,6 +161,7 @@ export default function GenMap() {
     
     // hideViewArea
     dispatch(setPage(2));
+    dispatch(setMapNFT({token_id: 0}));
 
     clearProgress();
   };

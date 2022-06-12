@@ -37,6 +37,15 @@ function mapSeed (state = defaultState.mapSeed, action) {
   }
 }
 
+function mapNFT (state = defaultState.mapNFT, action) {
+  switch (action.type) {
+    case 'SET_MAP_NFT':
+      return action.data
+    default:
+      return state
+  }
+}
+
 function dialog (state = defaultState.dialog, action) {
   switch (action.type) {
     case 'SET_DIALOG':
@@ -78,6 +87,7 @@ export default combineReducers({
   page,
   mapData,
   mapSeed,
+  mapNFT,
   dialog,
   alert,
   hero,

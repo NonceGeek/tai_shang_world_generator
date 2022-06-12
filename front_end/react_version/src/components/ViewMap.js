@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { genMapURL, MAP_CONTRACT_ADDRESS } from '../constants';
 import { useDispatch, useSelector } from 'react-redux';
-import { setMapSeed, setMapData, setProgress, setPage } from "../store/actions";
+import { setMapSeed, setMapData, setProgress, setPage, setMapNFT } from "../store/actions";
 import { ethers, providers } from 'ethers';
 import axios from 'axios';
 import { Web3ModalSetup } from '../helpers';
@@ -153,8 +153,14 @@ export default function ViewMap() {
     dispatch(setMapData({...responseData.result, events: events, map_type: mapType}));
     // map.style.opacity = 0;
     dispatch(setMapSeed({...mapSeed, blockNumber: blockHeight, type: mapType}));
+    dispatch(setMapNFT({token_id: tokenId}))
     startProgress(100);
   };
+
+  const viewAndJump = async () => {
+    viewMap();
+    dispatch(setPage(2));
+  }
 
   return (
     // <!-- View map -->
@@ -180,7 +186,7 @@ export default function ViewMap() {
         value={ mapState.contractId }
         onChange={ handleContractId }
       />
-      <button className="btn btn-info mx-10 my-5" id="view" onClick={ viewMap }>View!</button>
+      <button className="btn btn-info mx-10 my-5" id="view" onClick={ () => {viewAndJump()} }>View!</button>
       <button className="btn btn-info mx-10 my-5" onClick={ ()=>{window.open("http://map_nft_gallery.noncegeek.com/gallery", '_blank').focus();} }>View All mapNFT</button>
     </div>
   );

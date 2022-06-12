@@ -20,6 +20,9 @@ export default {
     blockNumber: '',
     type: 'event'
   },
+  mapNFT: {
+    token_id: 0
+  },
   dialog: {
     display: false,
     content: '',

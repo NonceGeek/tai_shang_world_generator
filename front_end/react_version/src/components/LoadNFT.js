@@ -179,6 +179,10 @@ export default function LoadNFT() {
     dispatch(setHero({...hero, name: profileNFT.nickname}));
   }
 
+  const claimNFT = () => {
+    window.open('http://profile_nft.noncegeek.com/', '_blank').focus();
+  }
+
   return (
     // <!-- Load character NFT -->
     <div className="form-control flex" id="character-nft">
@@ -204,6 +208,7 @@ export default function LoadNFT() {
       />
       {/* <!-- Load --> */}
       <button className="btn btn-accent mx-5 my-3" id="load-character-nft" onClick={loadCharacterNFT}>LOAD</button>
+      <button className="btn btn-accent mx-5 my-3" id="claim-nft" onClick={claimNFT}>Claim A Net ProfileNFT</button>
 
       {/* <!-- Character NFT Detail --> */}
       {/* {characterNFTs?.badges &&

@@ -50,11 +50,6 @@ export default function ViewMap() {
     }
   }, [])
 
-  // URL 查询字符串中有 t_id 时，显示对应界面
-  if (queryParams.get('t_id')) {
-    dispatch(setPage(2));
-  }
-
   const clearProgress = () => {
     dispatch(setProgress({display: false, value: 0}));
   };
